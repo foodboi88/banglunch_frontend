@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import "./App.scss";
+// import CMainRouter from './components/CMainRouter';
 import { Layout, Spin } from "antd";
 import { useLocation } from "react-router-dom";
 import AnimationRouter from "./components/AnimationRouter";
@@ -26,12 +27,14 @@ function App() {
             dispatch(getUserInfoRequest(checkLogin));
         }
     }, []);
-    
     return (
         <Spin spinning={loading} delay={500} tip="Đang lấy dữ liệu..." size="large">
             <Layout>
                 <CHeader />
                 <AnimationRouter />
+                {/* {loading && <CLoading />} */}
+                {/* <CLoading /> */}
+
                 <CFooter />
             </Layout>
         </Spin>
