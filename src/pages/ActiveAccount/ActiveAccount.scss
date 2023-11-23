@@ -1,0 +1,76 @@
+.main-active-account {
+    height: 500px;
+    background-color: white;
+    margin-top: 5em;
+}
+
+.ActiveAccountModel {
+    top: 200px;
+
+    .ant-modal-content {
+
+        .ant-modal-close {
+            display: none;
+        }
+
+        .ant-modal-header {
+            display: none;
+        }
+
+        .ant-modal-footer {
+            display: none;
+        }
+
+        .ant-modal-body {
+            .title {
+                font-weight: 700;
+                font-size: 30px;
+                line-height: 56px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(308.85deg, #FF6600 0%, #FF9955 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .content,
+            .email-account {
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 24px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                color: #858585;
+
+                strong {
+                    margin-left: 10px;
+                }
+            }
+
+            .email-account {
+                margin: 10px 0;
+            }
+
+            .button-confirm {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .ant-btn {
+                    width: 50%;
+                    background: linear-gradient(308.85deg, #FF6600 0%, #FF9955 100%);
+                    border-radius: 30px;
+                    border: none;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 20px;
+                    color: #FFFFFF;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,221 @@
+.footer {
+    background-color: var(--black-color-v2-700);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 2em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+
+    .row-1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        border-bottom: 1px solid #E5E5E5;
+    }
+
+    .row-2 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 20px;
+        width: 100%;
+    }
+
+
+
+
+    .column-1 {
+        flex-basis: 25%;
+        flex-grow: 1;
+        margin-right: 2em;
+        display: flex;
+        flex-direction: column;
+
+
+    }
+
+    .column-2,
+    .column-3,
+    .column-4,
+    .column-5 {
+        flex-basis: 15%;
+        flex-grow: 1;
+        margin-right: 2em;
+    }
+
+    .column-5 {
+        flex-basis: 10%;
+    }
+
+    .title-content {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 24px;
+        color: var(--white-color-v2-900);
+    }
+
+    .content {
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 24px;
+        color: var(--white-color-v2-900);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .content:hover {
+        opacity: .6;
+    }
+
+    img {
+        object-fit: cover;
+    }
+}
+
+.row-3 {
+    width: 100%;
+    padding: .5em 1em;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: black;
+
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--white-color-v2-900);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    div:hover {
+        opacity: .6;
+    }
+}
+
+@media (max-width: 768px) {
+    .column-1 {
+        flex-basis: 40%;
+    }
+
+    .column-2,
+    .column-3,
+    .column-4,
+    .column-5 {
+        flex-basis: 20%;
+    }
+
+    .row-3 {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+
+        .content-1 {
+            grid-area: 1 / 1 / 2 / 2;
+        }
+
+        .content-2 {
+            grid-area: 1 / 2 / 2 / 3;
+        }
+
+        .content-3 {
+            grid-area: 2 / 1 / 3 / 3;
+        }
+    }
+}
+
+@media (max-width:400px) {
+    .footer {
+        padding: 1em;
+
+        .title-content {
+            justify-content: center;
+        }
+
+        .row-1 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 1em;
+
+            .column-2,
+            .column-3,
+            .column-4,
+            .column-5 {
+                text-align: center;
+                margin-right: 0;
+            }
+
+            .column-2 {
+                grid-area: 1 / 1 / 2 / 2;
+            }
+
+            .column-3 {
+                grid-area: 1 / 2 / 2 / 3;
+            }
+
+            .column-4 {
+                grid-area: 2 / 1 / 3 / 2;
+            }
+
+            .column-5 {
+                grid-area: 2 / 2 / 3 / 3;
+            }
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+
+            .column-1,
+            .column-2,
+            .column-3,
+            .column-4,
+            .column-5 {
+                text-align: center;
+                margin-right: 0;
+            }
+
+            .column-1 {
+                grid-area: 1 / 1 / 2 / 3;
+                align-items: center;
+            }
+
+            .column-2 {
+                grid-area: 2 / 1 / 3 / 2;
+            }
+
+            .column-3 {
+                grid-area: 2 / 2 / 3 / 3;
+            }
+
+            .column-4 {
+                grid-area: 3 / 1 / 4 / 3;
+            }
+        }
+    }
+
+    .row-3 {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+
+        .content-1 {
+            grid-area: 1 / 1 / 2 / 2;
+        }
+
+        .content-2 {
+            grid-area: 2 / 1 / 3 / 2;
+        }
+
+        .content-3 {
+            grid-area: 3 / 1 / 4 / 2;
+        }
+    }
+}

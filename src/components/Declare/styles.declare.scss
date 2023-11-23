@@ -1,0 +1,16 @@
+.container  {
+    // background: #D9D9D9;
+    object-fit: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: fit-content;
+    background-position: center;
+    .content{
+        padding: 46px;
+        text-align: center;
+        font-size: 30px;
+        font-weight: 700;
+        color: #E60200;
+    }
+}

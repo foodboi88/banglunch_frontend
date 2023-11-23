@@ -1,0 +1,76 @@
+.total-box-user {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    background-color: var(--black-color-v2) !important;
+    border-radius: 10px;
+    padding: 1em;
+    user-select: none;
+
+    .total-box-user-content {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        padding-left: .5em;
+        border-left: 5px solid #858585;
+        color: var(--white-color-v2) !important;
+
+        .number {
+            color: var(--white-color-v2);
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+
+        .title {
+            color: var(--black-color-v2-300);
+            font-size: 12px;
+            font-weight: 400;
+            text-align: start;
+        }
+    }
+
+    .total-box-user-icon {
+        padding: 5px;
+        border-radius: 10px;
+    }
+}
+
+.total-box-user:nth-child(1) {
+    .total-box-user-content {
+        border-left: 5px solid #00A3FF;
+    }
+
+    .total-box-user-icon {
+        background-color: #00A3FF;
+    }
+}
+
+.total-box-user:nth-child(2) {
+    .total-box-user-content {
+        border-left: 5px solid #27CA40;
+    }
+
+    .total-box-user-icon {
+        background-color: #27CA40;
+    }
+}
+
+.total-box-user:nth-child(3) {
+    .total-box-user-content {
+        border-left: 5px solid #FF9C27;
+    }
+
+    .total-box-user-icon {
+        background-color: #FF9C27;
+    }
+}
+
+.total-box-user:nth-child(4) {
+    .total-box-user-content {
+        border-left: 5px solid #FF0000;
+    }
+
+    .total-box-user-icon {
+        background-color: #FF0000;
+    }
+}

@@ -1,0 +1,17 @@
+.sketch-main {
+    .statistic-area {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+    }
+
+    .table-area {
+        .ant-table-thead {
+            tr {
+                .ant-table-cell {
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}

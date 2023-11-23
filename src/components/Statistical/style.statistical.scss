@@ -1,0 +1,149 @@
+.main-div {
+    display: flex;
+    justify-content: space-between;
+
+    .main-statistical {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        margin: 0;
+        background-color: var(--black-color-v2);
+        border-radius: 16px;
+        margin-top: 1.5em;
+        font-family: Arial, Helvetica, sans-serif;
+
+        .statistical-title {
+            display: flex;
+            // align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            // padding: 1em;
+            gap: 1em;
+            margin-bottom: 3em;
+
+            .title-text {
+                color: var(--white-color-v2);
+                font-size: 1.25em;
+                font-weight: 700;
+                text-align: start;
+
+            }
+
+            .type-statistical {
+                display: flex;
+                flex-direction: column;
+                gap: 1em;
+
+                .type-lst {
+                    display: flex;
+                    align-items: center;
+                    gap: 1em;
+                    color: var(--white-color-v2);
+
+                    .type-item {
+                        border-radius: 12px;
+                        border: 1px solid var(--white-color-v2);
+                        padding: .25em 1em;
+                        cursor: pointer;
+                        color: var(--white-color-v2);
+                        text-align: center;
+                        font-size: 16px;
+                        font-weight: 500;
+                    }
+
+                    .type-item:hover {
+                        border: 1px solid #CF0201;
+                        color: #CF0201;
+                    }
+
+                    .type-item.active {
+                        background-color: #CF0201;
+                        border: 1px solid #CF0201;
+                        color: white;
+                        transition: all .3s ease-in-out;
+                    }
+                }
+
+                .picker {
+                    display: flex;
+                    justify-content: end;
+
+                    .ant-picker {
+                        width: 260px;
+                        background-color: white;
+                    }
+                }
+
+
+            }
+        }
+
+        .main-statistical-chart {
+            .total-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin: 0em 1em;
+                gap: 1em;
+
+                .total-box-user {
+                    background-color: var(--black-color-v2);
+                    border: 1px solid var(--white-color-v2);
+                    color: var(--white-color-v2) !important;
+
+                    .total-box-user-content {
+                        color: var(--white-color-v2) !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.main-statistical:nth-child(1) {
+    margin-right: 0em;
+}
+
+.pf-c-chart {
+    margin: -40px 0 4em 1em;
+}
+
+
+#chart1-ChartAxis-1-ChartLabel-0,
+#chart1-ChartAxis-1-ChartLabel-1,
+#chart1-ChartAxis-1-ChartLabel-2,
+#chart1-ChartAxis-1-ChartLabel-3,
+#chart1-ChartAxis-1-ChartLabel-4,
+#chart1-ChartAxis-1-ChartLabel-5,
+#chart1-ChartAxis-1-ChartLabel-6,
+#chart1-ChartAxis-1-ChartLabel-7,
+#chart1-ChartAxis-0-ChartLabel-0,
+#chart1-ChartAxis-0-ChartLabel-1,
+#chart1-ChartAxis-0-ChartLabel-2,
+#chart1-ChartAxis-0-ChartLabel-3,
+#chart1-ChartAxis-0-ChartLabel-4,
+#chart1-ChartAxis-0-ChartLabel-5,
+#chart1-ChartAxis-0-ChartLabel-6,
+#chart1-ChartAxis-0-ChartLabel-7,
+#chart1-ChartAxis-0-ChartLabel-8,
+#chart1-ChartAxis-0-ChartLabel-9,
+#chart1-ChartAxis-0-ChartLabel-10,
+#chart1-ChartAxis-0-ChartLabel-11,
+#chart1-ChartAxis-0-ChartLabel-12,
+#chart1-ChartLegend-ChartLabel-0,
+#chart1-ChartLegend-ChartLabel-1,
+#chart1-ChartLegend-ChartLabel-2,
+#chart1-ChartLegend-ChartLabel-3 {
+    tspan {
+        font-size: 10px !important;
+    }
+
+}
+
+@media (max-width: 1000px) {
+    .main-div {
+        display: block;
+    }
+}

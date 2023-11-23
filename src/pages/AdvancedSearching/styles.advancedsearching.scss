@@ -1,0 +1,303 @@
+.main {
+    display: flex;
+    padding-top: 4em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: normal;
+    background-color: var(--black-color-v2);
+
+    .filtered-items {
+        display: flex;
+        flex-direction: column;
+        padding: 2em;
+        padding-top: 0;
+        gap: 2em;
+
+        .author-introduction {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+
+            .show-filter {
+                background: linear-gradient(180deg, var(--main-color) 0%, var(--second-main-color) 100%);
+                border-radius: 10px;
+                font-size: .8em;
+                color: #FFFFFF;
+                display: flex;
+                align-items: center;
+                text-align: center;
+                border: none;
+
+            }
+
+            .searched-author-title {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 1em;
+                align-items: center;
+
+                .text-title {
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    gap: 1em;
+                    font-weight: 500;
+                    font-size: clamp(.7em, 2vw, 1.1em);
+                    line-height: 24px;
+                    color: #858585;
+
+                    strong {
+                        color: var(--main-color);
+                    }
+                }
+
+                .text-title.results {
+                    color: var(--main-color);
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .sketch-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+
+            .searched-sketch-title {
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                gap: 1em;
+                font-weight: 500;
+                font-size: clamp(.7em, 2vw, 1.1em);
+                line-height: 24px;
+                color: #858585;
+
+                strong {
+                    color: var(--main-color);
+                }
+            }
+
+            .detail-list {}
+
+        }
+    }
+}
+
+.ant-pagination-options {
+    display: none;
+}
+
+.ant-pagination {
+    text-align: end;
+
+    .ant-pagination-prev,
+    .ant-pagination-next,
+    .ant-pagination-jump-prev,
+    .ant-pagination-jump-next {
+        background-color: var(--second-black-color-v2);
+        border: 1px solid var(--white-color-v2-300);
+        color: var(--white-color-v2-300);
+    }
+
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+        background-color: var(--second-black-color-v2);
+        border: 1px solid var(--white-color-v2-300);
+        color: var(--white-color-v2-300);
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .ant-pagination-item {
+        background-color: var(--second-black-color-v2);
+        border: 1px solid var(--white-color-v2-300);
+        color: var(--white-color-v2-300);
+    }
+
+    .ant-pagination-item-active {
+        background-color: var(--white-color-v2);
+        border: 1px solid var(--black-color-v2);
+        color: var(--black-color-v2);
+    }
+}
+
+@media (max-width: 900px) {
+    .main {
+        flex-direction: column;
+        padding-top: 5em;
+
+        .filtered-items {
+            .author-introduction {
+                .show-filter {}
+
+                .searched-author-title {
+                    .text-title {
+                        strong {}
+                    }
+
+                    .text-title.results {}
+                }
+            }
+
+            .sketch-list {
+                .searched-sketch-title {
+                    strong {}
+                }
+
+                .detail-list {
+                    // .ant-card-body {
+                    //     .title-and-price {
+                    //         .ant-card-meta-title {}
+
+                    //         .home-card-title {
+                    //             .h-c-t-title {
+                    //                 font-size: clamp(0.5em, 2.2vw, 1.1em);
+                    //             }
+
+                    //             .h-c-t-view-point {
+                    //                 font-size: clamp(0.5em, 2.5vw, 1.1em);
+                    //             }
+                    //         }
+                    //     }
+
+                    //     .home-card-description {
+                    //         font-size: clamp(0.5em, 2.5vw, 1.1em);
+                    //     }
+
+                    //     .home-card-price {
+                    //         font-size: clamp(0.5em, 2.5vw, 1.1em);
+                    //     }
+
+                    //     .home-card-price.free {}
+                    // }
+                }
+
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .main {
+        .filtered-items {
+            .author-introduction {
+                .show-filter {}
+
+                .searched-author-title {
+                    flex-direction: column;
+                    align-items: baseline;
+
+                    .text-title {
+                        .anticon-user {
+                            display: none;
+                        }
+
+                        strong {}
+                    }
+
+                    .text-title.results {}
+                }
+            }
+
+            .sketch-list {
+                .searched-sketch-title {
+                    .anticon-search {
+                        display: none;
+                    }
+
+                    strong {}
+                }
+
+                .detail-list {
+                    // .ant-card-body {
+                    //     .title-and-price {
+                    //         .ant-card-meta-title {}
+
+                    //         .home-card-title {
+                    //             .h-c-t-title {
+                    //                 font-size: clamp(.85em, 3vw, 1.1em);
+                    //             }
+
+                    //             .h-c-t-view-point {
+                    //                 font-size: clamp(.85em, 3vw, 1.1em);
+                    //             }
+                    //         }
+                    //     }
+
+                    //     .home-card-description {
+                    //         font-size: clamp(.85em, 3vw, 1.1em);
+                    //     }
+
+                    //     .home-card-price {
+                    //         font-size: clamp(.85em, 3vw, 1.1em);
+                    //     }
+
+                    //     .home-card-price.free {}
+                    // }
+                }
+
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .main {
+        .filtered-items {
+            .author-introduction {
+                .show-filter {}
+
+                .searched-author-title {
+                    .text-title {
+                        .anticon-user {}
+
+                        strong {}
+                    }
+
+                    .text-title.results {}
+                }
+            }
+
+            .sketch-list {
+                .searched-sketch-title {
+                    .anticon-search {}
+
+                    strong {}
+                }
+
+                .detail-list {
+                    // .ant-card-body {
+                    //     .title-and-price {
+                    //         .ant-card-meta-title {}
+
+                    //         .home-card-title {
+                    //             .h-c-t-title {
+                    //                 font-size: clamp(0.85em, 4.5vw, 2em);
+                    //             }
+
+                    //             .h-c-t-view-point {
+                    //                 font-size: clamp(0.85em, 4.5vw, 2em);
+                    //             }
+                    //         }
+                    //     }
+
+                    //     .home-card-description {
+                    //         font-size: clamp(0.85em, 4.5vw, 2em);
+                    //     }
+
+                    //     .home-card-price {
+                    //         font-size: clamp(0.85em, 4.5vw, 2em);
+                    //     }
+
+                    //     .home-card-price.free {}
+                    // }
+                }
+
+            }
+        }
+    }
+}

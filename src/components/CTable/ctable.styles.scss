@@ -1,0 +1,23 @@
+.table-main {
+
+    .title-and-search {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+
+        .title {
+            color: var(--white-color-v2) !important;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-right: 30px
+        }
+
+        .search-area {
+            display: flex;
+            align-items: center;
+            gap: 1em;
+        }
+    }
+
+    .table {}
+}

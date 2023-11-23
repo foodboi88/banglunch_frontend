@@ -1,0 +1,215 @@
+.card {
+    font-family: Arial, Helvetica, sans-serif;
+
+
+    .ant-card-cover {
+        background-color: var(--black-color-v2);
+
+        .image-card {
+            // width: 100%;
+            height: 15em;
+            // height: clamp(10em, 20vw, 15em);
+            transform-box: fill-box;
+            background-color: transparent;
+            object-fit: cover;
+        }
+    }
+
+    .ant-card-body {
+        background-color: var(--black-color-v2);
+        padding: 1em;
+        height: 8em;
+        position: relative;
+
+        .title-and-price {
+            position: relative;
+
+            .ant-card-meta-title {
+                position: absolute;
+                width: 100%;
+            }
+
+            .home-card-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+
+                .h-c-t-title {
+                    font-weight: 700;
+                    font-size: 1em;
+                    color: var(--white-color-v2);
+                    white-space: break-spaces;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+
+                .h-c-t-file-type {
+                    font-size: 10px;
+                    color: var(--white-color-v2);
+                }
+
+                .h-c-t-view-point {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5em;
+                    font-weight: 400;
+                    font-size: 1em;
+                    color: #858585;
+                }
+            }
+        }
+
+        .home-card-description {
+            font-weight: 400;
+            font-size: 1em;
+            line-height: 24px;
+            color: #858585;
+            position: absolute;
+            bottom: 2.5em;
+        }
+
+        .home-card-price {
+            position: absolute;
+            bottom: 1em;
+            font-weight: 400;
+            font-size: 1em;
+            // font-size: 18px;
+            line-height: 24px;
+            color: var(--white-color-v2);
+        }
+
+        .home-card-price.free {
+            color: var(--white-color-v2);
+        }
+    }
+}
+
+.ant-card-bordered .ant-card-cover {
+    margin: 0;
+}
+
+@media (max-width: 1200px) {
+    .card {
+
+        .ant-card-body {
+            .title-and-price {
+                .ant-card-meta-title {}
+
+                .home-card-title {
+                    .h-c-t-title {}
+
+                    .h-c-t-view-point {}
+                }
+            }
+
+            .home-card-description {}
+
+            .home-card-price {}
+
+            .home-card-price.free {}
+        }
+    }
+}
+
+@media (max-width: 900px) {
+    .ant-card-body {
+        .title-and-price {
+            .ant-card-meta-title {}
+
+            .home-card-title {
+                .h-c-t-title {}
+
+                .h-c-t-view-point {}
+            }
+        }
+
+        .home-card-description {}
+
+        .home-card-price {}
+
+        .home-card-price.free {}
+    }
+}
+
+@media (max-width: 600px) {
+    .ant-card-body {
+        .title-and-price {
+            .ant-card-meta-title {}
+
+            .home-card-title {
+                .h-c-t-title {}
+
+                .h-c-t-view-point {}
+            }
+        }
+
+        .home-card-description {}
+
+        .home-card-price {}
+
+        .home-card-price.free {}
+    }
+}
+
+@media (max-width: 500px) {
+    .card {
+        .ant-card-body {
+            .title-and-price {
+                .ant-card-meta-title {}
+
+                .home-card-title {
+                    .h-c-t-title {
+                        font-size: 1.1em;
+                    }
+
+                    .h-c-t-view-point {}
+                }
+            }
+
+            .home-card-description {}
+
+            .home-card-price {
+                font-size: .8em;
+            }
+
+            .home-card-price.free {}
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .card {
+        .ant-card-cover {
+            .image-card {
+                height: 10em;
+            }
+        }
+
+        .ant-card-body {
+            height: 8em;
+            padding: .5em;
+
+            .title-and-price {
+                .ant-card-meta-title {}
+
+                .home-card-title {
+                    .h-c-t-title {
+                        font-size: .8em;
+                    }
+
+                    .h-c-t-view-point {
+                        font-size: .8em;
+                    }
+                }
+            }
+
+            .home-card-description {}
+
+            .home-card-price {}
+
+            .home-card-price.free {}
+        }
+    }
+}

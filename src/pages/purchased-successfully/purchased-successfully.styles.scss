@@ -1,0 +1,48 @@
+.main-container{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url('../../images/purchased-successfully/background.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 714px;
+    margin-top: 84px;
+
+    .content-area {
+        background-color: #FFFFFF;
+        border-radius: 20px;
+        border: 2px solid #FFFFFF;
+        height: fit-content;
+        width: fit-content;
+
+        .container {
+            padding: 48px;
+
+            .title {
+                font-size: 35px;
+                margin-bottom: 36px;
+                text-align: center;
+            }
+
+            .button{
+                display: flex;
+                justify-content: center;
+                .ant-btn{
+                    background: linear-gradient(180deg, var(--main-color) 0%, var(--second-main-color) 100%);
+                    border-radius: 10px;
+                    font-size: .8em;
+                    color: #FFFFFF;
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+                    border: none;
+                }
+            }
+
+            
+        }
+    }
+}

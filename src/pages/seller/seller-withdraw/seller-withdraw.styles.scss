@@ -1,0 +1,39 @@
+.withdraw-main {
+    font-family: Arial, Helvetica, sans-serif;
+
+    .approve-request-modal {}
+
+    .create-request {
+        display: flex;
+        justify-content: space-between;
+
+        .infor-cards {
+            color: var(--white-color-v2) !important;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 3em;
+        }
+    }
+
+    .table-area {
+        padding: 1em;
+        margin-top: 1em;
+    }
+
+    .ant-table-thead {
+        tr {
+            .ant-table-cell {
+                // white-space: nowrap;
+            }
+        }
+    }
+}
+
+.ant-modal-content {
+    width: 571px !important;
+
+    .ant-modal-title {
+        font-size: 20px !important;
+    }
+}
