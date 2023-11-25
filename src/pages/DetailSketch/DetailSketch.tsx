@@ -454,11 +454,11 @@ const DetailSketch = () => {
                                     key={card.id}
                                 >
                                     <CProductCard
-                                        imageUrl={card.images[0]}
+                                        imageUrl={card.image}
                                         title={card.title}
-                                        view={card.views}
+                                        views={card.views}
                                         price={card.price}
-                                        idTool={card.designTools[0] || ''}
+                                        category={card.category || ''}
 
                                     // type={card.type}
                                     />

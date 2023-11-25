@@ -97,30 +97,12 @@ const CFilter = (props: props) => {
             transition={{ duration: 0.5 }}
         >
             <Form form={form}>
-                <Form.Item className="form-item" name="tool">
-                    <div className="title">
-                        <div className="icon">
-                            <ToolOutlined />
-                        </div>
-                        <div className="text">Công cụ</div>
-                    </div>
-                    <Radio.Group
-                        onChange={(event) =>
-                            handleSearch({
-                                target: "tool",
-                                value: event.target.value
-                            })
-                        }
-                        options={toolList}
-                        value={currentSearchValue.tool}
-                    />
-                </Form.Item>
                 <Form.Item className="form-item" name="architecture">
                     <div className="title">
                         <div className="icon">
                             <HomeOutlined />
                         </div>
-                        <div className="text">Kiến trúc</div>
+                        <div className="text">Danh mục đồ ăn</div>
                     </div>
                     <Radio.Group
                         onChange={(event) =>
@@ -131,24 +113,6 @@ const CFilter = (props: props) => {
                         }
                         options={architectureList}
                         value={currentSearchValue.architecture}
-                    />
-                </Form.Item>
-                <Form.Item className="form-item" name="style">
-                    <div className="title">
-                        <div className="icon">
-                            <FormatPainterOutlined />
-                        </div>
-                        <div className="text">Phong cách</div>
-                    </div>
-                    <Radio.Group
-                        onChange={(event) =>
-                            handleSearch({
-                                target: "style",
-                                value: event.target.value
-                            })
-                        }
-                        options={styleList}
-                        value={currentSearchValue.style}
                     />
                 </Form.Item>
             </Form>

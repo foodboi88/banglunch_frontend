@@ -9,26 +9,21 @@ export interface IReqProductsFiles {
     sketchId: string;
 }
 export interface ISketch {
+    id: string
     title: string;
     price: number;
     views: number;
-    likes: number;
-    quantityPurchased: number;
-    id: string;
-    images: string[];
-    designTools: string[];
+    category: string;
+    image: string;
 }
 
 export interface IFilteredSketch {
+    id: string;
     title: string;
     price: number;
     views: number;
-    likes: number;
-    quantityPurchased: number;
-    id: string;
+    category: string;
     image: string;
-    typeOfArchitectureId: string;
-
 }
 
 export interface ICurrentSearchValue {

@@ -421,10 +421,6 @@ const sketchSlice = createSlice({
                     // code block
                     state.filteredSketchs?.sort((a, b) => a.views - b.views)
                     break;
-                case 'purchase':
-                    // code block
-                    state.filteredSketchs?.sort((a, b) => a.quantityPurchased - b.quantityPurchased)
-                    break;
                 case 'minToMaxPrice':
                     state.filteredSketchs?.sort((a, b) => a.price - b.price)
                     break;
@@ -480,7 +476,6 @@ const sketchSlice = createSlice({
 
         advancedSearchingFail(state, action: PayloadAction<any>) {
             state.loading = false;
-            state.filteredSketchs = action.payload.data.items;
         },
 
         uploadSketchRequest(state, action: PayloadAction<any>) {
@@ -677,7 +672,7 @@ const sketchSlice = createSlice({
         getSketchListByAuthorIdSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload);
-            state.filteredSketchs = action.payload.data.items;
+            state.filteredSketchs = action.payload.data;
         },
         getSketchListByAuthorIdFail(state, action: PayloadAction<any>) {
             state.loading = false;

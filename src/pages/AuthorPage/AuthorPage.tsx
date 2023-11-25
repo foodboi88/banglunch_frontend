@@ -118,8 +118,8 @@ const AuthorPage = () => {
                 <CArrangeBar />
                 <div className="sketch-list">
                     <Row className="detail-list" gutter={[16, 24]}>
-                        {newfilteredSketchs &&
-                            newfilteredSketchs.map((card) => (
+                        {filteredSketchs &&
+                            filteredSketchs.map((card) => (
                                 <Col
                                     onClick={() => {
                                         goToDetailPageHandle(card.id);
@@ -131,9 +131,9 @@ const AuthorPage = () => {
                                         // imageUrl={card.images[0]}
                                         imageUrl={card.image}
                                         title={card.title}
-                                        view={card.views}
+                                        views={card.views}
                                         price={card.price}
-                                        idTool={card.typeOfArchitectureId || ''}
+                                        category={card.category || ''}
 
                                     // type={card.}
                                     />

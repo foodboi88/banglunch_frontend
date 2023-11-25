@@ -123,9 +123,9 @@ const AdvancedSeaching = () => {
                                     <CProductCard
                                         imageUrl={card.image}
                                         title={card.title}
-                                        view={card.views}
+                                        views={card.views}
                                         price={card.price}
-                                        idTool={card.typeOfArchitectureId || ''}
+                                        category={card.category || ''}
 
                                     // type={card.}
                                     />

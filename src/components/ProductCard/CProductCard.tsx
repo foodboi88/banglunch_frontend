@@ -15,12 +15,11 @@ import Utils from "../../common/utils";
 import ImageNotFound from "../../images/Image_not_available.png";
 import { useSelectorRoot } from "../../redux/store";
 interface props {
-    imageUrl?: string;
     title: string;
-    view: number;
     price: number;
-    type?: string;
-    idTool?: string;
+    views: number;
+    category: string;
+    imageUrl: string;
 }
 
 const CProductCard = (props: props) => {
@@ -32,7 +31,7 @@ const CProductCard = (props: props) => {
     const findTool = () => {
         let toolName = '';
         cloneToolList.forEach(item => {
-            if (props.idTool === item.id) {
+            if (props.category === item.id) {
                 toolName = item.name
             }
         })
@@ -70,7 +69,7 @@ const CProductCard = (props: props) => {
                     }
                 />
             </div>
-            <div className="home-card-description">{props.type}</div>
+            <div className="home-card-description"></div>
             {  
                 props.price === 0 ? <div className="home-card-price free">Miễn Phí</div> : 
                 props.price === -1 ? <></> :

@@ -1,5 +1,5 @@
 export enum API_URL {
-    HOST = "http://vroteam.online:6068",
+    HOST = "http://localhost:6068",
     GET_LATEST_SKETCH = "products/home/latest",
     GET_MOST_VIEWS_SKETCH = "products/home/most-views",
     GET_SKETCHS_BY_ARCHITECTURE = "products/by-type-of-architecture",
@@ -27,7 +27,7 @@ export enum API_URL {
     GET_ALL_SKETCH_IN_CART = "Carts/get-product-in-my-cart",
     PAYMENT = "VNPays/create-payment-url-payment-cart",
     GET_AUTHOR_BY_ID = "shop/profile",
-    GET_SKETCH_LIST_BY_AUTHOR_ID = "shop/get-all-products-by-shop-id",
+    GET_SKETCH_LIST_BY_AUTHOR_ID = "foods/get-foods-by-shop",
     DELETE_SKETCH_IN_CART = "Carts/delete-one-product",
     GET_BUSINESS = "https://api.vietqr.io/v2/business",
     SELLER_REGISTER = "sellers/register",

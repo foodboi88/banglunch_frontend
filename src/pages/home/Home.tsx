@@ -85,14 +85,12 @@ const Home = () => {
     useEffect(()=> {
         let lastSketch = 
             {
-                "id": "last",
-                "title": "",
-                "price": -1,
-                "views": 56,
-                "likes": 0,
-                "quantityPurchased": 0,
-                "typeOfArchitectureId": "",
-                "image": SeeMore
+                id: 'last',
+                title: '',
+                price: -1,
+                views: 56,
+                category: '',
+                image: SeeMore,
             }
         ;
         setCloneFilteredSketchs([...filteredSketchs,lastSketch])
@@ -454,9 +452,9 @@ const Home = () => {
                                     <CProductCard
                                         imageUrl={card.image}
                                         title={card.title}
-                                        view={card.views}
+                                        views={card.views}
                                         price={card.price}
-                                        // idTool={card.typeOfArchitectureId}
+                                        category={card.category}
                                     // type={card.type}
                                     />
                                 </Col>
@@ -678,12 +676,11 @@ const Home = () => {
                                     key={card.id}
                                 >
                                     <CProductCard
-                                        imageUrl={card.images[0]}
+                                        imageUrl={card.image}
                                         title={card.title}
-                                        view={card.views}
+                                        views={card.views}
                                         price={card.price}
-                                        // idTool={card.designTools[0] || ''}
-                                    // type={card.type}
+                                        category={card.category}
                                     />
                                 </Col>
                             ))}
@@ -736,13 +733,11 @@ const Home = () => {
                                         key={card.id}
                                     >
                                         <CProductCard
-                                            imageUrl={card.images[0]}
+                                            imageUrl={card.image}
                                             title={card.title}
-                                            view={card.views}
+                                            views={card.views}
                                             price={card.price}
-                                            // idTool={card.designTools[0] || ''}
-
-                                        // type={card.type}
+                                            category={card.category}
                                         />
                                     </Col>
                                 ))}
