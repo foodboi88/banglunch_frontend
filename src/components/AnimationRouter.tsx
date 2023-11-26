@@ -63,7 +63,7 @@ const AnimationRouter = () => {
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/searching" element={<AdvancedSeaching />}></Route>
                 <Route
-                    path="/detail-sketch/:sketchId"
+                    path="/detail-food/:foodId"
                     element={<DetailSketch />}
                 ></Route>
                 <Route

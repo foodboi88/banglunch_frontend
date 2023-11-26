@@ -48,7 +48,7 @@ const DetailSketch = () => {
     const { tokenLogin, accesstokenExpỉred } = useSelectorRoot((state) => state.login);
 
     const dispatch = useDispatchRoot();
-    const { sketchId } = useParams(); // Lấy ra id của sketch từ url
+    const { foodId } = useParams(); // Lấy ra id của sketch từ url
 
     const [spanCol, setSpanCol] = useState<number>(6);
     const [numberOfCardShow, setNumberOfCardShow] = useState<number>(4);
@@ -110,31 +110,16 @@ const DetailSketch = () => {
     });
 
     useEffect(() => {
-        if (sketchId) {
-            dispatch(getDetailSketchPageContentRequest(sketchId));
-            dispatch(getRatesBySketchIdRequest(sketchId));
+        if (foodId) {
+            dispatch(getDetailSketchPageContentRequest(foodId));
+            dispatch(getRatesBySketchIdRequest(foodId));
             
             if(tokenLogin) {
-                dispatch(getProductFilesByIdRequest(sketchId));
+                dispatch(getProductFilesByIdRequest(foodId));
             }
 
         }
-    }, [sketchId]);
-
-    // useEffect(() => {
-    //     if (sketchId) {
-    //         console.log(sketchId);
-    //         dispatch(getProductFilesByIdRequest(sketchId));
-    //     }
-    // }, [sketchId]);
-
-    // useEffect(() => {
-    //     if (lstSketchsInCart && lstSketchsInCart.length > 0) {
-    //         const checkSketchInCart = lstSketchsInCart.find(sketch => sketch.id === sketchId);
-    //         // console.log(checkSketchInCart);
-    //         checkSketchInCart && setIsShowAddToCart(false);
-    //     }
-    // }, [lstSketchsInCart]);
+    }, [foodId]);
 
     useEffect(() => {
         console.log(productsFile);
@@ -448,10 +433,10 @@ const DetailSketch = () => {
                             .map((card) => (
                                 <Col
                                     onClick={() => {
-                                        handleClickCard(card.id);
+                                        handleClickCard(card._id);
                                     }}
                                     span={spanCol}
-                                    key={card.id}
+                                    key={card._id}
                                 >
                                     <CProductCard
                                         imageUrl={card.image}

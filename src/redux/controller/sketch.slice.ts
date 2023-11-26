@@ -20,6 +20,7 @@ import {
     ICurrentSearchValue,
     IDetailSketch,
     IFilteredSketch,
+    IFoodOfShop,
     IReqGetLatestSketchs,
     IReqProductsFiles,
     ISellerStatisticSketch,
@@ -116,7 +117,8 @@ interface SketchState {
 
     listPurchasedSketch: any[];
     totalPurchasedSketch: number;
-    sellerInformation: ISellerProfile | undefined
+    sellerInformation: ISellerProfile | undefined,
+    foodOfShop: IFoodOfShop[],
 
 
 
@@ -201,7 +203,7 @@ const initState: SketchState = {
     listPurchasedSketch: [],
     totalPurchasedSketch: 0,
     sellerInformation: undefined,
-
+    foodOfShop: []
 };
 
 const sketchSlice = createSlice({
@@ -672,7 +674,7 @@ const sketchSlice = createSlice({
         getSketchListByAuthorIdSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload);
-            state.filteredSketchs = action.payload.data;
+            state.foodOfShop = action.payload.data;
         },
         getSketchListByAuthorIdFail(state, action: PayloadAction<any>) {
             state.loading = false;
@@ -1461,15 +1463,15 @@ const getDetailSketch$: RootEpic = (action$) =>
             // IdentityApi.login(re.payload) ?
             console.log(re);
 
-            return SketchsApi.getSketchById(re.payload).pipe(
+            return SketchsApi.getFoodById(re.payload).pipe(
                 concatMap((res: any) => {
                     console.log(res);
 
                     return [
                         sketchSlice.actions.getDetailSketchSuccess(res),
-                        sketchSlice.actions.getAuthorIntroductionByIdRequest(
-                            res.data.info.userId
-                        ),
+                        // sketchSlice.actions.getAuthorIntroductionByIdRequest(
+                        //     res.data.info.userId
+                        // ),
 
                         sketchSlice.actions.getDetailSketchPageContentSuccess(),
                     ];

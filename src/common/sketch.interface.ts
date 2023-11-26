@@ -9,7 +9,7 @@ export interface IReqProductsFiles {
     sketchId: string;
 }
 export interface ISketch {
-    id: string
+    _id: string
     title: string;
     price: number;
     views: number;
@@ -18,6 +18,15 @@ export interface ISketch {
 }
 
 export interface IFilteredSketch {
+    _id: string;
+    title: string;
+    price: number;
+    views: number;
+    category: string;
+    image: string;
+}
+
+export interface IFoodOfShop {
     id: string;
     title: string;
     price: number;

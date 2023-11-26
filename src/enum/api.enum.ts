@@ -7,7 +7,7 @@ export enum API_URL {
     GET_ALL_TOOLS = "design-tools",
     GET_ALL_ARCHITECTURE = "type-of-architectures",
     GET_ALL_STYLE = "design-styles",
-    GET_DETAIL_SKETCH = "products/by-id",
+    GET_DETAIL_FOOD = "foods/get-food-by-id",
     GET_COMMENTS_BY_SKETCH_ID = "comments",
     ADVANCED_SEARCHING = "products/filter",
     UPLOAD_IMAGE_OF_SKETCH = "product-images",

@@ -85,7 +85,7 @@ const Home = () => {
     useEffect(()=> {
         let lastSketch = 
             {
-                id: 'last',
+                _id: 'last',
                 title: '',
                 price: -1,
                 views: 56,
@@ -444,10 +444,10 @@ const Home = () => {
                             .map((card) => (
                                 <Col
                                     onClick={() => {
-                                        handleClickCard(card.id);
+                                        handleClickCard(card._id);
                                     }}
                                     span={spanCol}
-                                    key={card.id}
+                                    key={card._id}
                                 >
                                     <CProductCard
                                         imageUrl={card.image}
@@ -670,10 +670,10 @@ const Home = () => {
                             .map((card) => (
                                 <Col
                                     onClick={() => {
-                                        handleClickCard(card.id);
+                                        handleClickCard(card._id);
                                     }}
                                     span={spanCol}
-                                    key={card.id}
+                                    key={card._id}
                                 >
                                     <CProductCard
                                         imageUrl={card.image}
@@ -727,10 +727,10 @@ const Home = () => {
                                 .map((card) => (
                                     <Col
                                         onClick={() => {
-                                            handleClickCard(card.id);
+                                            handleClickCard(card._id);
                                         }}
                                         span={spanCol}
-                                        key={card.id}
+                                        key={card._id}
                                     >
                                         <CProductCard
                                             imageUrl={card.image}
