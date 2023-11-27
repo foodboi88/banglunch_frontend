@@ -9,7 +9,7 @@ import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntr
 import CProductCard from "../../components/ProductCard/CProductCard";
 import "./styles.detailsketch.scss";
 
-import { IImagesSketch, IInFoSketch } from "../../common/sketch.interface";
+import { IDetailFood, IFoodCategory, IImagesSketch, IInFoSketch } from "../../common/sketch.interface";
 import { IArchitecture, IStyle, ITool } from "../../common/tool.interface";
 import IconDetail1 from "../../images/detail/icon-detail-1.png";
 import IconDetail2 from "../../images/detail/icon-detail-2.png";
@@ -58,9 +58,9 @@ const DetailSketch = () => {
     const [designStyles, setDesignStyles] = useState<IStyle[]>([]);
     const [designTools, setDesignTools] = useState<ITool[]>([]);
     const [images, setImages] = useState<IImagesSketch[]>([]);
-    const [info, setInfo] = useState<IInFoSketch>();
+    const [info, setInfo] = useState<IDetailFood>();
     const [typeOfArchitectures, setTypeOfArchitectures] = useState<
-        IArchitecture[]
+        IFoodCategory[]
     >([]);
     const [isShowAddToCart, setIsShowAddToCart] = useState<boolean>(true);
     const [isShowDownload, setIsShowDownload] = useState<boolean>(false);
@@ -114,9 +114,9 @@ const DetailSketch = () => {
             dispatch(getDetailSketchPageContentRequest(foodId));
             dispatch(getRatesBySketchIdRequest(foodId));
             
-            if(tokenLogin) {
-                dispatch(getProductFilesByIdRequest(foodId));
-            }
+            // if(tokenLogin) {
+            //     dispatch(getProductFilesByIdRequest(foodId));
+            // }
 
         }
     }, [foodId]);
@@ -136,11 +136,9 @@ const DetailSketch = () => {
     // Kiểm tra xem có chi tiết bản vẽ hay không
     useEffect(() => {
         if (detailSketch) {
-            setDesignStyles(detailSketch.designStyles);
-            setDesignTools(detailSketch.designTools);
-            setImages(detailSketch.images);
-            setInfo(detailSketch.info);
-            setTypeOfArchitectures(detailSketch.typeOfArchitectures);
+            setImages(detailSketch.gallery);
+            setInfo(detailSketch);
+            setTypeOfArchitectures(detailSketch.food_categories);
             // console.log(detailSketch);
         }
     }, [detailSketch]);
@@ -187,7 +185,7 @@ const DetailSketch = () => {
         }
     };
     const handleRoutingToAuthorPage = () => {
-        navigate(`/author-page/${detailSketch?.info.userId}`);
+        navigate(`/author-page/${detailSketch?.users._id}`);
     };
 
     // Handle pagination latest sketch
@@ -200,7 +198,7 @@ const DetailSketch = () => {
 
     const handleClickCard = (sketchId: string) => {
         console.log("sketchId", sketchId);
-        navigate(`/detail-sketch/${sketchId}`);
+        navigate(`/detail-food/${sketchId}`);
         // setTimeout(() => {
         //     window.location.reload();
         // }, 500);
@@ -251,19 +249,21 @@ const DetailSketch = () => {
                                     </div>
                                 )}
                                 <div className="rate">
-                                    {detailSketch && detailSketch.star ? (
+                                    {/* {detailSketch && detailSketch.star ? (
                                         <Rate
                                             defaultValue={detailSketch.star}
                                             disabled
                                             count={5}
                                         />
-                                    ) : (
+                                    ) :  */}
+                                    {/* (
                                         <Rate
                                             defaultValue={0}
                                             disabled
                                             count={5}
                                         />
-                                    )}
+                                    ) */}
+                                    {/* } */}
                                 </div>
                                 <div className="property">
                                     <div className="content">
@@ -271,68 +271,14 @@ const DetailSketch = () => {
                                         <div className="text">
                                             Ngày đăng:{" "}
                                             {new Date(
-                                                info.updatedAt
+                                                info.createdAt
                                             ).toLocaleDateString("en-GB")}
-                                        </div>
-                                    </div>
-                                    <div className="content">
-                                        <img src={IconDetail2} alt="" />
-                                        <div className="text">
-                                            Phong cách:
-                                            {designStyles.map((style, index) =>
-                                                index ===
-                                                    designStyles.length - 1 ? (
-                                                    <span key={index}>
-                                                        {" "}
-                                                        {style.name}
-                                                    </span>
-                                                ) : (
-                                                    <span key={index}>
-                                                        {" "}
-                                                        {style.name},
-                                                    </span>
-                                                )
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="content">
-                                        <img src={IconDetail3} alt="" />
-                                        <div className="text">
-                                            Công cụ:
-                                            {designTools.map((tool, index) =>
-                                                index ===
-                                                    designTools.length - 1 ? (
-                                                    <span key={index}>
-                                                        {" "}
-                                                        {tool.name}
-                                                    </span>
-                                                ) : (
-                                                    <span key={index}>
-                                                        {" "}
-                                                        {tool.name},
-                                                    </span>
-                                                )
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="content">
-                                        <img src={IconDetail4} alt="" />
-                                        <div className="text">
-                                            {/* Dung lượng file: {info.fileSize} MB */}
-                                            Dung lượng file:
-                                        </div>
-                                    </div>
-                                    <div className="content">
-                                        <img src={IconDetail5} alt="" />
-                                        <div className="text">
-                                            {/* Kích thước: {info.width} x {info.height} cm */}
-                                            Kích thước:
                                         </div>
                                     </div>
                                     <div className="content">
                                         <img src={IconDetail6} alt="" />
                                         <div className="text">
-                                            Hạng mục:{" "}
+                                            Loại đồ ăn:{" "}
                                             {typeOfArchitectures.map(
                                                 (type, index) =>
                                                     index ===
@@ -340,12 +286,12 @@ const DetailSketch = () => {
                                                         1 ? (
                                                         <span key={index}>
                                                             {" "}
-                                                            {type.name}
+                                                            {type.categories.name}
                                                         </span>
                                                     ) : (
                                                         <span key={index}>
                                                             {" "}
-                                                            {type.name},
+                                                            {type.categories.name},
                                                         </span>
                                                     )
                                             )}
@@ -367,7 +313,7 @@ const DetailSketch = () => {
                                             <Button
                                                 className="add-to-card"
                                                 onClick={() =>
-                                                    handleAddToCart(info.id)
+                                                    handleAddToCart(info._id)
                                                 }
                                             >
                                                 Thêm vào giỏ hàng

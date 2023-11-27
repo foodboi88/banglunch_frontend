@@ -77,3 +77,25 @@ export interface ActiveAccountRequest {
     email: string;
     activeCode: string;
 }
+
+export interface IUser {
+    _id: string
+    totalRating: number
+    totalProduct: number
+    active: number
+    status: string
+    totalSales: number
+    totalBuy: number
+    email: string
+    password: string
+    name: string
+    address: string
+    phone: string
+    dob: string
+    gender: boolean
+    createdAt: string
+    updatedAt: string
+    role: string
+    activeCode: string
+    __v: number
+  }

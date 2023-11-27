@@ -18,6 +18,7 @@ import SketchsApi from "../../api/sketchs/sketchs.api";
 import { forkJoin } from "rxjs";
 import {
     ICurrentSearchValue,
+    IDetailFood,
     IDetailSketch,
     IFilteredSketch,
     IFoodOfShop,
@@ -76,7 +77,7 @@ interface SketchState {
     factorySketchList: ISketch[];
     interiorSketchList: ISketch[];
     freeSketchList: ISketch[];
-    detailSketch?: IDetailSketch;
+    detailSketch?: IDetailFood | null;
     commentList?: any[];
     filteredSketchs: IFilteredSketch[];
     filteredAuthors?: IUser[];
@@ -147,7 +148,7 @@ const initState: SketchState = {
     factorySketchList: [],
     streetHouseSketchList: [],
     interiorSketchList: [],
-    detailSketch: undefined,
+    detailSketch: null,
     commentList: [],
     filteredSketchs: [],
     freeSketchList: [],

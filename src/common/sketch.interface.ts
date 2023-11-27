@@ -1,5 +1,6 @@
 import { RcFile } from "antd/lib/upload";
 import { IArchitecture, IStyle, ITool } from "./tool.interface";
+import { IUser } from "./user.interface";
 
 export interface IReqGetLatestSketchs {
     size: number;
@@ -72,8 +73,6 @@ export interface IImagesSketch {
     isMain: boolean;
 }
 export interface IDetailSketch {
-    designStyles: IStyle[];
-    designTools: ITool[];
     images: IImagesSketch[];
     info: IInFoSketch;
     typeOfArchitectures: IArchitecture[];
@@ -122,3 +121,36 @@ export interface IUploadSketchRequest{
     note?: string
     id?: string
 };
+
+export interface IDetailFood {
+    _id: string
+    content: string
+    price: number
+    views: number
+    deletedAt: string
+    updatedAt: any
+    title: string
+    createdAt: string
+    sellerId: string
+    height: string
+    length: string
+    weight: string
+    width: string
+    users: IUser
+    gallery: any[]
+    food_categories: IFoodCategory[]
+  }
+  
+  export interface IFoodCategory {
+    _id: string
+    foodId: string
+    categoryId: string
+    categories: ICategories
+  }
+  
+  export interface ICategories {
+    _id: string
+    name: string
+    description: string
+  }
+  
