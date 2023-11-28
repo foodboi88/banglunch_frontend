@@ -1,14 +1,12 @@
-import { DownOutlined } from '@ant-design/icons'
 import { Button, Rate } from 'antd'
-import React, { useEffect, useState } from 'react'
-import Avatar from '../../images/detail/avatar.png'
+import { useEffect, useState } from 'react'
 import Avatar2 from '../../images/detail/avata-comment-2.png'
 import Avatar3 from '../../images/detail/avata-comment-3.png'
+import Avatar from '../../images/detail/avatar.png'
 
-import './styles.comment.scss'
 import { motion } from 'framer-motion'
 import { useSelectorRoot } from '../../redux/store'
-import { ppid } from 'process'
+import './styles.comment.scss'
 
 const commentList = [
     {
@@ -57,7 +55,6 @@ const CComment = () => {
 
     const filterCommentByStar = (buttonNumber: number) => {
         if (ratesLst) {
-
             if (buttonNumber === 0) {
                 setCurrentCommentList(ratesLst?.items ? ratesLst?.items : [])
             } else {
@@ -73,7 +70,7 @@ const CComment = () => {
     };
     return (
         <div className='main-comment'>
-            <div className='title'>Bình luận ({ratesLst?.total ? ratesLst?.total: 0})</div>
+            <div className='title'>Bình luận ({ratesLst?.numberOfItems ? ratesLst?.numberOfItems: 0})</div>
             <div className='btn-group-and-total-rate'>
                 <Button.Group>
                     <motion.div
@@ -141,13 +138,13 @@ const CComment = () => {
                     className='total-rate'
                 >
 
-                    <div className='number'>{ratesLst?.rateProduct}</div>
+                    <div className='number'>{ratesLst?.averageRate}</div>
                     <Rate
                         allowHalf
                         // defaultValue={ratesLst?.rateProduct}
                         count={5}
                         disabled
-                        value={ratesLst?.rateProduct}
+                        value={ratesLst?.averageRate}
                     />
                 </div>
             </div>
@@ -161,7 +158,7 @@ const CComment = () => {
                                     <img src={Avatar} />
                                 </div>
                                 <div className='content'>
-                                    <div className='name'>{item.userName}</div>
+                                    <div className='name'>{item.username}</div>
                                     <div>
                                         <Rate
                                             allowHalf

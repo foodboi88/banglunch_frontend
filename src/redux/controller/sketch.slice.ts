@@ -6,43 +6,38 @@ import {
     catchError,
     concatMap,
     filter,
-    map,
     mergeMap,
-    switchMap,
+    switchMap
 } from "rxjs/operators";
 // import IdentityApi from "../../api/identity.api";
-import { RootEpic } from "../../common/define-type";
-import Utils from "../../common/utils";
+import CommentsApi from "../../api/comment/comment.api";
+import FilterCriteriasApi from "../../api/filter-criterias/filter-criterias.api";
 import IdentityApi from "../../api/identity/identity.api";
+import ImageSketchApi from "../../api/image-sketch/image-sketch.api";
+import PaymentApi from "../../api/payment/payment.api";
+import ProfileAPI from "../../api/profile/profile.api";
+import RatesApi from "../../api/rates/rates.api";
 import SketchsApi from "../../api/sketchs/sketchs.api";
-import { forkJoin } from "rxjs";
+import StatisticAPI from "../../api/statistic/statistic.api";
+import UserApi from "../../api/user/user.api";
+import { RootEpic } from "../../common/define-type";
+import { IPaymentRequest } from "../../common/payment.interface";
+import { IBank, IBusiness, IReqFormArchitect, IReqLookUp } from "../../common/profile.interface";
+import { IRateList } from "../../common/rates.interface";
 import {
     ICurrentSearchValue,
     IDetailFood,
-    IDetailSketch,
     IFilteredSketch,
     IFoodOfShop,
     IReqGetLatestSketchs,
-    IReqProductsFiles,
     ISellerStatisticSketch,
     ISketch,
-    ISketchInCart,
+    ISketchInCart
 } from "../../common/sketch.interface";
-import { ITool } from "../../common/tool.interface";
-import FilterCriteriasApi from "../../api/filter-criterias/filter-criterias.api";
-import CommentsApi from "../../api/comment/comment.api";
-import { IAuthor, IBill, IHotProducts, IOverViewStatistic, ISellerProfile, IUser } from "../../common/user.interface";
-import ImageSketchApi from "../../api/image-sketch/image-sketch.api";
-import { IRates } from "../../common/rates.interface";
-import RatesApi from "../../api/rates/rates.api";
-import { IInFoSketch } from "../../common/sketch.interface";
-import PaymentApi from "../../api/payment/payment.api";
-import { IPaymentRequest } from "../../common/payment.interface";
-import { IBank, IBusiness, IReqFormArchitect, IReqLookUp } from "../../common/profile.interface";
-import ProfileAPI from "../../api/profile/profile.api";
-import UserApi from "../../api/user/user.api";
 import { IOverViewStatictis, IOverViewStatictisDay, IOverViewStatictisMonth, IOverViewStatictisQuarter, IOverViewStatictisYear, IStatictisSellerDay, IStatictisUserDay } from "../../common/statistic.interface";
-import StatisticAPI from "../../api/statistic/statistic.api";
+import { ITool } from "../../common/tool.interface";
+import { IAuthor, IBill, IHotProducts, IOverViewStatistic, ISellerProfile, IUser } from "../../common/user.interface";
+import Utils from "../../common/utils";
 import { QUERY_PARAM } from "../../constants/get-api.constants";
 
 type MessageLogin = {
@@ -83,7 +78,7 @@ interface SketchState {
     filteredAuthors?: IUser[];
     currentSearchValue: any;
     checkWhetherSketchUploaded: number; // Là số chẵn thì chắc chắn file đó đã đc up cả ảnh + file + content thành công
-    ratesLst: IRates | undefined;
+    ratesLst: IRateList | undefined;
     productsFile: string | undefined;
     checkProductsFile: boolean;
     lstSketchsInCart: ISketchInCart[];
@@ -161,9 +156,9 @@ const initState: SketchState = {
     },
     checkWhetherSketchUploaded: 0,
     ratesLst: {
-        rateProduct: 0,
+        averageRate: 0,
         items: [],
-        total: 0
+        numberOfItems: 0
     },
     productsFile: undefined,
     checkProductsFile: false,
@@ -439,7 +434,7 @@ const sketchSlice = createSlice({
         // Dùng để reset lại biến currentSearchValue (biến lưu lại các lựa chọn tìm kiếm nâng cao) mỗi khi chuyển qua chuyển lại giữa
         // trang home và trang tìm kiếm nâng cao
         // action.payload bây giờ sẽ là thông tin mà bạn muốn tìm kiếm sau khi clear giá trị tìm kiếm cũ
-        resetCurrentSearchValueRequest(state, action: PayloadAction<any>){
+        resetCurrentSearchValueRequest(state, action: PayloadAction<any>) {
             state.currentSearchValue = {
                 architecture: '',
                 style: '',
@@ -1673,7 +1668,7 @@ const getSketchListByAuthorId$: RootEpic = (action$) =>
             // IdentityApi.login(re.payload) ?
             console.log(re);
             return SketchsApi.getSketchListByAuthorId(re.payload).pipe(
-                mergeMap((res: IRates) => {
+                mergeMap((res) => {
                     return [
                         sketchSlice.actions.getSketchListByAuthorIdSuccess(res),
                     ];
@@ -1733,10 +1728,10 @@ const getRatesBySketchId$: RootEpic = (action$) =>
             // IdentityApi.login(re.payload) ?
             console.log(re);
             return RatesApi.getRatesBySketchId(re.payload).pipe(
-                mergeMap((res: IRates) => {
+                mergeMap((res: IRateList) => {
                     return [sketchSlice.actions.getRatesBySketchIdSuccess(res)];
                 }),
-                catchError((err) => [])
+                catchError((err) => [sketchSlice.actions.getRatesBySketchIdFail(err)])
             );
         })
     );
@@ -2244,7 +2239,7 @@ const editSketch$: RootEpic = (action$) =>
         })
     );
 
-const resetCurrentSearchValue$: RootEpic = (action$) => 
+const resetCurrentSearchValue$: RootEpic = (action$) =>
     action$.pipe(
         filter(resetCurrentSearchValueRequest.match),
         mergeMap((re) => {

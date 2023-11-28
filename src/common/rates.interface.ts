@@ -1,16 +1,16 @@
-export interface IRates {
-    rateProduct?: number,
-    items: IRateUser[],
-    total?: number;
+export interface IRateList {
+    averageRate?: number,
+    items: IRate[],
+    numberOfItems?: number;
 }
-export interface IRateUser {
-    productId: string,
-    rate: number,
+export interface IRate {
+    userId: string
+    username: string,
+    foodId: string,
     description: string,
+    rate: number,
     createdAt: string,
-    updatedAt: string,
     id: string,
-    userName: string
 }
 
 
