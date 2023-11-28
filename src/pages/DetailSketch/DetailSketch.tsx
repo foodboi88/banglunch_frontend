@@ -100,8 +100,9 @@ const DetailSketch = () => {
     });
 
     useEffect(() => {
+        const userId = Utils.getValueLocalStorage("user_id") || '653157b47bd33206a8b429f8';
         if (foodId) {
-            dispatch(getDetailSketchPageContentRequest(foodId));
+            dispatch(getDetailSketchPageContentRequest({foodId, userId}));
             dispatch(getRatesBySketchIdRequest(foodId));
             
             // if(tokenLogin) {
@@ -126,7 +127,7 @@ const DetailSketch = () => {
     // Kiểm tra xem có chi tiết bản vẽ hay không
     useEffect(() => {
         if (detailSketch) {
-            setImages(detailSketch.gallery);
+            setImages(detailSketch.galleries);
             setInfo(detailSketch);
             setTypeOfArchitectures(detailSketch.food_categories);
             // console.log(detailSketch);
@@ -221,8 +222,6 @@ const DetailSketch = () => {
                 </div>
                 <div className="content">
                     {info &&
-                        designStyles &&
-                        designTools &&
                         typeOfArchitectures && (
                             <>
                                 <div className="title">{info.title}</div>

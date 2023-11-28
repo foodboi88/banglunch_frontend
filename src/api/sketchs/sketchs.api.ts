@@ -20,8 +20,8 @@ import Utils from "../../common/utils";
 export default class SketchsApi {
     static apiURL = API_URL;
 
-    static getFoodById(sketchId: string): Observable<any> {
-        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_DETAIL_FOOD}?id=${sketchId}`;
+    static getFoodById(sketchId: string, userId: string): Observable<any> {
+        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_DETAIL_FOOD}?foodId=${sketchId}&userId=${userId}`;
         return HttpClient.get(api).pipe(
             map(
                 (res) => (res as any) || null,

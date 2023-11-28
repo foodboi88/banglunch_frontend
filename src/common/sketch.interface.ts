@@ -137,7 +137,7 @@ export interface IDetailFood {
     weight: string
     width: string
     users: IUser
-    gallery: any[]
+    galleries: any[]
     food_categories: IFoodCategory[]
   }
   

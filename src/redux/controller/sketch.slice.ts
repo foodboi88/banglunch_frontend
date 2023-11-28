@@ -377,15 +377,17 @@ const sketchSlice = createSlice({
         },
 
         getDetailSketchRequest(state, action: PayloadAction<any>) {
+            state.loading = true;
         },
 
         getDetailSketchSuccess(state, action: PayloadAction<any>) {
             state.detailSketch = action.payload.data;
             console.log(action.payload.data);
+            state.loading = false;
         },
 
         getDetailSketchFail(state, action: PayloadAction<any>) {
-
+            state.loading = false;
         },
 
         getCommentBySketchIdRequest(state, action: PayloadAction<any>) {
@@ -399,7 +401,7 @@ const sketchSlice = createSlice({
 
         getDetailSketchPageContentRequest(
             state,
-            action: PayloadAction<string>
+            action: PayloadAction<any>
         ) {
             state.loading = true;
         },
@@ -1458,8 +1460,7 @@ const getDetailSketch$: RootEpic = (action$) =>
         concatMap((re) => {
             // IdentityApi.login(re.payload) ?
             console.log(re);
-
-            return SketchsApi.getFoodById(re.payload).pipe(
+            return SketchsApi.getFoodById(re.payload.foodId, re.payload.userId).pipe(
                 concatMap((res: any) => {
                     console.log(res);
 
