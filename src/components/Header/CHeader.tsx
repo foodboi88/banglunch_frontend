@@ -3,7 +3,6 @@
 
 import {
     DownOutlined,
-    SearchOutlined,
     ShoppingCartOutlined
 } from "@ant-design/icons";
 import {
@@ -31,9 +30,7 @@ import Login from "../../pages/login/Login";
 import Register from "../../pages/login/Register";
 import {
     advancedSearchingRequest,
-    getAllSketchInCartRequest,
-    getSketchQuantityInCartRequest,
-    resetCurrentSearchValueRequest,
+    resetCurrentSearchValueRequest
 } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 
@@ -45,7 +42,7 @@ interface MyProps {
 export const CHeader = (props: MyProps) => {
     const [visible, setVisible] = useState(false); // Biến thể hiện nút thu gọn menu có đang mở hay không
     const [current, setCurrent] = useState<string>("1"); // Biến thể hiện giá trị cho nút hiện tại
-    const { accesstokenExpỉred, userName } = useSelectorRoot((state) => state.login);
+    const { userName, tokenLogin, accesstokenExpired } = useSelectorRoot((state) => state.login);
     const { sketchsQuantityInCart } = useSelectorRoot((state) => state.sketch);
 
 
@@ -112,14 +109,6 @@ export const CHeader = (props: MyProps) => {
             setIsLogin(true);
         }
     }, []);
-
-    useEffect(() => {
-        console.log(isLogin);
-        if (accesstokenExpỉred === false) {
-            dispatch(getSketchQuantityInCartRequest());
-        }
-
-    }, [accesstokenExpỉred])
 
     // Kiểm tra xem đường dẫn đang là gì để set thuộc tính đã click cho header
 
@@ -196,7 +185,7 @@ export const CHeader = (props: MyProps) => {
         setIsLogin(val);
     };
     const handleClickCart = () => {
-        dispatch(getAllSketchInCartRequest());
+        // dispatch(getAllSketchInCartRequest());
         if (userRole === 'seller') {
 
             navigate("/seller/cart");
@@ -250,12 +239,12 @@ export const CHeader = (props: MyProps) => {
                     <div className={`header-content-input ${isLogin && "login"}`}>
                         <Input
                             className="search-input"
-                            placeholder="Tìm kiếm bản vẽ"
+                            placeholder="Tìm kiếm đồ ăn"
                             onPressEnter={handleSearching}
                         />
                     </div>
                     <div className="user-infor">
-                        {accesstokenExpỉred === true ? (
+                        {accesstokenExpired ? (
                             <>
                                 <motion.div
                                     className="header-button login"

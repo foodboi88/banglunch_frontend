@@ -35,7 +35,7 @@ const DetailSketch = () => {
         checkInCart,
         latestSketchsList,
     } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
-    const { tokenLogin, accesstokenExpỉred } = useSelectorRoot((state) => state.login);
+    const { tokenLogin, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
     const dispatch = useDispatchRoot();
     const { foodId } = useParams(); // Lấy ra id của sketch từ url
@@ -100,9 +100,12 @@ const DetailSketch = () => {
     });
 
     useEffect(() => {
-        const userId = Utils.getValueLocalStorage("user_id") || '653157b47bd33206a8b429f8';
         if (foodId) {
-            dispatch(getDetailSketchPageContentRequest({foodId, userId}));
+            const userId = Utils.getValueLocalStorage("user_id");
+            dispatch(getDetailSketchPageContentRequest({
+                foodId,
+                userId
+            }));
             dispatch(getRatesBySketchIdRequest(foodId));
             
             // if(tokenLogin) {
@@ -153,7 +156,7 @@ const DetailSketch = () => {
     };
 
     const handleAddToCart = (sketchId: string) => {
-        if (accesstokenExpỉred === false) {
+        if (accesstokenExpired === false) {
 
             const req = {
                 productId: sketchId,
@@ -176,7 +179,7 @@ const DetailSketch = () => {
         }
     };
     const handleRoutingToAuthorPage = () => {
-        navigate(`/author-page/${detailSketch?.users._id}`);
+        navigate(`/author-page/${detailSketch?.seller._id}`);
     };
 
     // Handle pagination latest sketch
@@ -330,15 +333,15 @@ const DetailSketch = () => {
                         )}
                 </div>
             </div>
-            {authorIntroduction && (
+            {detailSketch?.seller && (
                 <div onClick={handleRoutingToAuthorPage}>
                     <CAuthorIntroduction
-                        createdAt={authorIntroduction?.createdAt}
-                        address={authorIntroduction.address}
-                        name={authorIntroduction.name}
-                        phone={authorIntroduction.phone}
-                        totalProduct={authorIntroduction.totalProduct}
-                        totalRating={authorIntroduction.totalRating}
+                        createdAt={detailSketch?.seller?.createdAt}
+                        address={detailSketch?.seller.address}
+                        name={detailSketch?.seller.name}
+                        phone={detailSketch?.seller.phone}
+                        totalProduct={detailSketch?.seller.totalProduct}
+                        totalRating={detailSketch?.seller.totalRating}
                     />
                 </div>
             )}
@@ -347,7 +350,7 @@ const DetailSketch = () => {
             </div>
             <div className="similar-sketch">
                 <div className="title">
-                    <div>Bản vẽ tương tự</div>
+                    <div>CÓ THỂ BẠN SẼ THÍCH</div>
                     <div className="sub-title">{"Xem thêm"}</div>
                 </div>
                 <div className="lst-tool">

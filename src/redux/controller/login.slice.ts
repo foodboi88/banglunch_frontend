@@ -5,10 +5,10 @@ import { notification } from "antd";
 import { WritableDraft } from "immer/dist/internal";
 import { catchError, filter, map, mergeMap, switchMap } from "rxjs/operators";
 // import IdentityApi from "../../api/identity.api";
-import { RootEpic } from "../../common/define-type";
-import Utils from "../../common/utils";
 import IdentityApi from "../../api/identity/identity.api";
 import UserApi from "../../api/user/user.api";
+import { RootEpic } from "../../common/define-type";
+import Utils from "../../common/utils";
 
 type MessageLogin = {
     content: string;
@@ -33,7 +33,7 @@ interface LoginState {
     userName: string | undefined;
     userMail: string | undefined;
     userPhone: string | undefined;
-    accesstokenExpỉred: boolean;
+    accesstokenExpired: boolean;
     userRole: string;
 }
 
@@ -52,7 +52,7 @@ const initState: LoginState = {
     tokenLogin: Utils.getValueLocalStorage("token"),
     isExistEmail: true,
     registerSuccess: false,
-    accesstokenExpỉred: true,
+    accesstokenExpired: true,
     userRole: Utils.getValueLocalStorage("role") ? Utils.getValueLocalStorage("role") : 'user',
 };
 
@@ -68,14 +68,12 @@ const loginSlice = createSlice({
             Utils.setLocalStorage("token", action.payload.accessToken);
             Utils.setLocalStorage("refresh_token", action.payload.refreshToken);
             Utils.setLocalStorage("role", action.payload.role);
-            Utils.setLocalStorage("user_id", action.payload.id);
-
             console.log(action.payload.accessToken);
 
             state.tokenLogin = action?.payload?.accessToken;
             state.loading = false;
             state.isSuccess = true;
-            state.accesstokenExpỉred = false;
+            state.accesstokenExpired = false;
             state.userRole = action.payload.role
             notification.open({
                 message: "Đăng nhập thành công",
@@ -91,7 +89,7 @@ const loginSlice = createSlice({
         loginFail(state, action: any) {
             console.log(action.payload.response);
             state.loading = false;
-            state.accesstokenExpỉred = true;
+            state.accesstokenExpired = true;
 
             notification.open({
                 message: "Đăng nhập không thành công",
@@ -116,12 +114,14 @@ const loginSlice = createSlice({
             Utils.setLocalStorage("userName", action.payload.user.name);
             Utils.setLocalStorage("userMail", action.payload.user.email);
             Utils.setLocalStorage("userPhone", action.payload.user.phone);
+            Utils.setLocalStorage("user_id", action.payload.user.id);
+
             state.userName = action.payload.user.name;
             state.userMail = action.payload.user.email;
             state.userPhone = action.payload.user.phone;
             state.loading = false;
             state.isSuccess = true;
-            state.accesstokenExpỉred = false;
+            state.accesstokenExpired = false;
             // state.user = action.payload.user;
             console.log("---get user info success---");
         },
@@ -142,7 +142,7 @@ const loginSlice = createSlice({
             Utils.removeItemLocalStorage("userMail");
             Utils.removeItemLocalStorage("userPhone");
             state.message = action.payload.message;
-            state.accesstokenExpỉred = true;
+            state.accesstokenExpired = true;
             state.loading = false;
 
 
@@ -354,7 +354,7 @@ const login$: RootEpic = (action$) =>
 
                     return [
                         loginSlice.actions.loginSuccess(res.data),
-                        loginSlice.actions.getUserInfoRequest(res.data.accessToken),
+                        // loginSlice.actions.getUserInfoRequest(res.data.accessToken),
                         loginSlice.actions.setLoading(false),
                         loginSlice.actions.setStatusCode(res.statusCode),
                     ];
@@ -424,6 +424,7 @@ const getUserInfo$: RootEpic = (action$) =>
                     console.log(res);
                     const token = res.data.accessToken;
                     const user = {
+                        id: res.data.id,
                         email: res.data.email,
                         name: res.data.name,
                         phone: res.data.phone,

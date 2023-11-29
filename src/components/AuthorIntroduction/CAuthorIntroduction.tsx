@@ -1,9 +1,8 @@
-import { Badge, Button, Col, Row } from "antd";
-import React, { useEffect } from "react";
-import Avatar from "../../images/advance-searching/avatar1.png";
-import "./styles.authorintro.scss";
+import { Badge, Button } from "antd";
 import { motion } from "framer-motion";
 import { IAuthor } from "../../common/user.interface";
+import Avatar from "../../images/advance-searching/avatar1.png";
+import "./styles.authorintro.scss";
 
 const CAuthorIntroduction = (props: IAuthor) => {
     function formatDate(date: string) {
@@ -50,7 +49,7 @@ const CAuthorIntroduction = (props: IAuthor) => {
                         Tỉ lệ phản hồi: <strong>100%</strong>
                     </div>
                     <div className="grid-item">
-                        Tham gia: <strong>{formatDate(props.createdAt)}</strong>
+                        Tham gia: <strong>{formatDate(props?.createdAt || '')}</strong>
                     </div>
                     <div className="grid-item">
                         Sản phẩm: <strong>{props.totalProduct}</strong>

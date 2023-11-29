@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
 import {
     ArrowLeftOutlined,
-    ArrowRightOutlined,
-    RightOutlined
+    ArrowRightOutlined
 } from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
 import { motion } from "framer-motion";
@@ -10,11 +9,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./styles.home.scss";
 
-import Style1 from '../../images/homepage/Roma-1.1.jpg';
-import SeeMore from '../../images/homepage/discovermore2.png';
 
 
-import { Carousel } from 'antd';
 import { ICurrentSearchValue, IFilteredSketch, IReqGetLatestSketchs } from "../../common/sketch.interface";
 import CArchitectCard from "../../components/CArchitectCard/CArchitectCard";
 import CStyleCard from "../../components/CStyleCard/CStyleCard";
@@ -35,8 +31,6 @@ import StyleList3 from "../../images/homepage/styleList3.png";
 import {
     advancedSearchingRequest,
     getAllArchitecturesRequest,
-    getAllStylesRequest,
-    getAllToolsRequest,
     getHomeListSketchRequest
 } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
@@ -82,19 +76,19 @@ const Home = () => {
         window.innerHeight,
     ]);
 
-    useEffect(()=> {
-        let lastSketch = 
-            {
-                _id: 'last',
-                title: '',
-                price: -1,
-                views: 56,
-                category: '',
-                image: SeeMore,
-            }
-        ;
-        setCloneFilteredSketchs([...filteredSketchs,lastSketch])
-    },[filteredSketchs])
+    // useEffect(()=> {
+    //     let lastSketch = 
+    //         {
+    //             _id: 'last',
+    //             title: '',
+    //             price: -1,
+    //             views: 56,
+    //             category: '',
+    //             image: SeeMore,
+    //         }
+    //     ;
+    //     setCloneFilteredSketchs([...filteredSketchs,lastSketch])
+    // },[filteredSketchs])
 
     const excellentArchitect = [
         {
@@ -207,9 +201,7 @@ const Home = () => {
             offset: 0,
         };
         dispatch(getHomeListSketchRequest());
-        dispatch(getAllToolsRequest(bodyrequest));
         dispatch(getAllArchitecturesRequest(bodyrequest));
-        dispatch(getAllStylesRequest(bodyrequest));
         handleSearch('64231026edf9dd11e488c250');
     }, []);
 
@@ -290,7 +282,7 @@ const Home = () => {
             dispatch(advancedSearchingRequest(bodyrequest));
             navigate("/searching");
         }else{
-            navigate(`/detail-sketch/${sketchId}`);
+            navigate(`/detail-food/${sketchId}`);
         }
         // setTimeout(() => {
         //     window.location.reload();
@@ -390,56 +382,37 @@ const Home = () => {
             </div>
 
 
-            {/* Filter bản vẽ đầu trang */}
+            {/* Bản vẽ bán chạy */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div className="category-list">
-                        {
-                            cloneArchitecturelist &&
-                            cloneArchitecturelist.map(item => (
-                                <Button
-                                    className={'category-item ' + (currentSearchValue.architecture === item.id ? 'active' : '')}
-                                    onClick={() => {
-                                        handleSearch(item.id)
-                                    }}
-                                >
-                                    {item.name}
-                                </Button>
-                            ))
-                        }
-                    </div>
+                    <div>MÓN ĂN BÁN CHẠY</div>
                     <div className="sub-title">
-                        {
-                            cloneFilteredSketchs &&
-                            <>
-                                <Col>
-                                    <Button
-                                        icon={<ArrowLeftOutlined />}
-                                        className="btn-icon"
-                                        onClick={() => handlePagination('prev', 'filtered')}
-                                        disabled={currentIndexFilteredSketch === 0 && true}
-                                    />
-                                </Col>
-                                <Col>
-                                    <Button
-                                        icon={<ArrowRightOutlined />}
-                                        className="btn-icon"
-                                        onClick={() => handlePagination('next', 'filtered')}
-                                        disabled={
-                                            currentIndexFilteredSketch >= cloneFilteredSketchs.length - numberOfCardShow && true
-                                        }
-                                    />
-                                </Col>
-                            </>
-                        }
+                        <Col>
+                            <Button
+                                icon={<ArrowLeftOutlined />}
+                                className="btn-icon"
+                                onClick={() => handlePagination('prev', 'mostView')}
+                                disabled={currentIndexMostViewedSketch === 0 && true}
+                            />
+                        </Col>
+                        <Col>
+                            <Button
+                                icon={<ArrowRightOutlined />}
+                                className="btn-icon"
+                                onClick={() => handlePagination('next', 'mostView')}
+                                disabled={
+                                    currentIndexMostViewedSketch >= mostViewedSketchList.length - numberOfCardShow && true
+                                }
+                            />
+                        </Col>
                     </div>
                 </div>
-                <div className={"lst-tool " + ((filteredSketchs && filteredSketchs.length < numberOfCardShow) && 'less-card')}>
+                <div className={"lst-tool " + ((mostViewedSketchList && mostViewedSketchList.length < numberOfCardShow) && 'less-card')}>
                     <Row gutter={[16, 16]}>
-                        {cloneFilteredSketchs && cloneFilteredSketchs
+                        {mostViewedSketchList
                             .slice(
-                                currentIndexFilteredSketch,
-                                currentIndexFilteredSketch + numberOfCardShow
+                                currentIndexMostViewedSketch,
+                                currentIndexMostViewedSketch + numberOfCardShow
                             )
                             .map((card) => (
                                 <Col
@@ -450,16 +423,14 @@ const Home = () => {
                                     key={card._id}
                                 >
                                     <CProductCard
-                                        imageUrl={card.image}
+                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
                                         title={card.title}
                                         views={card.views}
                                         price={card.price}
                                         category={card.category}
-                                    // type={card.type}
                                     />
                                 </Col>
-                            ))
-                        }
+                            ))}
                     </Row>
 
                 </div>
@@ -468,7 +439,7 @@ const Home = () => {
             {/* Danh sách phong cách */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div>PHONG CÁCH</div>
+                    <div>LOẠI ĐỒ ĂN NỔI BẬT</div>
                     <div className="sub-title">
                         <Col>
                             <Button
@@ -516,14 +487,14 @@ const Home = () => {
             </div>
 
             <CDeclare
-                content="Chỉnh sửa thiết kế theo yêu cầu"
+                content="Nhanh chóng tiện lợi"
                 imageUrl={Declare1}
             />
 
             {/* Top kiến trúc sư */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div>KIẾN TRÚC SƯ</div>
+                    <div>ĐẦU BẾP TÀI BA</div>
                     <div className="sub-title">
                         <Col>
                             <Button
@@ -576,7 +547,7 @@ const Home = () => {
             {/* Công ty bán bản vẽ */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div>CÔNG TY X Y DỰNG – KIẾN TRÚC
+                    <div>SHOP ĐỒ ĂN NỔI BẬT
                     </div>
                     <div className="sub-title">
                         <Col>
@@ -630,7 +601,7 @@ const Home = () => {
             </div>
 
             <CDeclare
-                content="Bản vẽ miễn phí cho bạn"
+                content="Phù hợp với khẩu vị của bạn"
                 imageUrl={Declare1}
 
             />
@@ -638,7 +609,7 @@ const Home = () => {
             {/* Bản vẽ bán chạy */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div>BẢN VẼ BÁN CHẠY</div>
+                    <div>MÓN ĂN MỚI</div>
                     <div className="sub-title">
                         <Col>
                             <Button
@@ -676,7 +647,7 @@ const Home = () => {
                                     key={card._id}
                                 >
                                     <CProductCard
-                                        imageUrl={card.image}
+                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
                                         title={card.title}
                                         views={card.views}
                                         price={card.price}
@@ -689,74 +660,19 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* Bản vẽ miễn phí */}
-            <div className="tool-of-web">
-                <div className="title">
-                    <div>BẢN VẼ MIỄN PHÍ</div>
-                    <div className="sub-title">
-                        <Col>
-                            <Button
-                                icon={<ArrowLeftOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('prev', 'free')}
-                                disabled={currentIndexFreeSketch === 0 && true}
-                            />
-                        </Col>
 
-                        <Col>
-                            <Button
-                                icon={<ArrowRightOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('next', 'free')}
-                                disabled={
-                                    currentIndexFreeSketch >= freeSketchList.length - numberOfCardShow && true
-                                }
-                            />
-                        </Col>
-                    </div>
-                </div>
-                {freeSketchList.length > 0 &&
-                    <div className={"lst-tool " + ((freeSketchList && freeSketchList.length < numberOfCardShow) && 'less-card')}>
-
-                        <Row gutter={[16, 16]}>
-                            {freeSketchList
-                                .slice(
-                                    currentIndexFreeSketch,
-                                    currentIndexFreeSketch + numberOfCardShow
-                                )
-                                .map((card) => (
-                                    <Col
-                                        onClick={() => {
-                                            handleClickCard(card._id);
-                                        }}
-                                        span={spanCol}
-                                        key={card._id}
-                                    >
-                                        <CProductCard
-                                            imageUrl={card.image}
-                                            title={card.title}
-                                            views={card.views}
-                                            price={card.price}
-                                            category={card.category}
-                                        />
-                                    </Col>
-                                ))}
-                        </Row>
-                    </div>
-                }
-            </div>
             <div className='homepage-footer'>
                 <div className="left-footer">
                     <div className="slogan">
-                        <div>Lời chào từ VRO <strong>”</strong></div>
+                        <div>Lời chào từ BangLunch <strong>”</strong></div>
                     </div>
                     <div className="wellcome">Kính gửi Quý khách hàng – những người luôn muốn đem lại những gì tốt đẹp nhất cho ngôi nhà thân yêu; Gửi các bạn Kiến trúc sư, đối tác Công ty Xây dựng đầy tâm huyết.<br />Với sứ mệnh kết nối để tạo nên những công trình tuyệt vời, VRO đã tạo nên một không gian mở giới thiệu những thiết kế và công ty Xây dựng, KTS tới khách hàng. Hãy cùng nhau xây dựng nên cộng đồng để tôn vinh cái đẹp, sự tối ưu cho những công trình thân yêu.
                     </div>
                     <div className="info">
                         <img src={CEO} />
                         <div className="more">
-                            <div className="name-more">Hoàng Đức Thắng</div>
-                            <div className="content-more">Chủ tịch Công ty VRO</div>
+                            <div className="name-more">Austin Do</div>
+                            <div className="content-more">Chủ tịch Công ty BangLunch</div>
                         </div>
                     </div>
                 </div>

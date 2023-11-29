@@ -1,5 +1,5 @@
 import { RcFile } from "antd/lib/upload";
-import { IArchitecture, IStyle, ITool } from "./tool.interface";
+import { IArchitecture } from "./tool.interface";
 import { IUser } from "./user.interface";
 
 export interface IReqGetLatestSketchs {
@@ -27,13 +27,26 @@ export interface IFilteredSketch {
     image: string;
 }
 
+export interface IShopDetail {
+    foods: IFoodOfShop[],
+    info: IUser
+}
+
 export interface IFoodOfShop {
-    id: string;
+    _id: string;
     title: string;
     price: number;
     views: number;
     category: string;
-    image: string;
+    galleries: IGallery[]
+}
+
+export interface IGallery {
+    _id: string
+    fileName: string
+    filePath: string
+    isMain: boolean
+    foodId: string
 }
 
 export interface ICurrentSearchValue {
@@ -108,7 +121,7 @@ export interface ISellerStatisticSketch {
     totalHiddenProduct: number;
 }
 
-export interface IUploadSketchRequest{
+export interface IUploadSketchRequest {
     title?: string,
     imageUploadLst?: RcFile,
     fileUploadLst?: RcFile,
@@ -136,21 +149,20 @@ export interface IDetailFood {
     length: string
     weight: string
     width: string
-    users: IUser
+    seller: IUser
     galleries: any[]
     food_categories: IFoodCategory[]
-  }
-  
-  export interface IFoodCategory {
+}
+
+export interface IFoodCategory {
     _id: string
     foodId: string
     categoryId: string
     categories: ICategories
-  }
-  
-  export interface ICategories {
+}
+
+export interface ICategories {
     _id: string
     name: string
     description: string
-  }
-  
+}

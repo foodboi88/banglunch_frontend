@@ -1,39 +1,32 @@
-import React, { useEffect, useState } from "react";
-import "./styles.authorpage.scss";
-import CFilter from "../../components/Filter/CFilter";
-import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntroduction";
-import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
-import { Col, MenuProps, Row } from "antd";
-import { Menu } from "antd";
 import { WalletOutlined } from "@ant-design/icons";
-import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import { Col, Menu, MenuProps, Row } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-    getAuthorIntroductionByIdRequest,
-    getSketchListByAuthorIdRequest,
-} from "../../redux/controller";
-import CProductCard from "../../components/ProductCard/CProductCard";
+import { IFoodOfShop } from "../../common/sketch.interface";
+import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
+import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntroduction";
+import CFilter from "../../components/Filter/CFilter";
 import CPagination from "../../components/Pagination/CPagination";
-import { IFilteredSketch, IFoodOfShop } from "../../common/sketch.interface";
+import CProductCard from "../../components/ProductCard/CProductCard";
+import {
+    getSketchListByAuthorIdRequest
+} from "../../redux/controller";
+import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import "./styles.authorpage.scss";
 
 const items: MenuProps["items"] = [
     {
-        label: "Tất cả bản vẽ",
+        label: "Tất cả món ăn",
         key: "1",
         icon: <WalletOutlined />,
     },
     {
-        label: "Bản vẽ thịnh hành",
-        key: "2",
-        icon: <WalletOutlined />,
-    },
-    {
-        label: "Bản vẽ nhiều lượt tải",
+        label: "Món ăn nhiều lượt mua",
         key: "3",
         icon: <WalletOutlined />,
     },
     {
-        label: "Bản vẽ đánh giá cao",
+        label: "Món ăn được đánh giá cao",
         key: "4",
         icon: <WalletOutlined />,
     },
@@ -45,7 +38,7 @@ const AuthorPage = () => {
     const [current, setCurrent] = useState("mail");
     const [spanCol, setSpanCol] = useState<number>(6);
 
-    const { authorIntroduction, foodOfShop } = useSelectorRoot(
+    const { authorIntroduction, shopDetail } = useSelectorRoot(
         (state) => state.sketch
     ); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
     const dispatch = useDispatchRoot();
@@ -63,7 +56,6 @@ const AuthorPage = () => {
 
     useEffect(() => {
         if (authorId) {
-            dispatch(getAuthorIntroductionByIdRequest(authorId));
             dispatch(getSketchListByAuthorIdRequest(authorId));
         }
     }, []);
@@ -83,28 +75,28 @@ const AuthorPage = () => {
 
 
     useEffect(() => {
-        if (!foodOfShop) return;
-        console.log("filteredSketchs", foodOfShop);
+        if (shopDetail?.foods?.length === 0) return;
+        console.log("filteredSketchs", shopDetail?.foods);
 
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
-        const currentItems = foodOfShop?.slice(startIndex, endIndex);
-        setNewFilteredFoods(foodOfShop);
-    }, [currentPage, foodOfShop]);
+        const currentItems = shopDetail?.foods?.slice(startIndex, endIndex);
+        setNewFilteredFoods(currentItems);
+    }, [currentPage, shopDetail]);
     return (
         <div className="main-author-page">
             <CFilter
                 authorId={authorId}
             />
             <div className="page-content">
-                {authorIntroduction && (
+                {shopDetail?.info && (
                     <CAuthorIntroduction
-                        createdAt={authorIntroduction?.createdAt}
-                        address={authorIntroduction.address}
-                        name={authorIntroduction.name}
-                        phone={authorIntroduction.phone}
-                        totalProduct={authorIntroduction.totalProduct}
-                        totalRating={authorIntroduction.totalRating}
+                        createdAt={shopDetail?.info?.createdAt || ''}
+                        address={shopDetail?.info?.address}
+                        name={shopDetail?.info?.name}
+                        phone={shopDetail?.info?.phone}
+                        totalProduct={shopDetail?.info?.totalProduct}
+                        totalRating={shopDetail?.info?.totalRating}
                     />
                 )}
                 <div className="horizontal-navbar">
@@ -122,14 +114,13 @@ const AuthorPage = () => {
                             newfilteredFoods.map((card) => (
                                 <Col
                                     onClick={() => {
-                                        goToDetailPageHandle(card.id);
+                                        goToDetailPageHandle(card._id);
                                     }}
                                     span={spanCol}
-                                    key={card.id}
+                                    key={card._id}
                                 >
                                     <CProductCard
-                                        // imageUrl={card.images[0]}
-                                        imageUrl={card.image}
+                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
                                         title={card.title}
                                         views={card.views}
                                         price={card.price}

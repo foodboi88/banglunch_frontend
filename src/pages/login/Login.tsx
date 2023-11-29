@@ -1,11 +1,11 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { Rule } from "antd/lib/form";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { loginRequest } from "../../redux/controller/login.slice";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 import "./login.scss";
-import { Rule } from "antd/lib/form";
-import { motion } from "framer-motion";
 interface MyProps {
     isOpenModal: boolean;
     toggleLoginModal: () => void;
@@ -21,7 +21,7 @@ const Login = (props: MyProps) => {
     const [userEmailLogin, setUserEmailLogin] = useState<string>("");
     const [userPassLogin, setUserPassLogin] = useState<string>("");
     const [checkLoginBtn, setCheckLoginBtn] = useState<boolean>(true);
-    const { accesstokenExpỉred, tokenLogin } = useSelectorRoot((state) => state.login);
+    const { accesstokenExpired, tokenLogin } = useSelectorRoot((state) => state.login);
 
 
     const dispatch = useDispatchRoot();
@@ -29,11 +29,11 @@ const Login = (props: MyProps) => {
     useEffect(() => {
         console.log("tokenLogin", tokenLogin);
 
-        if (!accesstokenExpỉred) {
+        if (!accesstokenExpired) {
             props.handleCancelModal();
             props.checkIsLogin(true);
         }
-    }, [accesstokenExpỉred])
+    }, [accesstokenExpired])
 
     const handleInputEmailLoginChange = (event: { target: { value: any } }) => {
         setUserEmailLogin(event.target.value);

@@ -189,6 +189,7 @@
 
     .similar-sketch {
         margin: 3em auto;
+        margin-top: 3em;
         width: clamp(1100px, 80vw, 1300px);
         display: flex;
         flex-direction: column;
@@ -202,7 +203,7 @@
             font-weight: 700;
             font-size: 25px;
             text-align: center;
-            color: #1E1E1E;
+            color: #ffffff;
             display: flex;
             justify-content: space-between;
             width: 100%;
@@ -320,10 +321,9 @@
 
         .similar-sketch {
             width: 1650px;
-            margin-top: -3em;
 
             .title {
-
+                
                 .sub-title {}
 
                 .sub-title:hover {}
@@ -423,7 +423,6 @@
 
         .similar-sketch {
             width: 1400px;
-            margin-top: -3em;
 
             .title {
 
@@ -526,7 +525,6 @@
 
         .similar-sketch {
             width: 1200px;
-            margin-top: -3em;
 
             .title {
 
@@ -629,7 +627,6 @@
 
         .similar-sketch {
             width: 950px;
-            margin-top: -3em;
 
             .title {
 
@@ -744,7 +741,6 @@
 
         .similar-sketch {
             width: 750px;
-            margin-top: -3em;
 
             .title {
 
@@ -944,7 +940,6 @@
 
         .similar-sketch {
             width: 550px;
-            margin-top: -3em;
 
             .title {
 

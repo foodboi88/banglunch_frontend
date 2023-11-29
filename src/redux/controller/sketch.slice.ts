@@ -27,10 +27,10 @@ import { IRateList } from "../../common/rates.interface";
 import {
     ICurrentSearchValue,
     IDetailFood,
-    IFilteredSketch,
     IFoodOfShop,
     IReqGetLatestSketchs,
     ISellerStatisticSketch,
+    IShopDetail,
     ISketch,
     ISketchInCart
 } from "../../common/sketch.interface";
@@ -66,7 +66,7 @@ interface SketchState {
     styleList: CheckboxOptionType[];
     cloneStyleList: ITool[];
     latestSketchsList: ISketch[];
-    mostViewedSketchList: ISketch[];
+    mostViewedSketchList: IFoodOfShop[];
     villaSketchList: ISketch[];
     streetHouseSketchList: ISketch[];
     factorySketchList: ISketch[];
@@ -74,7 +74,7 @@ interface SketchState {
     freeSketchList: ISketch[];
     detailSketch?: IDetailFood | null;
     commentList?: any[];
-    filteredSketchs: IFilteredSketch[];
+    filteredSketchs: IFoodOfShop[];
     filteredAuthors?: IUser[];
     currentSearchValue: any;
     checkWhetherSketchUploaded: number; // Là số chẵn thì chắc chắn file đó đã đc up cả ảnh + file + content thành công
@@ -114,8 +114,8 @@ interface SketchState {
     listPurchasedSketch: any[];
     totalPurchasedSketch: number;
     sellerInformation: ISellerProfile | undefined,
-    foodOfShop: IFoodOfShop[],
-
+    shopDetail: IShopDetail | null,
+    deliveryCost: number,
 
 
 }
@@ -199,7 +199,8 @@ const initState: SketchState = {
     listPurchasedSketch: [],
     totalPurchasedSketch: 0,
     sellerInformation: undefined,
-    foodOfShop: []
+    shopDetail: null,
+    deliveryCost: 0,
 };
 
 const sketchSlice = createSlice({
@@ -228,7 +229,7 @@ const sketchSlice = createSlice({
 
         getLatestSketchSuccess(state, action: PayloadAction<any>) {
             console.log(action);
-            state.latestSketchsList = action.payload.data.items;
+            state.latestSketchsList = action.payload.data;
             // notification.open({
             //     message: "Load success",
             //     // description:
@@ -267,7 +268,7 @@ const sketchSlice = createSlice({
         getFreeSketchSuccess(state, action: PayloadAction<any>) {
             console.log(action.payload);
             if (action.payload.data.items)
-                state.freeSketchList = action.payload.data.items;
+                state.freeSketchList = action.payload.data;
             // notification.open({
             //     message: "Load success",
             //     // description:
@@ -305,7 +306,7 @@ const sketchSlice = createSlice({
 
         getMostViewdSketchsSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
-            state.mostViewedSketchList = action.payload.data.items;
+            state.mostViewedSketchList = action.payload.data;
 
             console.log("Da chui vao voi action: ", action);
         },
@@ -571,7 +572,7 @@ const sketchSlice = createSlice({
         addSketchToCartSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
 
-            state.sketchsQuantityInCart = action.payload.Quantity;
+            state.sketchsQuantityInCart = action.payload.quantity;
             notification.open({
                 message: "Thành công",
                 description: "Thêm sản phẩm vào giỏ hàng thành công",
@@ -611,10 +612,9 @@ const sketchSlice = createSlice({
         getAllSketchInCartSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload);
-            if (typeof action.payload === "string")
-                state.lstSketchsInCart = [];
-            else
-                state.lstSketchsInCart = action.payload.data;
+            state.lstSketchsInCart = action.payload.data.order_details;
+            state.sketchsQuantityInCart = action.payload.data.numberOfFood;
+            state.deliveryCost = action.payload.data.deliveryCost;
         },
         getAllSketchInCartFail(state, action: PayloadAction<any>) {
             state.loading = false;
@@ -672,7 +672,7 @@ const sketchSlice = createSlice({
         getSketchListByAuthorIdSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload);
-            state.foodOfShop = action.payload.data;
+            state.shopDetail = action.payload.data;
         },
         getSketchListByAuthorIdFail(state, action: PayloadAction<any>) {
             state.loading = false;
@@ -1467,7 +1467,7 @@ const getDetailSketch$: RootEpic = (action$) =>
                     return [
                         sketchSlice.actions.getDetailSketchSuccess(res),
                         // sketchSlice.actions.getAuthorIntroductionByIdRequest(
-                        //     res.data.info.userId
+                        //     res.data.sellerId
                         // ),
 
                         sketchSlice.actions.getDetailSketchPageContentSuccess(),
@@ -1713,6 +1713,7 @@ const addSketchToCart$: RootEpic = (action$) =>
                 mergeMap((res: any) => {
                     return [
                         sketchSlice.actions.addSketchToCartSuccess(res),
+                        sketchSlice.actions.getAllSketchInCartRequest(),
                         sketchSlice.actions.getSketchQuantityInCartRequest()
                     ];
                 }),
@@ -1744,7 +1745,7 @@ const getAllSketchInCart$: RootEpic = (action$) =>
         switchMap((re) => {
             // IdentityApi.login(re.payload) ?
             console.log(re);
-            return SketchsApi.getAllSketchInCart().pipe(
+            return SketchsApi.getAllFoodInCart().pipe(
                 mergeMap((res: any) => {
                     return [sketchSlice.actions.getAllSketchInCartSuccess(res)];
                 }),
@@ -1762,7 +1763,7 @@ const getSketchQuantityInCart$: RootEpic = (action$) =>
         switchMap((re) => {
             // IdentityApi.login(re.payload) ?
             console.log(re);
-            return SketchsApi.getSketchQuantityInCart().pipe(
+            return SketchsApi.getAllFoodInCart().pipe(
                 mergeMap((res: any) => {
                     return [
                         sketchSlice.actions.getSketchQuantityInCartSuccess(res),

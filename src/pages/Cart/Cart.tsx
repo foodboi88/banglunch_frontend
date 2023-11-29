@@ -1,37 +1,21 @@
 import React, { useEffect, useState } from "react";
 
-import "./styles.cart.scss";
-import { IDetailSketch, ISketchInCart } from "../../common/sketch.interface";
-import IconDetail1 from "../../images/detail/icon-detail-1.png";
-import IconDetail2 from "../../images/detail/icon-detail-2.png";
-import IconDetail3 from "../../images/detail/icon-detail-3.png";
-import IconDetail4 from "../../images/detail/icon-detail-4.png";
-import IconDetail5 from "../../images/detail/icon-detail-5.png";
-import IconDetail6 from "../../images/detail/icon-detail-6.png";
-import CartImage1 from "../../images/cart/cart-image-1.png";
-import CartImage2 from "../../images/cart/cart-image-2.png";
-import CartImage3 from "../../images/cart/cart-image-3.png";
+import {
+    DeleteOutlined,
+    EditOutlined
+} from "@ant-design/icons";
 import {
     Button,
-    Col,
-    Input,
     Modal,
-    Radio,
-    Row,
     Select,
-    Space,
     Table,
-    notification,
+    notification
 } from "antd";
-import {
-    EditOutlined,
-    DeleteOutlined,
-    CaretDownOutlined,
-} from "@ant-design/icons";
-import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
-import SketchsApi from "../../api/sketchs/sketchs.api";
-import { deleteSketchInCartRequest, purchaseWithVNPayRequest } from "../../redux/controller";
 import { IPaymentRequest } from "../../common/payment.interface";
+import { IDetailSketch } from "../../common/sketch.interface";
+import { deleteSketchInCartRequest, purchaseWithVNPayRequest } from "../../redux/controller";
+import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import "./styles.cart.scss";
 
 interface DataType {
     key: React.Key;
@@ -56,7 +40,7 @@ const paymentMethodList = [
 const { Option } = Select;
 
 const Cart = () => {
-    const { lstSketchsInCart, sketchsQuantityInCart, vnpayLink } =
+    const { lstSketchsInCart, sketchsQuantityInCart, vnpayLink, deliveryCost } =
         useSelectorRoot((state) => state.sketch);
     const { tokenLogin, userName, userMail, userPhone } = useSelectorRoot((state) => state.login);
 
@@ -66,6 +50,7 @@ const Cart = () => {
     const [paymentMethod, setPaymentMethod] = useState("");
     const [tmpData, setTmpData] = useState<any>([]);
     const [totalMoney, setTotalMoney] = useState(0);
+    const [amount, setAmount] = useState(0);
 
 
     const infoUser = [
@@ -99,7 +84,7 @@ const Cart = () => {
         {
             key: "2",
             label: "Thuế VAT (chưa áp dụng)",
-            value: totalMoney * 0.08,
+            value: deliveryCost,
         },
     ];
 
@@ -142,7 +127,7 @@ const Cart = () => {
                                         : "sketch-cart-action-new-price"
                                 }
                             >
-                                {record.price.toLocaleString().replace(/,/g, '.') + 'đ'}
+                                {record.price.toLocaleString().replace(/,/g, '.') + 'đ'} x {record.quantity}
                             </div>
                             <div
                                 className="sketch-cart-action-delete"
@@ -162,18 +147,16 @@ const Cart = () => {
 
     useEffect(() => { // Set list sản phẩm khi dữ liệu trong db thay đổi
         if (lstSketchsInCart) {
-            console.log(lstSketchsInCart);
             setTmpData(lstSketchsInCart);
-            // const totalMoney = tmpData.reduce((total: any,item: ISketchInCart) => total + item.price, 0)
-            // setTotalMoney(totalMoney);
-            // handleSetLstCart(lstSketchsInCart);
         }
     }, [lstSketchsInCart]);
 
 
     useEffect(() => { // Set lại tổng tiền khi list sản phẩm thay đổi
-        const totalMoney = tmpData.reduce((total: any, item: ISketchInCart) => total + item.price, 0)
+        const totalMoney = tmpData.reduce((total: any, item: any) => total + item.price*item.quantity, 0)
         setTotalMoney(totalMoney);
+        const amount = totalMoney + deliveryCost;
+        setAmount(amount);
     }, [tmpData])
 
     useEffect(() => {
@@ -301,8 +284,8 @@ const Cart = () => {
                                 Thông tin thanh toán
                             </div>
                             <div className="title-edit">
-                                <EditOutlined />
-                                Chỉnh sửa
+                                {/* <EditOutlined />
+                                Chỉnh sửa */}
                             </div>
                         </div>
                         {infoCart &&
@@ -316,7 +299,7 @@ const Cart = () => {
                                     </div>
                                 </div>
                             ))}
-                        <div className="discount">
+                        {/* <div className="discount">
                             <Select
                                 className="select-discount"
                                 suffixIcon={<CaretDownOutlined />}
@@ -343,18 +326,18 @@ const Cart = () => {
                                     </Radio>
                                 ))}
                             </Space>
-                        </Radio.Group>
+                        </Radio.Group> */}
 
                         <div className="total-price">
                             <div className="total-price-title">Tổng tiền</div>
                             <div className="total-price-value">
-                                {totalMoney.toLocaleString().replace(/,/g, '.') + ' VND'}
+                                {amount.toLocaleString().replace(/,/g, '.') + ' VND'}
                             </div>
                         </div>
                     </div>
 
                     <Button className="to-payment" onClick={paymentHandle}>
-                        Đi tới thanh toán
+                        Đặt món
                     </Button>
                 </div>
             </div>

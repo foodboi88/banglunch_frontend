@@ -1,34 +1,13 @@
-import { Button, Card, Col, Row } from "antd";
-import React, { useEffect, useState } from "react";
-import { UserOutlined, SearchOutlined, EyeOutlined } from "@ant-design/icons";
-import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
-import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntroduction";
-import CFilter from "../../components/Filter/CFilter";
-import CProductCard from "../../components/ProductCard/CProductCard";
-import "./styles.advancedsearching.scss";
-import { motion } from "framer-motion";
-import DrawHomeImage1 from "../../images/homepage/home_img_1.png";
-import DrawHomeImage2 from "../../images/homepage/home_img_2.png";
-import DrawHomeImage3 from "../../images/homepage/home_img_3.png";
-import DrawHomeImage4 from "../../images/homepage/home_img_4.png";
-import DrawHomeImage5 from "../../images/homepage/home_img_5.png";
-import DrawHomeImage6 from "../../images/homepage/home_img_6.png";
-import DrawHomeImage7 from "../../images/homepage/home_img_7.png";
-import DrawHomeImage8 from "../../images/homepage/home_img_8.png";
-import DrawHomeImage9 from "../../images/homepage/home_img_9.png";
-import DrawHomeImage10 from "../../images/homepage/home_img_10.png";
-import DrawHomeImage11 from "../../images/homepage/home_img_11.png";
-import DrawHomeImage12 from "../../images/homepage/home_img_12.png";
-import DrawHomeImage13 from "../../images/homepage/home_img_13.png";
-import DrawHomeImage14 from "../../images/homepage/home_img_14.png";
-import DrawHomeImage15 from "../../images/homepage/home_img_15.png";
-import DrawHomeImage16 from "../../images/homepage/home_img_16.png";
-import Meta from "antd/lib/card/Meta";
+import { Col, Row } from "antd";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import { IFoodOfShop } from "../../common/sketch.interface";
+import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
+import CFilter from "../../components/Filter/CFilter";
 import CPagination from "../../components/Pagination/CPagination";
-import { IFilteredSketch } from "../../common/sketch.interface";
-import { resetCurrentSearchValueRequest } from "../../redux/controller";
+import CProductCard from "../../components/ProductCard/CProductCard";
+import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import "./styles.advancedsearching.scss";
 
 const AdvancedSeaching = () => {
     const navigate = useNavigate();
@@ -47,7 +26,7 @@ const AdvancedSeaching = () => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(12);
-    const [newfilteredSketchs, setNewFilteredSketchs] = useState<IFilteredSketch[]>();
+    const [newfilteredSketchs, setNewFilteredSketchs] = useState<IFoodOfShop[]>();
 
     useEffect(() => {
         document.body.scrollTo({
@@ -121,7 +100,7 @@ const AdvancedSeaching = () => {
                                     key={card._id}
                                 >
                                     <CProductCard
-                                        imageUrl={card.image}
+                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
                                         title={card.title}
                                         views={card.views}
                                         price={card.price}

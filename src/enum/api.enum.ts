@@ -3,7 +3,7 @@ export enum API_URL {
     GET_LATEST_SKETCH = "products/home/latest",
     GET_MOST_VIEWS_SKETCH = "products/home/most-views",
     GET_SKETCHS_BY_ARCHITECTURE = "products/by-type-of-architecture",
-    GET_SKETCH_BY_TYPE = "products/home",
+    GET_SKETCH_BY_TYPE = "foods/home",
     GET_ALL_TOOLS = "design-tools",
     GET_ALL_ARCHITECTURE = "type-of-architectures",
     GET_ALL_STYLE = "design-styles",
@@ -24,7 +24,7 @@ export enum API_URL {
     GET_PRODUCT_FILE_BY_ID = "product-files/by-id-product",
     ADD_SKETCH_TO_CART = "Carts/add-product-to-cart", // Thêm bản vẽ vào giỏ hàng
     GET_SKETCH_QUANTITY_IN_CART = "Carts/get-quantity-product-my-cart",
-    GET_ALL_SKETCH_IN_CART = "Carts/get-product-in-my-cart",
+    GET_ALL_FOOD_IN_CART = "orders/cart-by-user",
     PAYMENT = "VNPays/create-payment-url-payment-cart",
     GET_AUTHOR_BY_ID = "shop/profile",
     GET_SKETCH_LIST_BY_AUTHOR_ID = "foods/get-foods-by-shop",

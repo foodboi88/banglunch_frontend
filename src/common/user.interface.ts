@@ -10,7 +10,7 @@ export interface IAuthor {
     address?: string;
     totalRating?: number;
     totalProduct?: number;
-    createdAt: string;
+    createdAt?: string;
 }
 
 export interface IGetWithdrawRequest {
@@ -98,4 +98,4 @@ export interface IUser {
     role: string
     activeCode: string
     __v: number
-  }
+}
