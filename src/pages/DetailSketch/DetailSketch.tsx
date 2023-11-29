@@ -104,7 +104,7 @@ const DetailSketch = () => {
             const userId = Utils.getValueLocalStorage("user_id");
             dispatch(getDetailSketchPageContentRequest({
                 foodId,
-                userId
+                userId: userId || ''
             }));
             dispatch(getRatesBySketchIdRequest(foodId));
             

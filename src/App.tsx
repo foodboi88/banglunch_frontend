@@ -20,8 +20,8 @@ function App() {
             checkLogin = checkLogin.slice(1);
             checkLogin = checkLogin.slice(0, checkLogin.length - 1);
             dispatch(getUserInfoRequest(checkLogin));
+            dispatch(getAllSketchInCartRequest())
         }
-        dispatch(getAllSketchInCartRequest())
     }, []);
     return (
         <Spin spinning={loading} delay={500} tip="Đang lấy dữ liệu..." size="large">
