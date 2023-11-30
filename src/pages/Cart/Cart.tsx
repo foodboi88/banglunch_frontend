@@ -299,34 +299,6 @@ const Cart = () => {
                                     </div>
                                 </div>
                             ))}
-                        {/* <div className="discount">
-                            <Select
-                                className="select-discount"
-                                suffixIcon={<CaretDownOutlined />}
-                                placeholder="Chọn mã giảm giá"
-                            >
-                                <Option value="1">
-                                    Giảm 10% thành viên mới
-                                </Option>
-                                <Option value="2">
-                                    Mã giảm 5% tối đa 50.000VNĐ
-                                </Option>
-                                <Option value="3">
-                                    Mã giảm 3% tối đa 50.000VNĐ
-                                </Option>
-                            </Select>
-
-                            <Button type="primary">Áp dụng</Button>
-                        </div>
-                        <Radio.Group onChange={handleChangePaymentMethod}>
-                            <Space direction="vertical">
-                                {paymentMethodList.map((item) => (
-                                    <Radio value={item.value}>
-                                        {item.label}
-                                    </Radio>
-                                ))}
-                            </Space>
-                        </Radio.Group> */}
 
                         <div className="total-price">
                             <div className="total-price-title">Tổng tiền</div>

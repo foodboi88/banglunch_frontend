@@ -1,9 +1,8 @@
-import { motion } from "framer-motion";
-import "./styles.footer.scss";
-import Image1 from "../../images/footer/image1.png"
-import Image2 from "../../images/footer/image2.png"
 import { useEffect, useState } from "react";
+import Image1 from "../../images/footer/image1.png";
+import Image2 from "../../images/footer/image2.png";
 import Logo from "../../images/header/logo.png";
+import "./styles.footer.scss";
 const hoverVariants = {
     hover: {
         scale: 1.1,
@@ -52,7 +51,7 @@ export default function CFooter() {
                 <div className="row-1">
                     {!isReponsive &&
                         <div className="column-1">
-                            <div className="title-content"><img src={Logo} alt="" width={30} />CÔNG TY CỔ PHẦN XÂY DỰNG VRO</div>
+                            <div className="title-content"><img src={Logo} alt="" width={30} />SÀN THƯƠNG MẠI ĐIỆN TỬ MUA BÁN ĐỒ ĂN BANGLUNCH</div>
                             <div className="content">Giấy phép ĐKKD số: 123466 do Sở KH&ĐT Hà Nội cấp lần đầu ngày 01/01/1900</div>
                             <div style={{ display: 'flex', gap: 10 }}>
                                 <img src={Image1} alt="" width={150} />
@@ -115,7 +114,7 @@ export default function CFooter() {
                     </div>
                     {isReponsive &&
                         <div className="column-4">
-                            <div className="title-content">CÔNG TY CỔ PHẦN XÂY DỰNG VRO</div>
+                            <div className="title-content">SÀN THƯƠNG MẠI ĐIỆN TỬ MUA BÁN ĐỒ ĂN BANGLUNCH</div>
                             <div className="content">Giấy phép ĐKKD số: 123466 do Sở KH&ĐT Hà Nội cấp lần đầu ngày 01/01/1900</div>
                             <div className="content">Trụ sở: Lô 40 liền kề 7 Khu đô thị Tổng cục 5, Bộ Công an - Tân Triều - Thanh Trì - Hà Nội</div>
                             <div className="content">Điện thoại: 0866045577</div>

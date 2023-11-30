@@ -1,4 +1,5 @@
 import { RcFile } from "antd/lib/upload";
+import { IOrderDetail } from "./order.interface";
 import { IArchitecture } from "./tool.interface";
 import { IUser } from "./user.interface";
 
@@ -150,8 +151,9 @@ export interface IDetailFood {
     weight: string
     width: string
     seller: IUser
-    galleries: any[]
-    food_categories: IFoodCategory[]
+    galleries: IGallery[]
+    food_categories: IFoodCategory[],
+    order_details: IOrderDetail[]
 }
 
 export interface IFoodCategory {

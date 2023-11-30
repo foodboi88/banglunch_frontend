@@ -352,10 +352,10 @@ const Home = () => {
             <div className='header-homepage'>
                 <div className="left-header">
                     <div className="slogan">
-                        Ngôi nhà của tôi,<br />
-                        Phong cách của tôi.
+                        BangLunch,<br />
+                        Thiên đường ẩm thực.
                     </div>
-                    <div className="sub-slogan">Kho bản vẽ với đa dạng chủng loại, là sản phẩm tâm huyết từ các Công ty xây dựng và Kiến trúc sư trên khắp Việt Nam.
+                    <div className="sub-slogan">Tiết kiệm thời gian, cam kết phù hợp khẩu vị bất cứ ai. 
                     </div>
                     <div className="button-group">
                         {!isLogin &&
@@ -666,13 +666,19 @@ const Home = () => {
                     <div className="slogan">
                         <div>Lời chào từ BangLunch <strong>”</strong></div>
                     </div>
-                    <div className="wellcome">Kính gửi Quý khách hàng – những người luôn muốn đem lại những gì tốt đẹp nhất cho ngôi nhà thân yêu; Gửi các bạn Kiến trúc sư, đối tác Công ty Xây dựng đầy tâm huyết.<br />Với sứ mệnh kết nối để tạo nên những công trình tuyệt vời, VRO đã tạo nên một không gian mở giới thiệu những thiết kế và công ty Xây dựng, KTS tới khách hàng. Hãy cùng nhau xây dựng nên cộng đồng để tôn vinh cái đẹp, sự tối ưu cho những công trình thân yêu.
+                    <div className="wellcome">
+                        Công ty X xin gửi lời chào trân trọng đến Quý khách hàng. 
+
+Công ty X là một trong những doanh nghiệp sản xuất và kinh doanh các sản phẩm từ cà phê với quy mô lớn và uy tín tại Việt Nam với quy mô 10 nhà máy sản xuất, tổng diện tích xây dựng lên đến 15.000ha, lực lượng lao động trên 400 người. 
+
+Trải qua hơn 30 năm kinh nghiệm hoạt động, công ty đã không ngừng khẳng định vị thế thương hiệu trên thị trường và niềm tin đối với khách hàng. Hiện nay sản phẩm của công ty đã được xuất khẩu sang hơn 30 quốc gia và vùng lãnh thổ, cùng với hệ thống phân phối rộng khắp trong cả nước. 
+
                     </div>
                     <div className="info">
                         <img src={CEO} />
                         <div className="more">
                             <div className="name-more">Austin Do</div>
-                            <div className="content-more">Chủ tịch Công ty BangLunch</div>
+                            <div className="content-more">Chủ tịch hội đồng quản trị BangLunch</div>
                         </div>
                     </div>
                 </div>

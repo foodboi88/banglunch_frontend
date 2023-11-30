@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, Rate, Row, notification } from "antd";
+import { Breadcrumb, Button, Col, InputNumber, Rate, Row, notification } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -9,8 +9,8 @@ import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntr
 import CProductCard from "../../components/ProductCard/CProductCard";
 import "./styles.detailsketch.scss";
 
-import { IDetailFood, IFoodCategory, IImagesSketch } from "../../common/sketch.interface";
-import { IStyle, ITool } from "../../common/tool.interface";
+import { IUpdateFoodInCart } from "../../common/order.interface";
+import { IDetailFood, IFoodCategory, IGallery } from "../../common/sketch.interface";
 import Utils from "../../common/utils";
 import CComment from "../../components/Comment/CComment";
 import IconDetail1 from "../../images/detail/icon-detail-1.png";
@@ -28,12 +28,7 @@ const DetailSketch = () => {
         detailSketch,
         commentList,
         ratesLst,
-        productsFile,
-        authorIntroduction,
-        lstSketchsInCart,
-        checkPayment,
-        checkInCart,
-        latestSketchsList,
+        latestSketchsList
     } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
     const { tokenLogin, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
@@ -44,16 +39,11 @@ const DetailSketch = () => {
     const [numberOfCardShow, setNumberOfCardShow] = useState<number>(4);
     const [numberOfCardNext, setNumberOfCardNext] = useState<number>(4);
     const [currentIndex, setCurrentIndex] = useState(0);
-
-    const [designStyles, setDesignStyles] = useState<IStyle[]>([]);
-    const [designTools, setDesignTools] = useState<ITool[]>([]);
-    const [images, setImages] = useState<IImagesSketch[]>([]);
+    const [images, setImages] = useState<IGallery[]>([]);
     const [info, setInfo] = useState<IDetailFood>();
     const [typeOfArchitectures, setTypeOfArchitectures] = useState<
         IFoodCategory[]
     >([]);
-    const [isShowAddToCart, setIsShowAddToCart] = useState<boolean>(true);
-    const [isShowDownload, setIsShowDownload] = useState<boolean>(false);
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
@@ -107,25 +97,8 @@ const DetailSketch = () => {
                 userId: userId || ''
             }));
             dispatch(getRatesBySketchIdRequest(foodId));
-            
-            // if(tokenLogin) {
-            //     dispatch(getProductFilesByIdRequest(foodId));
-            // }
-
         }
     }, [foodId]);
-
-    useEffect(() => {
-        console.log(productsFile);
-        if (productsFile) {
-            setIsShowAddToCart(false)
-            setIsShowDownload(true);
-        }
-        else {
-            setIsShowAddToCart(true)
-            setIsShowDownload(false);
-        }
-    }, [productsFile]);
 
     // Kiểm tra xem có chi tiết bản vẽ hay không
     useEffect(() => {
@@ -133,19 +106,8 @@ const DetailSketch = () => {
             setImages(detailSketch.galleries);
             setInfo(detailSketch);
             setTypeOfArchitectures(detailSketch.food_categories);
-            // console.log(detailSketch);
         }
     }, [detailSketch]);
-
-    useEffect(() => {
-        if (commentList) {
-            // console.log("comment list: " + commentList);
-        }
-    }, [commentList]);
-
-    useEffect(() => {
-        // console.log(isShowAddToCart);
-    }, [isShowAddToCart])
 
     const handleNextCard = () => {
         setCurrentIndex(currentIndex + 1);
@@ -155,14 +117,16 @@ const DetailSketch = () => {
         setCurrentIndex(currentIndex - 1);
     };
 
-    const handleAddToCart = (sketchId: string) => {
+    const onChangeFoodInCart = (event: any) => {
         if (accesstokenExpired === false) {
 
-            const req = {
-                productId: sketchId,
-                additionalProp1: {},
+            const bodyrequest: IUpdateFoodInCart = {
+                foodId: detailSketch?._id || '',
+                sellerId: detailSketch?.sellerId || '',
+                quantity: event
             };
-            dispatch(addSketchToCartRequest(req));
+            console.log(bodyrequest)
+            dispatch(addSketchToCartRequest(bodyrequest));
         } else {
             notification.open({
                 message: "Bạn chưa đăng nhập",
@@ -178,6 +142,7 @@ const DetailSketch = () => {
             });
         }
     };
+
     const handleRoutingToAuthorPage = () => {
         navigate(`/author-page/${detailSketch?.seller._id}`);
     };
@@ -193,10 +158,6 @@ const DetailSketch = () => {
     const handleClickCard = (sketchId: string) => {
         console.log("sketchId", sketchId);
         navigate(`/detail-food/${sketchId}`);
-        // setTimeout(() => {
-        //     window.location.reload();
-        // }, 500);
-
     };
 
     return (
@@ -297,37 +258,24 @@ const DetailSketch = () => {
                                     </div>
                                 </div>
                                 <div className="action">
-                                    {isShowAddToCart &&
-                                        <motion.div
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.95 }}
+                                {
+                                    detailSketch?.order_details.length === 0 ?
+                                    <motion.div
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <Button
+                                            className="add-to-card"
+                                            onClick={() =>
+                                                onChangeFoodInCart(1)
+                                            }
                                         >
-                                            <Button
-                                                className="add-to-card"
-                                                onClick={() =>
-                                                    handleAddToCart(info._id)
-                                                }
-                                            >
-                                                Thêm vào giỏ hàng
-                                            </Button>
-                                        </motion.div>
-                                    }
-                                    {isShowDownload &&
-                                        <motion.div
-                                            whileHover={{ scale: 1.1 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            <Button className="download-now">
-                                                {productsFile ? (
-                                                    <a href={productsFile} download>
-                                                        Tải xuống ngay
-                                                    </a>
-                                                ) : (
-                                                    <a>Tải xuống ngay</a>
-                                                )}
-                                            </Button>
-                                        </motion.div>
-                                    }
+                                            Thêm vào giỏ hàng
+                                        </Button>
+                                    </motion.div>
+                                    :
+                                    <InputNumber min={1} max={10} defaultValue={3} onChange={onChangeFoodInCart} />
+                                }
                                 </div>
                             </>
                         )}

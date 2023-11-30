@@ -211,7 +211,7 @@ export const CHeader = (props: MyProps) => {
                     <div className="header-logo">
                         <Link to={"/"} className="logo-text">
                             <img src={Logo} />
-                            <div className="text-logo">Vro Group</div>
+                            <div className="text-logo">BangLunch</div>
                         </Link>
                     </div>
 
