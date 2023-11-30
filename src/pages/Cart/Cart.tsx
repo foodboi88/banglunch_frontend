@@ -16,6 +16,8 @@ import { IDetailSketch } from "../../common/sketch.interface";
 import { deleteSketchInCartRequest, purchaseWithVNPayRequest } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 import "./styles.cart.scss";
+import { IOrderDetail } from "../../common/order.interface";
+import TextArea from "antd/lib/input/TextArea";
 
 interface DataType {
     key: React.Key;
@@ -83,7 +85,7 @@ const Cart = () => {
         },
         {
             key: "2",
-            label: "Thuế VAT (chưa áp dụng)",
+            label: "Giá vận chuyển",
             value: deliveryCost,
         },
     ];
@@ -93,16 +95,16 @@ const Cart = () => {
         {
             title: `Tất cả (${sketchsQuantityInCart} sản phẩm)`,
             key: "title",
-            render: (record: any) => (
+            render: (record: IOrderDetail) => (
                 <div className="sketch-cart-info">
                     <div className="sketch-cart-info-img">
                         {/* <img src={sketch && sketch.images[0].filePath} alt="" /> */}
-                        <img style={{ width: "145px" }} src={record.image} alt="" />
+                        <img style={{ width: "145px" }} src={record.foods?.galleries[0]?.filePath || ''} alt="" />
                     </div>
                     <div className="sketch-cart-content">
                         <div className="sketch-cart-content-title">
                             {/* {sketch && sketch.info.title} */}
-                            {record.title && record.title}
+                            {record.foods?.title && record.foods?.title}
                         </div>
 
                     </div>
@@ -276,6 +278,143 @@ const Cart = () => {
                                     </div>
                                 </div>
                             ))}
+                        <div className="info-user">
+                            <div className="label-info-user">
+                                Tỉnh/Thành phố
+                            </div>
+                            <div className="value-info-user">
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="Search to Select"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                    filterSort={(optionA, optionB) =>
+                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={[
+                                    {
+                                        value: '1',
+                                        label: 'Not Identified',
+                                    },
+                                    {
+                                        value: '2',
+                                        label: 'Closed',
+                                    },
+                                    {
+                                        value: '3',
+                                        label: 'Communicated',
+                                    },
+                                    {
+                                        value: '4',
+                                        label: 'Identified',
+                                    },
+                                    {
+                                        value: '5',
+                                        label: 'Resolved',
+                                    },
+                                    {
+                                        value: '6',
+                                        label: 'Cancelled',
+                                    },
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className="info-user">
+                            <div className="label-info-user">
+                                Quận/Huyện
+                            </div>
+                            <div className="value-info-user">
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="Search to Select"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                    filterSort={(optionA, optionB) =>
+                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={[
+                                    {
+                                        value: '1',
+                                        label: 'Not Identified',
+                                    },
+                                    {
+                                        value: '2',
+                                        label: 'Closed',
+                                    },
+                                    {
+                                        value: '3',
+                                        label: 'Communicated',
+                                    },
+                                    {
+                                        value: '4',
+                                        label: 'Identified',
+                                    },
+                                    {
+                                        value: '5',
+                                        label: 'Resolved',
+                                    },
+                                    {
+                                        value: '6',
+                                        label: 'Cancelled',
+                                    },
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className="info-user">
+                            <div className="label-info-user">
+                                Xã/Phường
+                            </div>
+                            <div className="value-info-user">
+                                <Select
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="Search to Select"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                    filterSort={(optionA, optionB) =>
+                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={[
+                                    {
+                                        value: '1',
+                                        label: 'Not Identified',
+                                    },
+                                    {
+                                        value: '2',
+                                        label: 'Closed',
+                                    },
+                                    {
+                                        value: '3',
+                                        label: 'Communicated',
+                                    },
+                                    {
+                                        value: '4',
+                                        label: 'Identified',
+                                    },
+                                    {
+                                        value: '5',
+                                        label: 'Resolved',
+                                    },
+                                    {
+                                        value: '6',
+                                        label: 'Cancelled',
+                                    },
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                        <div className="info-user">
+                            <div className="label-info-user">
+                                Địa chỉ cụ thể
+                            </div>
+                            <div className="value-info-user">
+                                <TextArea/>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="right-content-cart-info-cart">

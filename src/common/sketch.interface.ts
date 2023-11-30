@@ -2,6 +2,7 @@ import { RcFile } from "antd/lib/upload";
 import { IOrderDetail } from "./order.interface";
 import { IArchitecture } from "./tool.interface";
 import { IUser } from "./user.interface";
+import { IGallery } from "./gallery.interface";
 
 export interface IReqGetLatestSketchs {
     size: number;
@@ -40,14 +41,6 @@ export interface IFoodOfShop {
     views: number;
     category: string;
     galleries: IGallery[]
-}
-
-export interface IGallery {
-    _id: string
-    fileName: string
-    filePath: string
-    isMain: boolean
-    foodId: string
 }
 
 export interface ICurrentSearchValue {

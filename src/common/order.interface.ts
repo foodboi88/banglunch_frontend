@@ -1,3 +1,5 @@
+import { IFood } from "./food.interface"
+
 export interface IOrderDetail {
   _id: string
   orderId: string
@@ -5,7 +7,7 @@ export interface IOrderDetail {
   quantity: number
   price: number
   __v: number
-  orders: IOrders
+  foods: IFood
 }
 
 export interface IOrders {
@@ -16,6 +18,7 @@ export interface IOrders {
   purchasedAt: any
   __v: number
   orderStatus: number
+  orderDetail: IOrderDetail[]
 }
 
 export interface IUpdateFoodInCart {

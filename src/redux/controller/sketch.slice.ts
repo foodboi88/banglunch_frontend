@@ -1714,7 +1714,7 @@ const addSketchToCart$: RootEpic = (action$) =>
                     return [
                         sketchSlice.actions.addSketchToCartSuccess(res),
                         sketchSlice.actions.getAllSketchInCartRequest(),
-                        sketchSlice.actions.getSketchQuantityInCartRequest()
+                        // sketchSlice.actions.getSketchQuantityInCartRequest()
                     ];
                 }),
                 catchError((err) => [sketchSlice.actions.addSketchToCartFail(err)])

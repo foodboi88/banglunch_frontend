@@ -182,6 +182,14 @@
                 .add-to-card.hide {
                     display: none !important;
                 }
+
+                .adjust-number{
+                    display: flex;
+                    gap: 1em;
+                    .ant-input-number{
+                        border-radius: 10px;
+                    }
+                }
             }
         }
     }
