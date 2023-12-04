@@ -1,8 +1,8 @@
 import { RcFile } from "antd/lib/upload";
+import { IGallery } from "./gallery.interface";
 import { IOrderDetail } from "./order.interface";
 import { IArchitecture } from "./tool.interface";
 import { IUser } from "./user.interface";
-import { IGallery } from "./gallery.interface";
 
 export interface IReqGetLatestSketchs {
     size: number;
@@ -86,12 +86,13 @@ export interface IDetailSketch {
     star: number | null;
 }
 export interface ISketchInCart {
-    title: string;
-    price: number;
-    collectionId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    id: string;
+    _id: string
+    orderId: string
+    foodId: string
+    quantity: number
+    price: number
+    __v: number
+    foods: IDetailFood
 }
 
 export interface IGetSketchRequest {
@@ -139,10 +140,10 @@ export interface IDetailFood {
     title: string
     createdAt: string
     sellerId: string
-    height: string
-    length: string
-    weight: string
-    width: string
+    height: number
+    length: number
+    weight: number
+    width: number
     seller: IUser
     galleries: IGallery[]
     food_categories: IFoodCategory[],

@@ -6,18 +6,18 @@ import {
 } from "@ant-design/icons";
 import {
     Button,
-    Modal,
     Select,
     Table,
     notification
 } from "antd";
+import TextArea from "antd/lib/input/TextArea";
+import { ICreateShippingOrder, IShippedFood } from "../../common/delivery.interface";
+import { IOrderDetail, IUpdateFoodInCart } from "../../common/order.interface";
 import { IPaymentRequest } from "../../common/payment.interface";
-import { IDetailSketch } from "../../common/sketch.interface";
-import { deleteSketchInCartRequest, purchaseWithVNPayRequest } from "../../redux/controller";
+import { IDetailSketch, ISketchInCart } from "../../common/sketch.interface";
+import { addSketchToCartRequest, createShippingOrderRequest, purchaseWithVNPayRequest } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 import "./styles.cart.scss";
-import { IOrderDetail } from "../../common/order.interface";
-import TextArea from "antd/lib/input/TextArea";
 
 interface DataType {
     key: React.Key;
@@ -42,15 +42,15 @@ const paymentMethodList = [
 const { Option } = Select;
 
 const Cart = () => {
-    const { lstSketchsInCart, sketchsQuantityInCart, vnpayLink, deliveryCost } =
+    const { lstSketchsInCart, sketchsQuantityInCart, vnpayLink, deliveryCost,deliveryDetail } =
         useSelectorRoot((state) => state.sketch);
-    const { tokenLogin, userName, userMail, userPhone } = useSelectorRoot((state) => state.login);
+    const { tokenLogin, userName, userMail, userPhone, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
     const dispatch = useDispatchRoot();
 
     const [voucherCode, setVoucherCode] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
-    const [tmpData, setTmpData] = useState<any>([]);
+    const [tmpData, setTmpData] = useState<any[]>([]);
     const [totalMoney, setTotalMoney] = useState(0);
     const [amount, setAmount] = useState(0);
 
@@ -81,12 +81,16 @@ const Cart = () => {
         {
             key: "1",
             label: "Tạm tính",
-            value: totalMoney,
+            value: totalMoney + '    VND',
         },
         {
             key: "2",
             label: "Giá vận chuyển",
-            value: deliveryCost,
+            value: (deliveryDetail?.total_fee || 0) + '    VND',
+        },{
+            key: "3",
+            label: "Thời gian nhận dự kiến",
+            value: new Date(deliveryDetail?.expected_delivery_time || ''),
         },
     ];
 
@@ -124,12 +128,12 @@ const Cart = () => {
                         <div className="sketch-cart-action">
                             <div
                                 className={
-                                    record.price === "MIỄN PHÍ"
+                                    record.price === 0
                                         ? "sketch-cart-action-new-price free"
                                         : "sketch-cart-action-new-price"
                                 }
                             >
-                                {record.price.toLocaleString().replace(/,/g, '.') + 'đ'} x {record.quantity}
+                                {record.foods.price.toLocaleString().replace(/,/g, '.') + 'đ'} x {record.quantity}
                             </div>
                             <div
                                 className="sketch-cart-action-delete"
@@ -150,6 +154,23 @@ const Cart = () => {
     useEffect(() => { // Set list sản phẩm khi dữ liệu trong db thay đổi
         if (lstSketchsInCart) {
             setTmpData(lstSketchsInCart);
+            const listFoods: IShippedFood[] = lstSketchsInCart.map(item => ({
+                name: item.foods.title,
+                quantity: item.quantity,
+                height: item.foods.height,
+                weight: item.foods.weight,
+                length: item.foods.length,
+                width: item.foods.width
+            }))
+            const bodyrequest: ICreateShippingOrder =
+            {
+                fromWardCode: "20314",
+                toWardCode: "510101",
+                toDistrictId: 1566,
+                items: listFoods
+            }
+            console.log(bodyrequest)
+            dispatch(createShippingOrderRequest(bodyrequest))
         }
     }, [lstSketchsInCart]);
 
@@ -157,7 +178,7 @@ const Cart = () => {
     useEffect(() => { // Set lại tổng tiền khi list sản phẩm thay đổi
         const totalMoney = tmpData.reduce((total: any, item: any) => total + item.price*item.quantity, 0)
         setTotalMoney(totalMoney);
-        const amount = totalMoney + deliveryCost;
+        const amount = totalMoney + deliveryDetail?.total_fee;
         setAmount(amount);
     }, [tmpData])
 
@@ -196,21 +217,30 @@ const Cart = () => {
             );
         },
     };
-    const onDeleteSketchInCart = (record: any) => {
-        console.log(record)
-        Modal.confirm({
-            title: "Bạn có muốn xóa sản phẩm này trong giỏ hàng?",
-            okText: "Có",
-            okType: "danger",
-            onOk: () => {
-                // setTmpData((pre: any) => {
-                //     return pre.filter(
-                //         (item: { key: any }) => item.key !== record.id
-                //     );
-                // });
-                dispatch(deleteSketchInCartRequest(record.id))
-            },
-        });
+    const onDeleteSketchInCart = (record: ISketchInCart) => {
+        if (accesstokenExpired === false) {
+            console.log(record);
+            const bodyrequest: IUpdateFoodInCart = {
+                foodId: record?.foodId || '',
+                sellerId: record?.foods.sellerId || '',
+                quantity: 0
+            };
+            console.log(bodyrequest)
+            dispatch(addSketchToCartRequest(bodyrequest));
+        } else {
+            notification.open({
+                message: "Phiên đăng nhập của bạn đã hết",
+                description: "Vui lòng đăng nhập lại để xóa sản phẩm giỏ!",
+
+                onClick: () => {
+                    console.log("Vui lòng đăng nhập để xóa sản phẩm giỏ!");
+                },
+                style: {
+                    marginTop: 50,
+                    paddingTop: 40,
+                },
+            });
+        }
     };
 
     const handleChangePaymentMethod = (e: any) => {
@@ -434,7 +464,7 @@ const Cart = () => {
                                         {item.label}
                                     </div>
                                     <div className="value-info-user">
-                                        {item.value.toLocaleString().replace(/,/g, '.') + ' VND'}
+                                        {item.value.toLocaleString().replace(/,/g, '.') }
                                     </div>
                                 </div>
                             ))}

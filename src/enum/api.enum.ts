@@ -55,7 +55,8 @@ export enum API_URL {
 
     GET_BANKS = "https://api.vietqr.io/v2/banks",
     GET_ACCOUNT_BANK_NAME = "https://api.vietqr.io/v2/lookup",
-    GET_PURCHASED_SKETCHS = "orders/product-purchased-product/all-role"
+    GET_PURCHASED_SKETCHS = "orders/product-purchased-product/all-role",
 
+    CREATE_SHIPPING_ORDER = "delivery/create-shipping-order"
 }
 

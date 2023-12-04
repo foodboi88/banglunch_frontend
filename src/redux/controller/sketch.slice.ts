@@ -11,6 +11,7 @@ import {
 } from "rxjs/operators";
 // import IdentityApi from "../../api/identity.api";
 import CommentsApi from "../../api/comment/comment.api";
+import DeliveryApi from "../../api/delivery/delivery.api";
 import FilterCriteriasApi from "../../api/filter-criterias/filter-criterias.api";
 import IdentityApi from "../../api/identity/identity.api";
 import ImageSketchApi from "../../api/image-sketch/image-sketch.api";
@@ -21,6 +22,7 @@ import SketchsApi from "../../api/sketchs/sketchs.api";
 import StatisticAPI from "../../api/statistic/statistic.api";
 import UserApi from "../../api/user/user.api";
 import { RootEpic } from "../../common/define-type";
+import { IDelivery } from "../../common/delivery.interface";
 import { IPaymentRequest } from "../../common/payment.interface";
 import { IBank, IBusiness, IReqFormArchitect, IReqLookUp } from "../../common/profile.interface";
 import { IRateList } from "../../common/rates.interface";
@@ -117,7 +119,7 @@ interface SketchState {
     shopDetail: IShopDetail | null,
     deliveryCost: number,
 
-
+    deliveryDetail: IDelivery | null,
 }
 
 const initState: SketchState = {
@@ -201,6 +203,8 @@ const initState: SketchState = {
     sellerInformation: undefined,
     shopDetail: null,
     deliveryCost: 0,
+
+    deliveryDetail: null
 };
 
 const sketchSlice = createSlice({
@@ -633,6 +637,26 @@ const sketchSlice = createSlice({
         },
         deleteSketchInCartFail(state, action: PayloadAction<any>) {
             state.loading = false;
+        },
+
+        //Cart
+        createShippingOrderRequest(state, action: PayloadAction<any>) {
+            state.loading = true;
+        },
+        createShippingOrderSuccess(state, action: PayloadAction<any>) {
+            state.loading = false;
+
+            state.deliveryDetail = action.payload.data;
+        },
+        createShippingOrderFail(state, action: PayloadAction<any>) {
+            state.loading = false;
+            notification.open({
+                message: "Bạn chưa chọn địa chỉ nhận món",
+                description: action.payload.response?.message ? "Vui lòng chọn địa chỉ nhận món" : 'Network error',
+                onClick: () => {
+                    console.log(action.payload.response?.message);
+                },
+            });
         },
 
         //Thanh toán
@@ -1705,10 +1729,7 @@ const addSketchToCart$: RootEpic = (action$) =>
         filter(addSketchToCartRequest.match),
         switchMap((re) => {
             console.log(re);
-            const req = {
-                productId: re.payload.productId,
-                additionalProp1: {},
-            };
+
             return SketchsApi.addSketchToCart(re.payload).pipe(
                 mergeMap((res: any) => {
                     return [
@@ -2257,8 +2278,26 @@ const resetCurrentSearchValue$: RootEpic = (action$) =>
         })
     )
 
+const createShippingOrder$: RootEpic = (action$) =>
+    action$.pipe(
+        filter(createShippingOrderRequest.match),
+        switchMap((re) => {
+            // IdentityApi.login(re.payload) ?
+            console.log(re);
+            return DeliveryApi.createShippingOrder(re.payload).pipe(
+                switchMap((res: any) => {
+                    return [
+                        sketchSlice.actions.createShippingOrderSuccess(res),
+                    ];
+                }),
+                catchError((err) => [sketchSlice.actions.createShippingOrderFail(err)])
+            );
+        })
+    );
+
 export const SketchEpics = [
     // uploadSketch$,
+    createShippingOrder$,
     resetCurrentSearchValue$,
     getHomeListSketch$,
     getFreeSketch$,
@@ -2373,6 +2412,8 @@ export const {
     sortFilteredSketchRequest,
 
     resetCurrentSearchValueRequest,
+
+    createShippingOrderRequest
 
 } = sketchSlice.actions;
 export const sketchReducer = sketchSlice.reducer;

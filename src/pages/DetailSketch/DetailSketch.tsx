@@ -9,6 +9,7 @@ import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntr
 import CProductCard from "../../components/ProductCard/CProductCard";
 import "./styles.detailsketch.scss";
 
+import { IGallery } from "../../common/gallery.interface";
 import { IUpdateFoodInCart } from "../../common/order.interface";
 import { IDetailFood, IFoodCategory } from "../../common/sketch.interface";
 import Utils from "../../common/utils";
@@ -21,15 +22,14 @@ import {
     getRatesBySketchIdRequest
 } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
-import { IGallery } from "../../common/gallery.interface";
 
 const DetailSketch = () => {
     const navigate = useNavigate();
     const {
         detailSketch,
-        commentList,
         ratesLst,
-        latestSketchsList
+        latestSketchsList,
+        lstSketchsInCart,
     } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
     const { tokenLogin, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
@@ -261,23 +261,9 @@ const DetailSketch = () => {
                                 </div>
                                 <div className="action">
                                 {
-                                    detailSketch?.order_details.length === 0 ?
-                                    <motion.div
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <Button
-                                            className="add-to-card"
-                                            onClick={() =>
-                                                onChangeFoodInCart(1)
-                                            }
-                                        >
-                                            Thêm vào giỏ hàng
-                                        </Button>
-                                    </motion.div>
-                                    :
+                                    lstSketchsInCart.find(orderedFood => orderedFood.foodId === detailSketch?._id) ? //Nếu sản phẩm đã có trong giỏ thì hiển thị selectbox chỉnh sửa số lượng
                                     <div className="adjust-number">
-                                        <InputNumber min={1} max={10} defaultValue={3} onChange={(event) => setNumberOfFoodInCart(event || 0)} />
+                                        <InputNumber min={0} max={10} defaultValue={1} onChange={(event) => setNumberOfFoodInCart(event || 0)} />
                                         <motion.div
                                             whileHover={{ scale: 1.1 }}
                                             whileTap={{ scale: 0.95 }}
@@ -292,6 +278,20 @@ const DetailSketch = () => {
                                             </Button>
                                         </motion.div>
                                     </div>
+                                    :
+                                    <motion.div
+                                        whileHover={{ scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <Button
+                                            className="add-to-card"
+                                            onClick={() =>
+                                                onChangeFoodInCart(1)
+                                            }
+                                        >
+                                            Thêm vào giỏ hàng
+                                        </Button>
+                                    </motion.div>
                                 }
                                 </div>
                             </>
