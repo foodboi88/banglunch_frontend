@@ -1,15 +1,16 @@
-import { Tooltip, Space, Modal, Divider } from 'antd';
+import { Space } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { motion } from 'framer-motion';
-import React, { useCallback, useEffect, useState } from 'react'
-import { IGetSketchRequest } from '../../common/sketch.interface';
-import { IGetUsersRequest } from '../../common/user.interface';
-import Utils from '../../common/utils';
-import CTable from '../../components/CTable/CTable';
-import { QUERY_PARAM } from '../../constants/get-api.constants';
-import { getBillListRequests, getDetailBillRequests, getPurchasedSketchsRequest } from '../../redux/controller';
-import { useSelectorRoot, useDispatchRoot } from '../../redux/store';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { IOrders } from '../../../common/order.interface';
+import { IGetSketchRequest } from '../../../common/sketch.interface';
+import { IGetUsersRequest } from '../../../common/user.interface';
+import Utils from '../../../common/utils';
+import CTable from '../../../components/CTable/CTable';
+import { QUERY_PARAM } from '../../../constants/get-api.constants';
+import { getPurchasedSketchsRequest } from '../../../redux/controller';
+import { useDispatchRoot, useSelectorRoot } from '../../../redux/store';
 
 const PurchasedSketchs = () => {
     const {
@@ -31,12 +32,12 @@ const PurchasedSketchs = () => {
 
 
     useEffect(() => {
-        dispatch(getPurchasedSketchsRequest(currentSearchValue))
+        dispatch(getPurchasedSketchsRequest())
     }, [])
 
 
 
-    const columns: ColumnType<any>[] = [
+    const columns: ColumnType<IOrders>[] = [
         {
             title: 'Số thứ tự',
             render: (_, __, rowIndex) => (
@@ -44,30 +45,58 @@ const PurchasedSketchs = () => {
             )
         },
         {
-            title: 'Tên bản vẽ',
+            title: 'Tên shop',
             key: 'product',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.product?.title}
+                    {record?.sellerId}
                 </div>
             )
         },
         {
-            title: 'Loại bản vẽ',
+            title: 'Thời gian đặt',
             key: 'product',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.product?.typeOfArchitecturesName}
+                    {record?.createdAt}
                 </div>
             )
         },
         {
-            title: 'Giá',
+            title: 'Trạng thái',
+            key: 'product',
+            render: (_, record) => (
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    {record?.orderStatus}
+                </div>
+            )
+        },
+        {
+            title: 'Thời gian giao dự kiến',
+            key: 'product',
+            render: (_, record) => (
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                    {record?.expectedDeliveryTime}
+                </div>
+            )
+        },
+        {
+            title: 'Giá vận chuyển',
             dataIndex: 'price',
             key: 'price',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'end' }}>
-                    {Utils.formatMoney(record?.product?.price) + ' VND'}
+                    {Utils.formatMoney(record?.deliveryCost) + ' VND'}
+                </div>
+            )
+        },
+        {
+            title: 'Giá tổng',
+            dataIndex: 'price',
+            key: 'price',
+            render: (_, record) => (
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'end' }}>
+                    
                 </div>
             )
         },
@@ -76,7 +105,7 @@ const PurchasedSketchs = () => {
             key: 'createdAt',
             render: (_, record) => (
                 <div>
-                    <img style={{ width: '109px' }} src={record?.product?.image} />
+                    <img style={{ width: '109px' }} src={ record?.orderDetail ? record?.orderDetail[0]?.foods?.galleries[0]?.filePath : ''} />
                 </div>
             )
         },
@@ -131,7 +160,7 @@ const PurchasedSketchs = () => {
     const onChangePagination = (event: any) => {
         currentSearchValue.offset = (event - 1) * QUERY_PARAM.size;
         setCurrentSearchValue(currentSearchValue);
-        dispatch(getPurchasedSketchsRequest(currentSearchValue))
+        dispatch(getPurchasedSketchsRequest())
         document.body.scrollTo({
             top: 0,
             behavior: "smooth"

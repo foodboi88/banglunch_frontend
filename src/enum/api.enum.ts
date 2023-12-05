@@ -25,7 +25,7 @@ export enum API_URL {
     ADD_SKETCH_TO_CART = "orders/update-food-in-cart", // Thêm bản vẽ vào giỏ hàng
     GET_SKETCH_QUANTITY_IN_CART = "Carts/get-quantity-product-my-cart",
     GET_ALL_FOOD_IN_CART = "orders/cart-by-user",
-    PAYMENT = "VNPays/create-payment-url-payment-cart",
+    PAYMENT = "orders/create-order",
     GET_AUTHOR_BY_ID = "shop/profile",
     GET_SKETCH_LIST_BY_AUTHOR_ID = "foods/get-foods-by-shop",
     DELETE_SKETCH_IN_CART = "Carts/delete-one-product",
@@ -55,7 +55,7 @@ export enum API_URL {
 
     GET_BANKS = "https://api.vietqr.io/v2/banks",
     GET_ACCOUNT_BANK_NAME = "https://api.vietqr.io/v2/lookup",
-    GET_PURCHASED_SKETCHS = "orders/product-purchased-product/all-role",
+    GET_PURCHASED_SKETCHS = "orders/orders-by-user",
 
     CREATE_SHIPPING_ORDER = "delivery/create-shipping-order"
 }

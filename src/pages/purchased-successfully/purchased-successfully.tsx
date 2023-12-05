@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import './purchased-successfully.styles.scss'
 import { Button, notification } from 'antd'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatchRoot, useSelectorRoot } from '../../redux/store'
-import { confirmPurchasedRequest } from '../../redux/controller'
 import { VnpayResponseCode } from '../../constants/purchase.constants'
+import { useSelectorRoot } from '../../redux/store'
+import './purchased-successfully.styles.scss'
 
 const PurchaseSuccessfully = () => {
     const {

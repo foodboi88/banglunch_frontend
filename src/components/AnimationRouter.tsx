@@ -1,27 +1,25 @@
-import React from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import Home from "../pages/home/Home";
-import Login from "../pages/login/Login";
-import AdvancedSeaching from "../pages/AdvancedSearching/AdvancedSeaching";
 import { AnimatePresence } from "framer-motion";
-import DetailSketch from "../pages/DetailSketch/DetailSketch";
-import UploadSketch from "../pages/seller/UploadSketch/UploadSketch";
-import Cart from "../pages/Cart/Cart";
-import AuthorPage from "../pages/AuthorPage/AuthorPage";
-import PrivateSellerRoutes from "./PrivateSellerRoutes";
-import PrivateBuyerRoutes from "./PrivateBuyerRoutes";
-import Profile from "../pages/Profile/Profile";
-import PurchaseSuccessfully from "../pages/purchased-successfully/purchased-successfully";
+import { Route, Routes, useLocation } from "react-router-dom";
+import BuyerLayout from "../layouts/buyer/buyer-layout";
 import SellerLayout from "../layouts/seller/seller-layout";
-import SellerWithdraw from "../pages/seller/seller-withdraw/seller-withdraw";
-import SellerGeneral from "../pages/seller/seller-general/seller-general";
-import SellerBill from "../pages/seller/seller-bill/seller-bill";
-import SellerSketchs from "../pages/seller/seller-sketchs/seller-sketchs";
-import ProfileResume from "../pages/Profile/profile-resume/ProfileResume";
-import ProfileBecomeSeller from "../pages/Profile/profile-become-seller/ProfileBecomeSeller";
-import PurchasedSketchs from "../pages/purchased-sketchs/purchased-sketchs";
 import ActiveAccount from "../pages/ActiveAccount/ActiveAccount";
+import AdvancedSeaching from "../pages/AdvancedSearching/AdvancedSeaching";
+import AuthorPage from "../pages/AuthorPage/AuthorPage";
+import Cart from "../pages/Cart/Cart";
+import DetailSketch from "../pages/DetailSketch/DetailSketch";
+import ProfileBecomeSeller from "../pages/buyer/profile-become-seller/ProfileBecomeSeller";
+import ProfileResume from "../pages/buyer/profile-resume/ProfileResume";
+import PurchasedSketchs from "../pages/buyer/purchased-sketchs/purchased-sketchs";
+import Home from "../pages/home/Home";
+import PurchaseSuccessfully from "../pages/purchased-successfully/purchased-successfully";
+import UploadSketch from "../pages/seller/UploadSketch/UploadSketch";
+import SellerBill from "../pages/seller/seller-bill/seller-bill";
+import SellerGeneral from "../pages/seller/seller-general/seller-general";
+import SellerSketchs from "../pages/seller/seller-sketchs/seller-sketchs";
+import SellerWithdraw from "../pages/seller/seller-withdraw/seller-withdraw";
 import ChangePassword from "./ChangePassword/ChangePassword";
+import PrivateBuyerRoutes from "./PrivateBuyerRoutes";
+import PrivateSellerRoutes from "./PrivateSellerRoutes";
 
 // Dùng để set animation cho các router với nhau
 const AnimationRouter = () => {
@@ -50,7 +48,7 @@ const AnimationRouter = () => {
                 {/* Trang người mua */}
                 <Route element={<PrivateBuyerRoutes />}>
 
-                    <Route path="/buyer" element={<Profile />}>
+                    <Route path="/buyer" element={<BuyerLayout />}>
                         <Route path="/buyer" element={<ProfileResume />}></Route>
                         <Route path="/buyer/become-seller" element={<ProfileBecomeSeller />}></Route>
                         <Route path="/buyer/purchased-sketchs" element={<PurchasedSketchs />}></Route>

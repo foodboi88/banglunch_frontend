@@ -23,7 +23,7 @@ import StatisticAPI from "../../api/statistic/statistic.api";
 import UserApi from "../../api/user/user.api";
 import { RootEpic } from "../../common/define-type";
 import { IDelivery } from "../../common/delivery.interface";
-import { IPaymentRequest } from "../../common/payment.interface";
+import { ICreateOrder, IOrders } from "../../common/order.interface";
 import { IBank, IBusiness, IReqFormArchitect, IReqLookUp } from "../../common/profile.interface";
 import { IRateList } from "../../common/rates.interface";
 import {
@@ -113,7 +113,7 @@ interface SketchState {
     lstBank: IBank[];
     accountBankName: string;
 
-    listPurchasedSketch: any[];
+    listPurchasedSketch: IOrders[];
     totalPurchasedSketch: number;
     sellerInformation: ISellerProfile | undefined,
     shopDetail: IShopDetail | null,
@@ -660,20 +660,17 @@ const sketchSlice = createSlice({
         },
 
         //Thanh toán
-        purchaseWithVNPayRequest(
+        purchaseRequest(
             state,
-            action: PayloadAction<IPaymentRequest>
+            action: PayloadAction<ICreateOrder>
         ) {
             state.loading = true;
         },
-        purchaseWithVNPaySuccess(state, action: PayloadAction<any>) {
+        purchaseSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
-            console.log(action.payload);
-            state.vnpayLink = action.payload;
         },
-        purchaseWithVNPayFail(state, action: PayloadAction<any>) {
+        purchaseFail(state, action: PayloadAction<any>) {
             state.loading = false;
-
         },
 
         // Get Author intro
@@ -1183,14 +1180,14 @@ const sketchSlice = createSlice({
         },
 
         // get list purchased sketch
-        getPurchasedSketchsRequest(state, action: PayloadAction<any>) {
+        getPurchasedSketchsRequest(state) {
             state.loading = true;
         },
 
         getPurchasedSketchsSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload);
-            state.listPurchasedSketch = action.payload.items;
+            state.listPurchasedSketch = action.payload.data;
         },
 
         getPurchasedSketchsFail(state, action: PayloadAction<any>) {
@@ -1801,16 +1798,15 @@ const getSketchQuantityInCart$: RootEpic = (action$) =>
 //chuyen san man thanh toan VNPay
 const purchaseWithVNPay$: RootEpic = (action$) =>
     action$.pipe(
-        filter(purchaseWithVNPayRequest.match),
+        filter(purchaseRequest.match),
         switchMap((re) => {
-            // IdentityApi.login(re.payload) ?
             console.log(re);
-            return PaymentApi.purchaseWithVNPay(re.payload).pipe(
+            return PaymentApi.purchase(re.payload).pipe(
                 mergeMap((res: any) => {
-                    return [sketchSlice.actions.purchaseWithVNPaySuccess(res)];
+                    return [sketchSlice.actions.purchaseSuccess(res)];
                 }),
                 catchError((err) => [
-                    sketchSlice.actions.purchaseWithVNPayFail(err),
+                    sketchSlice.actions.purchaseFail(err),
                 ])
             );
         })
@@ -2214,7 +2210,7 @@ const getPurchasedSketchs$: RootEpic = (action$) =>
             return SketchsApi.getPurchasedSketchs(re.payload).pipe(
                 switchMap((res: any) => {
                     return [
-                        sketchSlice.actions.getPurchasedSketchsSuccess(res.data),
+                        sketchSlice.actions.getPurchasedSketchsSuccess(res),
                     ]
                 }),
                 catchError((err) => [sketchSlice.actions.getPurchasedSketchsFail(err)])
@@ -2375,7 +2371,7 @@ export const {
     addSketchToCartRequest,
     getSketchQuantityInCartRequest,
     getAllSketchInCartRequest,
-    purchaseWithVNPayRequest,
+    purchaseRequest,
     getAuthorIntroductionByIdRequest,
     getSketchListByAuthorIdRequest,
     deleteSketchInCartRequest,

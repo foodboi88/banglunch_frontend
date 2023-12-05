@@ -15,6 +15,7 @@
         background-color: var(--black-color-v2) !important;
 
         .left-header {
+            margin-top: 80px;
             margin-right: 140px;
 
             .slogan {
@@ -63,7 +64,8 @@
             align-items: center;
 
             img {
-                width: 30vw;
+                width: 40vw;
+                border-radius: 20px;
             }
         }
 
@@ -120,7 +122,8 @@
 
         .right-footer {
             img {
-                width: 30vw;
+                width: 40vw;
+                border-radius: 20px;
             }
         }
 

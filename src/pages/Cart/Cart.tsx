@@ -12,10 +12,9 @@ import {
 } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { ICreateShippingOrder, IShippedFood } from "../../common/delivery.interface";
-import { IOrderDetail, IUpdateFoodInCart } from "../../common/order.interface";
-import { IPaymentRequest } from "../../common/payment.interface";
+import { ICreateOrder, IOrderDetail, IUpdateFoodInCart } from "../../common/order.interface";
 import { IDetailSketch, ISketchInCart } from "../../common/sketch.interface";
-import { addSketchToCartRequest, createShippingOrderRequest, purchaseWithVNPayRequest } from "../../redux/controller";
+import { addSketchToCartRequest, createShippingOrderRequest, purchaseRequest } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 import "./styles.cart.scss";
 
@@ -50,6 +49,10 @@ const Cart = () => {
 
     const [voucherCode, setVoucherCode] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
+    const [receivedProvince, setReceivedProvince] = useState("");
+    const [receivedDistrict, setReceivedDistrict] = useState("");
+    const [receivedWard, setReceivedWard] = useState("");
+
     const [tmpData, setTmpData] = useState<any[]>([]);
     const [totalMoney, setTotalMoney] = useState(0);
     const [amount, setAmount] = useState(0);
@@ -59,21 +62,17 @@ const Cart = () => {
         {
             key: "1",
             label: "Họ và tên",
-            // value: "Do Trung Hieu",
-
             value: `${userName}`,
         },
         {
             key: "2",
             label: "Email",
             value: `${userMail}`,
-            // value: "test@gmail.com",
         },
         {
             key: "3",
             label: "Số điện thoại",
             value: `${userPhone}`,
-            // value: "0965267JQK",
         },
     ];
 
@@ -151,7 +150,7 @@ const Cart = () => {
         },
     ];
 
-    useEffect(() => { // Set list sản phẩm khi dữ liệu trong db thay đổi
+    useEffect(() => { 
         if (lstSketchsInCart) {
             setTmpData(lstSketchsInCart);
             const listFoods: IShippedFood[] = lstSketchsInCart.map(item => ({
@@ -172,6 +171,7 @@ const Cart = () => {
             console.log(bodyrequest)
             dispatch(createShippingOrderRequest(bodyrequest))
         }
+        
     }, [lstSketchsInCart]);
 
 
@@ -180,7 +180,7 @@ const Cart = () => {
         setTotalMoney(totalMoney);
         const amount = totalMoney + deliveryDetail?.total_fee;
         setAmount(amount);
-    }, [tmpData])
+    }, [tmpData,deliveryDetail])
 
     useEffect(() => {
         if (lstSketchsInCart.length > 0 && vnpayLink) {
@@ -188,26 +188,6 @@ const Cart = () => {
         }
     }, [vnpayLink]);
 
-    useEffect(() => {
-        // window.location.reload();
-    }, []);
-
-    // const handleSetLstCart = async (lstSketchCart: ISketchInCart[]) => {
-    //     let tmp: IDetailSketch[] = []
-    //     for (let index = 0; index < lstSketchCart.length; index++) {
-    //         const element = lstSketchCart[index];
-    //         await SketchsApi.getValSketchById(element.id).then((res: any) => {
-    //             if (res.data.data) {
-    //                 tmp.push(res.data.data);
-    //             }
-    //         })
-    //     }
-    //     if (tmp && tmp.length > 0) {
-    //         console.log(tmp);
-    //         setTmpData(tmp);
-    //         return;
-    //     }
-    // }
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             console.log(
@@ -243,18 +223,10 @@ const Cart = () => {
         }
     };
 
-    const handleChangePaymentMethod = (e: any) => {
-        setPaymentMethod(e.target.value);
-    };
-
-    const caculateTax = () => {
-        return totalMoney * 0.08
-    }
-
     const paymentHandle = () => {
-        if (!paymentMethod) {
+        if (!receivedWard || !receivedDistrict || !receivedProvince) {
             notification.open({
-                message: "Vui lòng chọn phương thức thanh toán",
+                message: "Vui lòng chọn vị trí nhận hàng",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -264,12 +236,11 @@ const Cart = () => {
                 },
             });
         } else {
-            const bodyrequest: IPaymentRequest = {
-                bankCodeIn: paymentMethod,
-                voucher: voucherCode,
-                additionalProp1: {},
+            const bodyrequest: ICreateOrder = {
+                deliveryCost: deliveryDetail?.total_fee || 0,
+                expectedDeliveryTime: new Date(deliveryDetail?.expected_delivery_time || '')
             };
-            dispatch(purchaseWithVNPayRequest(bodyrequest));
+            dispatch(purchaseRequest(bodyrequest));
         }
     };
 

@@ -12,6 +12,8 @@ import { useDispatchRoot, useSelectorRoot } from "./redux/store";
 function App() {
     const dispatch = useDispatchRoot();
     const { loading } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
+    const { accesstokenExpired } = useSelectorRoot((state) => state.login); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
+
     useEffect(() => {
         let checkLogin = localStorage.getItem("token")
             ? localStorage.getItem("token")
@@ -22,15 +24,12 @@ function App() {
             dispatch(getUserInfoRequest(checkLogin));
             dispatch(getAllSketchInCartRequest())
         }
-    }, []);
+    }, [accesstokenExpired]);
     return (
         <Spin spinning={loading} delay={500} tip="Đang lấy dữ liệu..." size="large">
             <Layout>
                 <CHeader />
                 <AnimationRouter />
-                {/* {loading && <CLoading />} */}
-                {/* <CLoading /> */}
-
                 <CFooter />
             </Layout>
         </Spin>

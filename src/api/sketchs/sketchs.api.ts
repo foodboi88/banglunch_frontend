@@ -245,9 +245,9 @@ export default class SketchsApi {
 
     // get danh sach san pham da mua
     static getPurchasedSketchs(bodyrequest: any): Observable<any> {
-        const queryParam = Utils.parseObjectToQueryParameter(bodyrequest);
+        // const queryParam = Utils.parseObjectToQueryParameter(bodyrequest);
 
-        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_PURCHASED_SKETCHS}${queryParam}`;
+        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_PURCHASED_SKETCHS}`;
         return HttpClient.get(api).pipe(
             map(
                 (res) => (res as any) || null,

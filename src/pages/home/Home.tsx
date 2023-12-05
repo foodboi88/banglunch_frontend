@@ -14,17 +14,15 @@ import "./styles.home.scss";
 import { ICurrentSearchValue, IFilteredSketch, IReqGetLatestSketchs } from "../../common/sketch.interface";
 import CArchitectCard from "../../components/CArchitectCard/CArchitectCard";
 import CStyleCard from "../../components/CStyleCard/CStyleCard";
-import CDeclare from "../../components/Declare/CDeclare";
 import CProductCard from "../../components/ProductCard/CProductCard";
+import HomepageFooter from '../../images/homepage/A-Gastronomic-Journey-Through-Hvars-Finest-Restaurants.webp';
 import CEO from '../../images/homepage/CEO.png';
 import Company1 from '../../images/homepage/company.png';
-import Declare1 from '../../images/homepage/declare2.jpg';
 import ExcellentArchitect1 from "../../images/homepage/excellentArchitect1.png";
 import ExcellentArchitect2 from "../../images/homepage/excellentArchitect2.png";
 import ExcellentArchitect3 from "../../images/homepage/excellentArchitect3.png";
 import ExcellentArchitect4 from "../../images/homepage/excellentArchitect4.png";
-import HomepageFooter from '../../images/homepage/homepage-footer.png';
-import IntroImage from "../../images/homepage/introImage.png";
+import IntroImage from "../../images/homepage/intropic.jpg";
 import StyleList1 from "../../images/homepage/styleList1.png";
 import StyleList2 from "../../images/homepage/styleList2.png";
 import StyleList3 from "../../images/homepage/styleList3.png";
@@ -485,16 +483,16 @@ const Home = () => {
                 </div>
 
             </div>
-
+{/* 
             <CDeclare
                 content="Nhanh chóng tiện lợi"
                 imageUrl={Declare1}
-            />
+            /> */}
 
             {/* Top kiến trúc sư */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div>ĐẦU BẾP TÀI BA</div>
+                    <div>QUÁN ĂN ĐẮT KHÁCH</div>
                     <div className="sub-title">
                         <Col>
                             <Button
@@ -544,67 +542,12 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* Công ty bán bản vẽ */}
-            <div className="tool-of-web">
-                <div className="title">
-                    <div>SHOP ĐỒ ĂN NỔI BẬT
-                    </div>
-                    <div className="sub-title">
-                        <Col>
-                            <Button
-                                icon={<ArrowLeftOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('prev', 'company')}
-                                disabled={currentIndexCompany === 0 && true}
-                            />
-                        </Col>
-                        <Col>
-                            <Button
-                                icon={<ArrowRightOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('next', 'company')}
-                                disabled={
-                                    currentIndexCompany >= companyList.length - numberOfCardShow && true
-                                }
-                            />
-                        </Col>
-                    </div>
-                </div>
-                <div className="lst-tool architect-card">
 
-                    <Row gutter={[16, 16]}>
-                        {companyList
-                            .slice(
-                                currentIndexCompany,
-                                currentIndexCompany + numberOfCardShow
-                            )
-                            .map((card) => (
-                                <Col
-                                    // onClick={() => {
-                                    //     handleClickCard(card.id);
-                                    // }}
-                                    span={spanCol}
-                                >
-                                    <CStyleCard
-                                        imageUrl={card.imageUrl}
-                                        name={''}
-                                        id={''}
-                                    />
-                                    {/* <img */}
-                                    {/* src={card.imageUrl} */}
-                                    {/* /> */}
-                                </Col>
-                            ))}
-                    </Row>
-
-                </div>
-            </div>
-
-            <CDeclare
+            {/* <CDeclare
                 content="Phù hợp với khẩu vị của bạn"
                 imageUrl={Declare1}
 
-            />
+            /> */}
 
             {/* Bản vẽ bán chạy */}
             <div className="tool-of-web">

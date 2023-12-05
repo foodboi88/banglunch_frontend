@@ -18,7 +18,14 @@ export interface IOrders {
   purchasedAt: any
   __v: number
   orderStatus: number
-  orderDetail: IOrderDetail[]
+  orderDetail: IOrderDetail[],
+  deliveryCost: number,
+  expectedDeliveryTime: string
+}
+
+export interface ICreateOrder {
+  deliveryCost: number,
+  expectedDeliveryTime: Date
 }
 
 export interface IUpdateFoodInCart {
