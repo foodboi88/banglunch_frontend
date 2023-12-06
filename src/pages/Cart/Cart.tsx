@@ -11,6 +11,7 @@ import {
     notification
 } from "antd";
 import TextArea from "antd/lib/input/TextArea";
+import { useNavigate } from "react-router-dom";
 import { ICreateShippingOrder, IShippedFood } from "../../common/delivery.interface";
 import { ICreateOrder, IOrderDetail, IUpdateFoodInCart } from "../../common/order.interface";
 import { IDetailSketch, ISketchInCart } from "../../common/sketch.interface";
@@ -41,7 +42,8 @@ const paymentMethodList = [
 const { Option } = Select;
 
 const Cart = () => {
-    const { lstSketchsInCart, sketchsQuantityInCart, vnpayLink, deliveryCost,deliveryDetail } =
+    const navigate = useNavigate();
+    const { lstSketchsInCart, sketchsQuantityInCart,deliveryDetail, purchaseResponse } =
         useSelectorRoot((state) => state.sketch);
     const { tokenLogin, userName, userMail, userPhone, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
@@ -182,12 +184,6 @@ const Cart = () => {
         setAmount(amount);
     }, [tmpData,deliveryDetail])
 
-    useEffect(() => {
-        if (lstSketchsInCart.length > 0 && vnpayLink) {
-            window.location.replace(`${vnpayLink}`);
-        }
-    }, [vnpayLink]);
-
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             console.log(
@@ -241,8 +237,14 @@ const Cart = () => {
                 expectedDeliveryTime: new Date(deliveryDetail?.expected_delivery_time || '')
             };
             dispatch(purchaseRequest(bodyrequest));
+            navigate(`/buyer/purchased-sketchs`);
         }
     };
+
+    // useEffect(() => {
+    //     if (purchaseResponse) {
+    //     }
+    // },[purchaseResponse])
 
     return (
         <div className="main-cart">
@@ -293,6 +295,7 @@ const Cart = () => {
                                     filterSort={(optionA, optionB) =>
                                     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
+                                    onChange={(event)=>setReceivedProvince(event)}
                                     options={[
                                     {
                                         value: '1',
@@ -336,6 +339,7 @@ const Cart = () => {
                                     filterSort={(optionA, optionB) =>
                                     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
+                                    onChange={(event)=>setReceivedDistrict(event)}
                                     options={[
                                     {
                                         value: '1',
@@ -379,6 +383,7 @@ const Cart = () => {
                                     filterSort={(optionA, optionB) =>
                                     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                     }
+                                    onChange={(event)=>setReceivedWard(event)}
                                     options={[
                                     {
                                         value: '1',
@@ -448,7 +453,7 @@ const Cart = () => {
                         </div>
                     </div>
 
-                    <Button className="to-payment" onClick={paymentHandle}>
+                    <Button className="to-payment" disabled={sketchsQuantityInCart === 0 ? true : false} onClick={paymentHandle}>
                         Đặt món
                     </Button>
                 </div>

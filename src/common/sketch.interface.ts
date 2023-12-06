@@ -1,4 +1,3 @@
-import { RcFile } from "antd/lib/upload";
 import { IGallery } from "./gallery.interface";
 import { IOrderDetail } from "./order.interface";
 import { IArchitecture } from "./tool.interface";
@@ -117,17 +116,11 @@ export interface ISellerStatisticSketch {
 }
 
 export interface IUploadSketchRequest {
-    title?: string,
-    imageUploadLst?: RcFile,
-    fileUploadLst?: RcFile,
-    size?: string,
-    price?: string,
-    content?: string,
-    productDesignStyles?: string, // Set default value
-    productDesignTools?: string,
-    productTypeOfArchitecture?: string,
-    note?: string
-    id?: string
+    title: string,
+    price: number,
+    content: string,
+    id: string,
+    category: string[]
 };
 
 export interface IDetailFood {

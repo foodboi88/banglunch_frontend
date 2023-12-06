@@ -35,6 +35,7 @@ interface LoginState {
     userPhone: string | undefined;
     accesstokenExpired: boolean;
     userRole: string;
+    userId: string;
 }
 
 const initState: LoginState = {
@@ -54,6 +55,7 @@ const initState: LoginState = {
     registerSuccess: false,
     accesstokenExpired: true,
     userRole: Utils.getValueLocalStorage("role") ? Utils.getValueLocalStorage("role") : 'user',
+    userId: Utils.getValueLocalStorage("user_id"),
 };
 
 const loginSlice = createSlice({
@@ -116,6 +118,7 @@ const loginSlice = createSlice({
             Utils.setLocalStorage("userPhone", action.payload.user.phone);
             Utils.setLocalStorage("user_id", action.payload.user.id);
 
+            state.userId = action.payload.user.id;
             state.userName = action.payload.user.name;
             state.userMail = action.payload.user.email;
             state.userPhone = action.payload.user.phone;

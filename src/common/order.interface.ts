@@ -1,4 +1,5 @@
 import { IFood } from "./food.interface"
+import { IUser } from "./user.interface"
 
 export interface IOrderDetail {
   _id: string
@@ -18,9 +19,10 @@ export interface IOrders {
   purchasedAt: any
   __v: number
   orderStatus: number
-  orderDetail: IOrderDetail[],
+  order_details: IOrderDetail[],
   deliveryCost: number,
-  expectedDeliveryTime: string
+  expectedDeliveryTime: string,
+  seller?: IUser
 }
 
 export interface ICreateOrder {

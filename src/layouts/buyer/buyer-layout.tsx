@@ -42,7 +42,7 @@ const BuyerLayout = () => {
                 }
                 }>
                     <BsShop className='profile-navbar-item-icon' />
-                    <span className='profile-navbar-item-text'>Sản phẩm đã mua</span>
+                    <span className='profile-navbar-item-text'>Lịch sử mua hàng</span>
                 </div>
                 <div className={'profile-navbar-item' + (active === 3 ? ' active' : '')} onClick={() => {
                     setActive(3)

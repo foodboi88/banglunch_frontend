@@ -201,7 +201,7 @@ export default class SketchsApi {
         const queryParam = Utils.parseObjectToQueryParameter(bodyrequest);
 
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.DELETE_PRODUCT}${queryParam}`;
-        return HttpClient.delete(api).pipe(
+        return HttpClient.delete(api, bodyrequest).pipe(
             map(
                 (res) => (res as any) || null,
                 catchError((error) => new Observable())
@@ -215,12 +215,7 @@ export default class SketchsApi {
             title: bodyrequest.title,
             content: bodyrequest.content,
             price: bodyrequest.price,
-            productDesignTools: [
-                bodyrequest.productDesignTools
-            ],
-            productTypeOfArchitecture: [
-                bodyrequest.productTypeOfArchitecture
-            ],
+            category: [bodyrequest?.category || '']
         }
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.EDIT_PRODUCT}/${bodyrequest.id}`;
         return HttpClient.put(api, finalBodyrequest).pipe(

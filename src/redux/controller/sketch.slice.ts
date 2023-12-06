@@ -120,6 +120,7 @@ interface SketchState {
     deliveryCost: number,
 
     deliveryDetail: IDelivery | null,
+    purchaseResponse: any,
 }
 
 const initState: SketchState = {
@@ -204,7 +205,8 @@ const initState: SketchState = {
     shopDetail: null,
     deliveryCost: 0,
 
-    deliveryDetail: null
+    deliveryDetail: null,
+    purchaseResponse: null,
 };
 
 const sketchSlice = createSlice({
@@ -357,8 +359,7 @@ const sketchSlice = createSlice({
             console.log("Da chui vao voi action: ", action);
         },
 
-        getAllArchitecturesRequest(state, action: PayloadAction<any>) {
-            console.log("Da chui vao voi action: ", action);
+        getAllArchitecturesRequest(state) {
         },
 
         getAllArchitecturesSuccess(state, action: PayloadAction<any>) {
@@ -579,7 +580,7 @@ const sketchSlice = createSlice({
             state.sketchsQuantityInCart = action.payload.quantity;
             notification.open({
                 message: "Thành công",
-                description: "Thêm sản phẩm vào giỏ hàng thành công",
+                description: "Chỉnh sửa giỏ hàng thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -668,9 +669,11 @@ const sketchSlice = createSlice({
         },
         purchaseSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
+            state.purchaseResponse = action.payload.data;
         },
         purchaseFail(state, action: PayloadAction<any>) {
             state.loading = false;
+            state.purchaseResponse = action.payload
         },
 
         // Get Author intro
@@ -953,7 +956,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: "Xóa bản vẽ không thành công",
+                description: action?.payload?.message || "Xóa bản vẽ không thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1399,7 +1402,7 @@ const getAllFitlerCriterias$: RootEpic = (action$) =>
             };
 
             return [
-                sketchSlice.actions.getAllArchitecturesRequest(bodyrequest),
+                sketchSlice.actions.getAllArchitecturesRequest(),
                 sketchSlice.actions.getAllStylesRequest(bodyrequest),
                 sketchSlice.actions.getAllToolsRequest(bodyrequest),
                 sketchSlice.actions.getAllFilterCriteriasSuccess(),
@@ -1450,7 +1453,7 @@ const getAllArchitectures$: RootEpic = (action$) =>
             // IdentityApi.login(re.payload) ?
             console.log(re);
 
-            return FilterCriteriasApi.getArchitectures(re.payload).pipe(
+            return FilterCriteriasApi.getArchitectures().pipe(
                 mergeMap((res: any) => {
                     console.log(res);
 
@@ -1803,7 +1806,10 @@ const purchaseWithVNPay$: RootEpic = (action$) =>
             console.log(re);
             return PaymentApi.purchase(re.payload).pipe(
                 mergeMap((res: any) => {
-                    return [sketchSlice.actions.purchaseSuccess(res)];
+                    return [
+                        sketchSlice.actions.purchaseSuccess(res),
+                        sketchSlice.actions.getAllSketchInCartRequest(),
+                    ];
                 }),
                 catchError((err) => [
                     sketchSlice.actions.purchaseFail(err),
@@ -1976,7 +1982,7 @@ const deleteSketch$: RootEpic = (action$) =>
             console.log(re);
 
             const bodyrequest = {
-                productId: re.payload.productId
+                foodId: re.payload.foodId
             }
 
             return SketchsApi.deleteSketchOfArchitect(bodyrequest).pipe(
@@ -1984,10 +1990,10 @@ const deleteSketch$: RootEpic = (action$) =>
                     console.log(re.payload)
                     return [
                         sketchSlice.actions.deleteSketchSuccess(res.data),
-                        sketchSlice.actions.getSketchByArchitectRequest(re.payload.currentSearchValue)
+                        sketchSlice.actions.getSketchListByAuthorIdRequest(res.data.sellerId)
                     ];
                 }),
-                catchError((err) => [sketchSlice.actions.createWithdrawRequestFail(err)])
+                catchError((err) => [sketchSlice.actions.deleteSketchSuccess(err)])
             );
         })
     );
@@ -2250,7 +2256,7 @@ const editSketch$: RootEpic = (action$) =>
                     console.log(re.payload)
                     return [
                         sketchSlice.actions.editSketchSuccess(res.data),
-                        sketchSlice.actions.getSketchByArchitectRequest(bodyrequest)
+                        sketchSlice.actions.getSketchListByAuthorIdRequest(res.data.sellerId)
                     ];
                 }),
                 catchError((err) => [sketchSlice.actions.editSketchFail(err)])

@@ -1,12 +1,10 @@
-import { SelectProps, UploadFile, UploadProps, Steps, Form, Input, Checkbox, Radio, Button, Upload, Modal } from "antd";
-import { CheckboxValueType } from "antd/lib/checkbox/Group";
+import { Form, Input, Modal, Radio } from "antd";
 import TextArea from "antd/lib/input/TextArea";
-import { RcFile } from "antd/lib/upload";
-import { useState, useEffect } from "react";
-import { TEXT_INPUT, TEXT_FIELD } from "../../enum/common.enum";
-import { editSketchRequest, getAllFilterCriteriasRequest, uploadSketchRequest } from "../../redux/controller";
-import { useSelectorRoot, useDispatchRoot } from "../../redux/store";
+import { useEffect, useState } from "react";
 import { IUploadSketchRequest } from "../../common/sketch.interface";
+import { TEXT_FIELD, TEXT_INPUT } from "../../enum/common.enum";
+import { editSketchRequest, getAllArchitecturesRequest } from "../../redux/controller";
+import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 
 
 
@@ -20,30 +18,11 @@ type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 
 const CModalEditSketch = (props: MyProps) => {
-    const [searchType, setSearchType] = useState(""); // Biến lưu giá trị tìm kiếm loại bản vẽ
-    const [selectTitle, setSelectTitle] = useState(props.data? props.data.title : ''); // Biến lưu giá trị tiêu đề bản vẽ
-    const [imageUploadLst, setImageUpload] = useState<UploadFile[]>([]); // Biến lưu giá trị ảnh bản vẽ đã upload
-    const [fileUploadLst, setFileUploadList] = useState<RcFile[]>([]); // Biến lưu giá trị file bản vẽ đã upload
-    const [selectPrice, setSelectPrice] = useState(props.data? props.data.price : ''); // Biến lưu giá trị giá bản vẽ
-    const [note, setNote] = useState(props.data? props.data.note : ''); // Biến lưu giá trị ghi chú bản vẽ
-    const [selectTool, setSelectTool] = useState<CheckboxValueType[]>([props.data? props.data.productDesignTools as CheckboxValueType : '']); // Biến lưu giá trị công cụ vẽ bản vẽ
-    const [selectCategory, setSelectCategory] = useState(
-        [props.data? props.data.productTypeOfArchitecture  : '']
-    ); // Biến lưu giá trị danh mục bản vẽ
     const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
-
-
-    const { checkProductsFile, toolList, architectureList, styleList } = useSelectorRoot((state) => state.sketch); // Lst cac ban ve        
+    const { architectureList } = useSelectorRoot((state) => state.sketch); // Lst cac ban ve        
     const dispatch = useDispatchRoot();
-
     const [form] = Form.useForm();
-
-
-
     const formItemLayout = formLayout === 'horizontal' ? { labelCol: { span: 6 }, wrapperCol: { span: 18 } } : null;
-
-
-
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
@@ -61,31 +40,16 @@ const CModalEditSketch = (props: MyProps) => {
     });
 
     useEffect(() => {
-        dispatch(getAllFilterCriteriasRequest())
+        dispatch(getAllArchitecturesRequest())
         console.log(props.data)
     }, [])
 
 
     const handleUploadSketch = () => {
-        
-
-
-        
-
-        // const bodyrequestTest = {
-        //     imageUploadLst: imageUploadLst,
-        //     fileUploadLst: fileUploadLst,
-        //     id: "6423f410c55e590e7080e5fa",
-        // };
         console.log(form.getFieldsValue())
         const bodyrequest = {...form.getFieldsValue(),id: props?.data?.id}
         dispatch(editSketchRequest(bodyrequest));
-
         props.setOpenModalEdit(false)
-
-
-        // dispatch(uploadFileSketchRequest(bodyrequestTest));
-        // dispatch(uploadImageSketchRequest(bodyrequestTest));
     };
 
 
@@ -123,26 +87,14 @@ const CModalEditSketch = (props: MyProps) => {
                                     maxLength={TEXT_INPUT.MAX_LENGTH}
                                 />
                         </Form.Item>
-                        
-                        <Form.Item
-                            label="Công cụ"
-                            name="productDesignTools"
-                        >
-                            <Radio.Group
-                                className="lst-tool"
-                                options={toolList}
-                
-                            />
-                        </Form.Item>
 
                         <Form.Item
-                            label="Kiến trúc"
-                            name="productTypeOfArchitecture"
+                            label="Loại đồ ăn"
+                            name="category"
                         >
                             <Radio.Group
                                 className="lst-category"
                                 options={architectureList}
-                       
                             />
                         </Form.Item>
                         

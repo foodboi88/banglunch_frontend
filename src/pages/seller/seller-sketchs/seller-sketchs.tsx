@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatchRoot, useSelectorRoot } from '../../../redux/store';
-import { createWithdrawRequest, deleteSketchRequest, getSketchByArchitectRequest, getSketchStatisticRequest } from '../../../redux/controller';
-import { Space, Modal, Input, Button } from 'antd';
+import { Modal, Space } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { IGetWithdrawRequest } from '../../../common/user.interface';
 import Utils from '../../../common/utils';
 import CTable from '../../../components/CTable/CTable';
-import { QUERY_PARAM } from '../../../constants/get-api.constants';
-import { IFilteredSketch, ISketch, IUploadSketchRequest } from '../../../common/sketch.interface';
 import TotalBox from '../../../components/TotalBox/TotalBox';
-import SketchCancel from '../../../images/seller-product/document-cancel.png'
-import Sketch from '../../../images/seller-product/document-text.png'
+import { QUERY_PARAM } from '../../../constants/get-api.constants';
+import SketchCancel from '../../../images/seller-product/document-cancel.png';
+import Sketch from '../../../images/seller-product/document-text.png';
+import { deleteSketchRequest, getSketchListByAuthorIdRequest } from '../../../redux/controller';
+import { useDispatchRoot, useSelectorRoot } from '../../../redux/store';
 
-import './seller-sketchs.styles.scss'
+import { IFood } from '../../../common/food.interface';
 import CModalEditSketch from '../../../components/ModalEditSketch/CModalEditSketch';
+import './seller-sketchs.styles.scss';
 
 const SellerSketchs = () => {
     const {
         sketchsOfArchitect,
         totalSketchRecords,
         sketchStatistic,
+        shopDetail
     } = useSelectorRoot((state) => state.sketch);
+
+    const {
+        userId
+    } = useSelectorRoot((state) => state.login);
 
     const [textSearch, setTextSearch] = useState('');
     const [beginDate, setBeginDate] = useState('');
@@ -40,18 +45,13 @@ const SellerSketchs = () => {
 
     useEffect(() => {
         dispatch(
-
-            getSketchByArchitectRequest(currentSearchValue)
-        )
-        dispatch(
-
-            getSketchStatisticRequest()
+            getSketchListByAuthorIdRequest(userId)
         )
     }, [])
 
 
 
-    const columns: ColumnType<any>[] = [
+    const columns: ColumnType<IFood>[] = [
         {
             title: 'Số thứ tự',
             render: (_, __, rowIndex) => (
@@ -81,37 +81,13 @@ const SellerSketchs = () => {
             )
         },
         {
-            title: 'Phong cách',
-            dataIndex: 'designStyle',
-            key: 'designStyle',
-            render: (_, record) => (
-                <span>{record.designStyle.name}</span>
-            )
-        },
-        {
-            title: 'Kiến trúc',
-            dataIndex: 'typeOfArchitecture',
-            key: 'typeOfArchitecture',
-
-            render: (_, record) => (
-                <span>{record.typeOfArchitecture.name}</span>
-            )
-        },
-        {
             title: 'Hình ảnh',
             dataIndex: 'image',
             key: 'image',
             render: (_, record) => (
-                <img src={record.image} style={{ width: "150px" }} />
+                <img src={record.galleries[0] ? record.galleries[0]?.filePath : ''} style={{ width: "150px" }} />
             )
         },
-        //   {
-        //     title: 'updatedAt',
-        //     dataIndex: 'updatedAt',
-        //     key: 'updatedAt',
-        // },
-
-
         {
             title: 'Thao tác',
             key: 'action',
@@ -142,19 +118,18 @@ const SellerSketchs = () => {
 
     const handleOpenDelete = (record: any) => {
         setOpenModalDelete(true);
-        setIdSketch(record.id)
+        setIdSketch(record._id)
     }
 
-    const handleOpenEdit = (record: any) => {
+    const handleOpenEdit = (record: IFood) => {
         setOpenModalEdit(true);
         console.log(record)
-        const selectedSketch: IUploadSketchRequest =  {
+        const selectedSketch: any =  {
             title: record.title,
             price: record.price,
             content: record.content,
-            productDesignTools: record.designTools[0].id,
-            productTypeOfArchitecture: record.typeOfArchitecture.id,
-            id: record.id
+            id: record._id,
+            category: record.food_categories[0] ? record.food_categories[0]?.categoryId : ''
         };
         setEditSketch(selectedSketch);
     }
@@ -163,7 +138,7 @@ const SellerSketchs = () => {
 
         const bodyrequest = {
 
-            productId: idSketch,
+            foodId: idSketch,
             currentSearchValue: currentSearchValue
         }
         dispatch(deleteSketchRequest(bodyrequest));
@@ -195,7 +170,7 @@ const SellerSketchs = () => {
         };
         const finalBody = Utils.getRidOfUnusedProperties(body)
         setCurrentSearchValue(finalBody);
-        dispatch(getSketchByArchitectRequest(finalBody))
+        // dispatch(getSketchByArchitectRequest(finalBody))
     }
 
     const onChangePagination = (event: any) => {
@@ -205,7 +180,7 @@ const SellerSketchs = () => {
         });
         currentSearchValue.offset = (event - 1) * QUERY_PARAM.size;
         setCurrentSearchValue(currentSearchValue);
-        dispatch(getSketchByArchitectRequest(currentSearchValue))
+        // dispatch(getSketchByArchitectRequest(currentSearchValue))
     }
 
     return (
@@ -233,8 +208,9 @@ const SellerSketchs = () => {
                         cancelText={'Hủy'}
                         closable={true}
                         onCancel={() => setOpenModalDelete(false)}
+                        
                     >
-                        <span>Bạn có chắc chắn muốn xóa bản vẽ này không?</span>
+                        <span>Bạn có chắc chắn muốn xóa đồ ăn này không?</span>
                     </Modal>
                 </div>
             }
@@ -260,7 +236,7 @@ const SellerSketchs = () => {
                     onChangeInput={onChangeInput}
                     onChangeRangePicker={onChangeRangePicker}
                     onSearch={onSearch}
-                    data={sketchsOfArchitect}
+                    data={shopDetail?.foods}
                     titleOfColumnList={columns}
                     totalRecord={totalSketchRecords}
                     onChangePagination={onChangePagination}

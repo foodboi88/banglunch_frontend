@@ -199,7 +199,7 @@ const Home = () => {
             offset: 0,
         };
         dispatch(getHomeListSketchRequest());
-        dispatch(getAllArchitecturesRequest(bodyrequest));
+        dispatch(getAllArchitecturesRequest());
         handleSearch('64231026edf9dd11e488c250');
     }, []);
 

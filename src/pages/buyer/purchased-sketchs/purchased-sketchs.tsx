@@ -3,19 +3,22 @@ import { ColumnType } from 'antd/lib/table';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { OrderStatus } from '../../../common/order.constant';
 import { IOrders } from '../../../common/order.interface';
 import { IGetSketchRequest } from '../../../common/sketch.interface';
 import { IGetUsersRequest } from '../../../common/user.interface';
 import Utils from '../../../common/utils';
 import CTable from '../../../components/CTable/CTable';
 import { QUERY_PARAM } from '../../../constants/get-api.constants';
+import { OrderStatusEnums } from '../../../enum/order.enum';
 import { getPurchasedSketchsRequest } from '../../../redux/controller';
 import { useDispatchRoot, useSelectorRoot } from '../../../redux/store';
 
 const PurchasedSketchs = () => {
     const {
         totalPurchasedSketch,
-        listPurchasedSketch
+        listPurchasedSketch,
+        purchaseResponse
     } = useSelectorRoot((state) => state.sketch);
     const [openModal, setOpenModal] = useState(false);
     const [textSearch, setTextSearch] = useState('');
@@ -35,7 +38,11 @@ const PurchasedSketchs = () => {
         dispatch(getPurchasedSketchsRequest())
     }, [])
 
-
+    useEffect(() => {
+        if (purchaseResponse) {
+            dispatch(getPurchasedSketchsRequest())
+        }
+    },[purchaseResponse])
 
     const columns: ColumnType<IOrders>[] = [
         {
@@ -49,7 +56,7 @@ const PurchasedSketchs = () => {
             key: 'product',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.sellerId}
+                    {record?.seller?.name || ''}
                 </div>
             )
         },
@@ -58,7 +65,7 @@ const PurchasedSketchs = () => {
             key: 'product',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.createdAt}
+                    {new Date(record?.createdAt || '').toUTCString()}
                 </div>
             )
         },
@@ -67,7 +74,7 @@ const PurchasedSketchs = () => {
             key: 'product',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.orderStatus}
+                    {OrderStatus[record?.orderStatus as keyof typeof OrderStatus]}
                 </div>
             )
         },
@@ -76,7 +83,7 @@ const PurchasedSketchs = () => {
             key: 'product',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.expectedDeliveryTime}
+                    {record?.expectedDeliveryTime ? new Date(record?.expectedDeliveryTime || '').toUTCString() : ''}
                 </div>
             )
         },
@@ -96,16 +103,7 @@ const PurchasedSketchs = () => {
             key: 'price',
             render: (_, record) => (
                 <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'end' }}>
-                    
-                </div>
-            )
-        },
-        {
-            title: 'Ảnh',
-            key: 'createdAt',
-            render: (_, record) => (
-                <div>
-                    <img style={{ width: '109px' }} src={ record?.orderDetail ? record?.orderDetail[0]?.foods?.galleries[0]?.filePath : ''} />
+                    {Utils.caculateTotalPrice(record.order_details,record.deliveryCost)} VND
                 </div>
             )
         },
@@ -113,9 +111,17 @@ const PurchasedSketchs = () => {
             title: 'Thao tác',
             key: 'action',
             render: (_, record) => (
-                <Space size="middle">
-                    <a onClick={(event) => handleDetail(record)}>Chi tiết</a>
-                </Space>
+                <div>
+                    <Space size="middle">
+                        <a onClick={(event) => handleDetail(record)}>Chi tiết</a>
+                    </Space>
+                    {
+                        record.orderStatus === OrderStatusEnums.Shipping &&
+                        <Space size="middle">
+                            <a onClick={(event) => handleAddComment(record)}>Đánh giá</a>
+                        </Space>
+                    }
+                </div>
             ),
         },
 
@@ -128,6 +134,9 @@ const PurchasedSketchs = () => {
 
     const handleDetail = (record: any) => {
         navigate(`/detail-sketch/${record?.product?.id}`)
+    }
+
+    const handleAddComment = (record: any) => {
     }
 
     const onChangeInput = (event: any) => {
