@@ -26,3 +26,14 @@ export interface IFoodCategory {
   categoryId: string
   __v: number
 }
+
+export interface ICreateFood {
+  title: string
+  content: string
+  price: number
+  weight: number
+  length: number
+  width: number
+  height: number
+  category: string,
+}

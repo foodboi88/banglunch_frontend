@@ -157,7 +157,6 @@ const SellerSketchs = () => {
     }
 
     const onSearch = () => {
-        console.log('hehee')
         const body: IGetWithdrawRequest = {
             size: QUERY_PARAM.size,
             offset: 0,

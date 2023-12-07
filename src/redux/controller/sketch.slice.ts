@@ -1655,29 +1655,16 @@ const uploadContentSketch$: RootEpic = (action$) =>
             // IdentityApi.login(re.payload) ?
             console.log(re);
 
-            const bodyrequest = {
-                // searchType: searchType,
-                // selectedType: selectedType,
-                title: re.payload.title,
-                // selectedTag: selectTag,
-                // imageUploadLst: re.payload.imageUploadLst,
-                // fileUploadLst: re.payload.fileUploadLst,
-                size: re.payload.size,
-                price: re.payload.price,
-                content: re.payload.content,
-                productDesignStyles: re.payload.productDesignStyles,
-                productDesignTools: re.payload.productDesignTools[0].value,
-                productTypeOfArchitecture: re.payload.productTypeOfArchitecture[0].value,
-            };
+            const [imageUploadLst, ...bodyrequest] = re.payload
+
 
 
 
             return SketchsApi.uploadSketchContent(bodyrequest).pipe(
                 switchMap((res: any) => {
                     console.log(res);
-                    res = { ...res.data, ...re.payload };
+                    res = { ...res.data, imageUploadLst };
                     return [
-                        sketchSlice.actions.uploadFileSketchRequest(res),
                         sketchSlice.actions.uploadImageSketchRequest(res),
                     ];
                 }),

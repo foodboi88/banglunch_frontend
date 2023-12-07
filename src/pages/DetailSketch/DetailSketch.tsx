@@ -28,8 +28,8 @@ const DetailSketch = () => {
     const {
         detailSketch,
         ratesLst,
-        latestSketchsList,
         lstSketchsInCart,
+        mostViewedSketchList
     } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
     const { tokenLogin, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
@@ -328,7 +328,7 @@ const DetailSketch = () => {
                         />
                     </Col>
                     <Row gutter={[16, 16]}>
-                        {latestSketchsList
+                        {mostViewedSketchList
                             .slice(
                                 currentIndexLatestSketch,
                                 currentIndexLatestSketch + numberOfCardShow
@@ -342,7 +342,7 @@ const DetailSketch = () => {
                                     key={card._id}
                                 >
                                     <CProductCard
-                                        imageUrl={card.image}
+                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
                                         title={card.title}
                                         views={card.views}
                                         price={card.price}
@@ -359,7 +359,7 @@ const DetailSketch = () => {
                             className="btn-icon"
                             onClick={handleNextCardLatestSketch}
                             disabled={
-                                currentIndexLatestSketch >= latestSketchsList.length - numberOfCardShow && true
+                                currentIndexLatestSketch >= mostViewedSketchList.length - numberOfCardShow && true
                             }
                         />
                     </Col>
