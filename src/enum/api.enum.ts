@@ -10,8 +10,8 @@ export enum API_URL {
     GET_DETAIL_FOOD = "foods/get-detail-food",
     GET_COMMENTS_BY_SKETCH_ID = "comments",
     ADVANCED_SEARCHING = "products/filter",
-    UPLOAD_IMAGE_OF_SKETCH = "product-images",
-    UPLOAD_CONTENT_OF_SKETCH = "products",
+    UPLOAD_IMAGE_OF_SKETCH = "gallery/create-food-image",
+    UPLOAD_CONTENT_OF_SKETCH = "foods/create-food",
     UPLOAD_FILES_OF_SKETCH = "product-files",
     LOGIN = "users/login",
     REGISTER = "users/register",
@@ -37,7 +37,7 @@ export enum API_URL {
     VNPAY_RETURN = "VNPays/vnpay_return",
     GET_OVERVIEW_STATISTIC = "architect/overview-statistic",
     GET_HOT_PRODUCTS = "architect/overview-top-hot-product",
-    GET_BILL = "architect/get-all-order-by-seller",
+    GET_BILL = "orders/orders-by-seller",
     GET_BILL_DETAIL = "architect/order",
     SKETCH_MANAGEMENT = "architect/product-management",
     DELETE_PRODUCT = "foods/delete-by-id",
@@ -57,6 +57,7 @@ export enum API_URL {
     GET_ACCOUNT_BANK_NAME = "https://api.vietqr.io/v2/lookup",
     GET_PURCHASED_SKETCHS = "orders/orders-by-user",
 
-    CREATE_SHIPPING_ORDER = "delivery/create-shipping-order"
+    CREATE_SHIPPING_ORDER = "delivery/create-shipping-order",
+    APPROVE_ORDER = "orders/approve-order"
 }
 

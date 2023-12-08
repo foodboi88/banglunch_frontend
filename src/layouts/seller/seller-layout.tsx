@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { AiOutlineGift, AiOutlineSetting } from 'react-icons/ai';
-import { BiGridAlt, BiPurchaseTagAlt } from 'react-icons/bi';
+import { BiGridAlt } from 'react-icons/bi';
 import { BsShop } from 'react-icons/bs';
 
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -51,14 +51,6 @@ const SellerLayout = () => {
 						<BiGridAlt className='profile-navbar-item-icon' />
 						<span className='profile-navbar-item-text'>Hồ sơ cá nhân</span>
 					</div>
-					<div className={'profile-navbar-item' + (active === 9 ? ' active' : '')} onClick={() => {
-						setActive(9)
-						navigate('/seller/cart')
-					}
-					}>
-						<BsShop className='profile-navbar-item-icon' />
-						<span className='profile-navbar-item-text'>Giỏ hàng</span>
-					</div>
 					<div className={'profile-navbar-item' + (active === 2 ? ' active' : '')} onClick={() => {
 						setActive(2)
 						navigate("/seller/management-sketch")
@@ -80,14 +72,6 @@ const SellerLayout = () => {
 					}}>
 						<AiOutlineGift className='profile-navbar-item-icon' />
 						<span className='profile-navbar-item-text'>Upload đồ ăn</span>
-					</div>
-					<div className={'profile-navbar-item' + (active === 8 ? ' active' : '')} onClick={() => {
-						setActive(8)
-						navigate('/seller/purchased-sketchs')
-					}
-					}>
-						<BiPurchaseTagAlt className='profile-navbar-item-icon' />
-						<span className='profile-navbar-item-text'>Sản phẩm đã mua</span>
 					</div>
 				</div>
 				<div className='profile-content'>

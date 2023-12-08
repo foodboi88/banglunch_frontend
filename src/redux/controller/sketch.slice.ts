@@ -15,6 +15,7 @@ import DeliveryApi from "../../api/delivery/delivery.api";
 import FilterCriteriasApi from "../../api/filter-criterias/filter-criterias.api";
 import IdentityApi from "../../api/identity/identity.api";
 import ImageSketchApi from "../../api/image-sketch/image-sketch.api";
+import OrderApi from "../../api/order/order.api";
 import PaymentApi from "../../api/payment/payment.api";
 import ProfileAPI from "../../api/profile/profile.api";
 import RatesApi from "../../api/rates/rates.api";
@@ -38,7 +39,7 @@ import {
 } from "../../common/sketch.interface";
 import { IOverViewStatictis, IOverViewStatictisDay, IOverViewStatictisMonth, IOverViewStatictisQuarter, IOverViewStatictisYear, IStatictisSellerDay, IStatictisUserDay } from "../../common/statistic.interface";
 import { ITool } from "../../common/tool.interface";
-import { IAuthor, IBill, IHotProducts, IOverViewStatistic, ISellerProfile, IUser } from "../../common/user.interface";
+import { IAuthor, IHotProducts, IOverViewStatistic, ISellerProfile, IUser } from "../../common/user.interface";
 import Utils from "../../common/utils";
 import { QUERY_PARAM } from "../../constants/get-api.constants";
 
@@ -95,7 +96,7 @@ interface SketchState {
     totalWithdrawRequestRecord: number;
     overViewStatistic: IOverViewStatistic | undefined;
     hotProducts: IHotProducts[];
-    billList: IBill[];
+    billList: IOrders[];
     totalBillRecord: number;
     detailBill: any | undefined
     sketchsOfArchitect: ISketch[];
@@ -652,7 +653,7 @@ const sketchSlice = createSlice({
         createShippingOrderFail(state, action: PayloadAction<any>) {
             state.loading = false;
             notification.open({
-                message: "Bạn chưa chọn địa chỉ nhận món",
+                message: action.payload.response?.message,
                 description: action.payload.response?.message ? "Vui lòng chọn địa chỉ nhận món" : 'Network error',
                 onClick: () => {
                     console.log(action.payload.response?.message);
@@ -861,8 +862,8 @@ const sketchSlice = createSlice({
         getBillListSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload)
-            state.billList = action.payload.items
-            state.totalBillRecord = action.payload.total
+            state.billList = action.payload
+            // state.totalBillRecord = action.payload.total
 
         },
         getBillListFail(state, action: PayloadAction<any>) {
@@ -1265,6 +1266,37 @@ const sketchSlice = createSlice({
                 },
             });
         },
+
+        approveOrderRequest(state, action: PayloadAction<any>) {
+            state.loading = true;
+
+        },
+
+        approveOrderSuccess(state, action: PayloadAction<any>) {
+            state.loading = false;
+            // state.checkWhetherSketchUploaded += 1;
+            // if (state.checkWhetherSketchUploaded % 2 === 0) {
+            // Cu chia het cho 2 thi la up file thanh cong
+            notification.open({
+                message: "Thành công",
+                description: "Cập nhật bản vẽ thành công",
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+            });
+            // }
+        },
+
+        approveOrderFail(state, action: PayloadAction<any>) {
+            state.loading = false;
+            notification.open({
+                message: "Thất bại",
+                description: "Duyệt đơn thất bại",
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+            });
+        },
     },
 });
 
@@ -1591,31 +1623,20 @@ const uploadImageSketch$: RootEpic = (action$) =>
     action$.pipe(
         filter(uploadImageSketchRequest.match),
         switchMap((re) => {
-            // IdentityApi.login(re.payload) ?
             console.log(re);
-
-            const { id, imageUploadLst } = re.payload;
-            const file = imageUploadLst[0] as File;
-
             let imageData = new FormData();
             re.payload.imageUploadLst.forEach((item: any) => {
                 imageData.append("files", item as File); // chinh lai ten file anh sau
             });
-            // imageData.append("file", file);
-            imageData.append("productId_in", re.payload.id);
-
-            // const bodyrequest = {
-            //     productId_in: re.payload.id,
-            //     files: re.payload.imageUploadLst,
-            // };
+            imageData.append("foodId", re.payload.id);
 
             return ImageSketchApi.uploadSketchImage(imageData).pipe(
                 mergeMap((res: any) => {
                     console.log(res);
                     return [
                         sketchSlice.actions.uploadImageSketchSuccess(),
-                        // sketchSlice.actions.uploadFileSketchRequest(res),
-                        // sketchSlice.actions.uploadSketchSuccess(res), // vao luu gia tri check thanh cong lan 1
+                        sketchSlice.actions.uploadContentSketchSuccess(res),
+                        sketchSlice.actions.uploadSketchSuccess(res)
                     ];
                 }),
                 catchError((err) => [sketchSlice.actions.uploadSketchFail(err)])
@@ -1655,10 +1676,7 @@ const uploadContentSketch$: RootEpic = (action$) =>
             // IdentityApi.login(re.payload) ?
             console.log(re);
 
-            const [imageUploadLst, ...bodyrequest] = re.payload
-
-
-
+            const { imageUploadLst, ...bodyrequest } = re.payload
 
             return SketchsApi.uploadSketchContent(bodyrequest).pipe(
                 switchMap((res: any) => {
@@ -2012,7 +2030,7 @@ const getBillList$: RootEpic = (action$) =>
             console.log(re);
 
 
-            return UserApi.getBillList(re.payload).pipe(
+            return OrderApi.getBillList(re.payload).pipe(
                 mergeMap((res: any) => {
                     return [
                         sketchSlice.actions.getBillListSuccess(res.data),
@@ -2284,6 +2302,28 @@ const createShippingOrder$: RootEpic = (action$) =>
         })
     );
 
+const approveOrder$: RootEpic = (action$) =>
+    action$.pipe(
+        filter(approveOrderRequest.match),
+        switchMap((re) => {
+            // IdentityApi.login(re.payload) ?
+            console.log(re);
+            const getBillBodyrequest = {
+                size: QUERY_PARAM.size,
+                offset: 0
+            }
+            return OrderApi.approveOrder(re.payload).pipe(
+                switchMap((res: any) => {
+                    return [
+                        sketchSlice.actions.approveOrderSuccess(res),
+                        sketchSlice.actions.getBillListRequests(getBillBodyrequest)
+                    ];
+                }),
+                catchError((err) => [sketchSlice.actions.approveOrderFail(err)])
+            );
+        })
+    );
+
 export const SketchEpics = [
     // uploadSketch$,
     createShippingOrder$,
@@ -2340,7 +2380,8 @@ export const SketchEpics = [
     getAccountBankName$,
     getPurchasedSketchs$,
     getSellerProfile$,
-    editSketch$
+    editSketch$,
+    approveOrder$
 ];
 export const {
     getLatestSketchRequest,
@@ -2402,7 +2443,9 @@ export const {
 
     resetCurrentSearchValueRequest,
 
-    createShippingOrderRequest
+    createShippingOrderRequest,
+
+    approveOrderRequest
 
 } = sketchSlice.actions;
 export const sketchReducer = sketchSlice.reducer;

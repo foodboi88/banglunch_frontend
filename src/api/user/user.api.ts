@@ -1,8 +1,8 @@
 import { Observable } from "rxjs/internal/Observable";
 import { catchError, map } from "rxjs/operators";
+import Utils from "../../common/utils";
 import { API_URL } from "../../enum/api.enum";
 import HttpClient from "../http-client";
-import Utils from "../../common/utils";
 
 export default class UserApi {
     static apiURL = API_URL;
@@ -58,18 +58,6 @@ export default class UserApi {
         const queryParam = Utils.parseObjectToQueryParameter(body);
         console.log(queryParam)
         const api = `${UserApi.apiURL.HOST}/${this.apiURL.VNPAY_RETURN}${queryParam}`;
-        return HttpClient.get(api).pipe(
-            map(
-                (res) => (res as any) || null,
-                catchError((error) => new Observable())
-            )
-        );
-    }
-
-    static getBillList(body: any): Observable<any> {
-        const queryParam = Utils.parseObjectToQueryParameter(body);
-        console.log(queryParam)
-        const api = `${UserApi.apiURL.HOST}/${this.apiURL.GET_BILL}${queryParam}`;
         return HttpClient.get(api).pipe(
             map(
                 (res) => (res as any) || null,

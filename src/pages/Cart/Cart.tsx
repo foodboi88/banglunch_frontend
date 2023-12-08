@@ -12,7 +12,6 @@ import {
 } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { useNavigate } from "react-router-dom";
-import { ICreateShippingOrder, IShippedFood } from "../../common/delivery.interface";
 import { ICreateOrder, IOrderDetail, IUpdateFoodInCart } from "../../common/order.interface";
 import { IDetailSketch, ISketchInCart } from "../../common/sketch.interface";
 import { addSketchToCartRequest, createShippingOrderRequest, purchaseRequest } from "../../redux/controller";
@@ -155,20 +154,13 @@ const Cart = () => {
     useEffect(() => { 
         if (lstSketchsInCart) {
             setTmpData(lstSketchsInCart);
-            const listFoods: IShippedFood[] = lstSketchsInCart.map(item => ({
-                name: item.foods.title,
-                quantity: item.quantity,
-                height: item.foods.height,
-                weight: item.foods.weight,
-                length: item.foods.length,
-                width: item.foods.width
-            }))
-            const bodyrequest: ICreateShippingOrder =
+            const listFoods: string[] = lstSketchsInCart.map(item => item._id)
+            const bodyrequest: any =
             {
                 fromWardCode: "20314",
                 toWardCode: "510101",
                 toDistrictId: 1566,
-                items: listFoods
+                items: [listFoods]
             }
             console.log(bodyrequest)
             dispatch(createShippingOrderRequest(bodyrequest))

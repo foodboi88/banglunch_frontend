@@ -354,7 +354,8 @@ class Utils {
         return object;
     }
 
-    static caculateTotalPrice(detailOrderList: IOrderDetail[], deliveryCost: number) {
+    static caculateTotalPrice(detailOrderList: IOrderDetail[], deliveryCost?: number) {
+        if (!deliveryCost) deliveryCost = 0;
         const totalMoney = detailOrderList.reduce((total: any, item: any) => total + item.price * item.quantity, 0)
         const amount = totalMoney + deliveryCost;
         return this.formatMoney(amount)

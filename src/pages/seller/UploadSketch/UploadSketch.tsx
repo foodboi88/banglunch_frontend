@@ -187,7 +187,7 @@ const UploadSketch = () => {
                                             <Input
                                                 type="number"
                                                 className="search-input"
-                                                placeholder="Nhập phí download"
+                                                placeholder="Nhập giá món"
                                                 min={0}
                                                 maxLength={TEXT_INPUT.MAX_LENGTH}
                                             />

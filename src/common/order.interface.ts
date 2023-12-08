@@ -22,7 +22,8 @@ export interface IOrders {
   order_details: IOrderDetail[],
   deliveryCost: number,
   expectedDeliveryTime: string,
-  seller?: IUser
+  seller?: IUser,
+  user?: IUser
 }
 
 export interface ICreateOrder {
