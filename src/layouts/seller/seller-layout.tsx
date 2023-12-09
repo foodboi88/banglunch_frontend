@@ -6,10 +6,16 @@ import { BsShop } from 'react-icons/bs';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import './seller-layout.styles.scss';
+import { Switch } from 'antd';
+import { useDispatchRoot, useSelectorRoot } from '../../redux/store';
+import { getShopStatusRequest, updateShopStatusRequest } from '../../redux/controller';
 
 const SellerLayout = () => {
 	const navigate = useNavigate();
 	const [active, setActive] = useState<number>(0)
+	const {shopStatus } = useSelectorRoot((state) => state.login);
+	const [status, setStatus] = useState(false);
+	const dispatch = useDispatchRoot()
 
 	useEffect(() => {
 		document.body.scrollTo({
@@ -18,11 +24,14 @@ const SellerLayout = () => {
 		});
 	}, [navigate]);
 
+	useEffect(()=>{
+		dispatch(getShopStatusRequest())
+	},[])
+
 	useEffect(() => {
 		if (window.location.pathname === "/seller") setActive(1);
 		if (window.location.pathname === "/seller/management-sketch") setActive(2);
 		if (window.location.pathname === "/seller/order") setActive(3);
-
 		if (window.location.pathname === "/seller/upload-sketch") setActive(6);
 		if (window.location.pathname === "/seller/withdraw") setActive(7);
 		if (window.location.pathname === "/seller/purchased-sketchs") setActive(8);
@@ -31,11 +40,28 @@ const SellerLayout = () => {
 		if (window.location.pathname === "/seller/change-password") setActive(13);
 	}, []);
 
+	useEffect(()=> {
+		setStatus(shopStatus)
+	},[shopStatus])
+
+	const changeShopStatus = (event: any) => {
+		console.log(event);
+		const bodyRequest = {
+			shopStatus: event,
+			additionalProp1: {}
+		  }
+		dispatch(
+            updateShopStatusRequest(bodyRequest)
+        )
+	}
 
 	return (
 		<div>
 			<div className="main-profile">
 				<div className='profile-navbar'>
+					<div>
+						Trạng thái quán: <Switch checkedChildren="Mở cửa" unCheckedChildren="Đóng cửa" onClick={changeShopStatus} defaultChecked={shopStatus} />
+					</div>
 					<div className={'profile-navbar-item' + (active === 1 ? ' active' : '')} onClick={() => {
 						setActive(1)
 						navigate('/seller')

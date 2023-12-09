@@ -18,6 +18,8 @@ export enum API_URL {
     REFRESH_TOKEN = "users/refreshtoken",
     GET_USER_INFO = "users/profile",
     CHANGE_PASSWORD = "users/changepassword",
+    UPDATE_SHOP_STATUS = "sellers/shop-status",
+
 
     GET_SELLER_INFO = "sellers/profile",
     GET_RATES_BY_SKETCH_ID = "comments/get-comments-by-food",

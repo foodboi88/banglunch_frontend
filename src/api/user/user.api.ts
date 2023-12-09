@@ -85,5 +85,24 @@ export default class UserApi {
             )
         );
     }
+    
+    static updateShopStatus(body: any): Observable<any> {
+        const api = `${UserApi.apiURL.HOST}/${this.apiURL.UPDATE_SHOP_STATUS}`;
+        return HttpClient.put(api, body).pipe(
+            map(
+                (res) => (res as any) || null,
+                catchError((error) => new Observable())
+            )
+        );
+    }
 
+    static getShopStatus(): Observable<any> {
+        const api = `${UserApi.apiURL.HOST}/${this.apiURL.UPDATE_SHOP_STATUS}`;
+        return HttpClient.get(api).pipe(
+            map(
+                (res) => (res as any) || null,
+                catchError((error) => new Observable())
+            )
+        );
+    }
 }

@@ -18,6 +18,11 @@
         border-right: 1px solid #DFDFDF;
         padding-right: 3em;
 
+        .ant-switch-checked {
+            background-color: #22d50c;
+        }
+
+
         .profile-navbar-item {
             display: flex;
             align-items: center;

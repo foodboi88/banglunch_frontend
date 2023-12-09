@@ -272,16 +272,19 @@ export const CHeader = (props: MyProps) => {
                             </>
                         ) : (
                             <>
-                                <div className="icon-group">
-                                    <Badge
-                                        count={sketchsQuantityInCart}
-                                        size="default"
-                                    >
-                                        <ShoppingCartOutlined
-                                            onClick={handleClickCart}
-                                        />
-                                    </Badge>
-                                </div>
+                                {
+                                    userRole !== 'seller' &&
+                                    <div className="icon-group">
+                                        <Badge
+                                            count={sketchsQuantityInCart}
+                                            size="default"
+                                        >
+                                            <ShoppingCartOutlined
+                                                onClick={handleClickCart}
+                                            />
+                                        </Badge>
+                                    </div>
+                                }
                                 <div className="user-info-content" onClick={() => onClickAvatar()}>
                                     <Avatar className="avatar" src={UserIcon} />
                                     <div className="name-and-balance">

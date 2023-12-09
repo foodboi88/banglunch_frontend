@@ -36,6 +36,7 @@ interface LoginState {
     accesstokenExpired: boolean;
     userRole: string;
     userId: string;
+    shopStatus: boolean;
 }
 
 const initState: LoginState = {
@@ -56,6 +57,7 @@ const initState: LoginState = {
     accesstokenExpired: true,
     userRole: Utils.getValueLocalStorage("role") ? Utils.getValueLocalStorage("role") : 'user',
     userId: Utils.getValueLocalStorage("user_id"),
+    shopStatus: false
 };
 
 const loginSlice = createSlice({
@@ -333,7 +335,46 @@ const loginSlice = createSlice({
                 },
             });
             state.loading = false;
-        }
+        },
+
+        updateShopStatusRequest(state, action: PayloadAction<any>) {
+            state.loading = true;
+            // console.log("da chui vao",state.loading)
+        },
+        updateShopStatusSuccess(state, action: PayloadAction<any>) {
+            state.loading = false;
+            notification.open({
+                message: action.payload.data.message,
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+                style: {
+                    marginTop: 50,
+                    paddingTop: 40,
+                },
+            });
+        },
+        updateShopStatusFail(state, action: any) {
+            state.loading = false;
+            notification.open({
+                message: "Cập nhật trạng thái quán không thành công",
+                description: action.payload.response.message.message,
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+            });
+        },
+
+        getShopStatusRequest(state) {
+            state.loading = true;
+        },
+        getShopStatusSuccess(state, action: PayloadAction<any>) {
+            state.loading = false;
+            state.shopStatus = action.payload.data
+        },
+        getShopStatusFail(state, action: any) {
+            state.loading = false;
+        },
     },
 });
 
@@ -485,6 +526,42 @@ const changePassword$: RootEpic = (action$) => action$.pipe(
         )
     })
 )
+
+const updateShopStatus$: RootEpic = (action$) => action$.pipe(
+    filter(updateShopStatusRequest.match),
+    switchMap((re) => {
+        console.log(re.payload);
+        return UserApi.updateShopStatus(re.payload).pipe(
+            mergeMap((res: any) => {
+                console.log(res);
+                return [
+                    loginSlice.actions.updateShopStatusSuccess(res),
+                ];
+            }),
+            catchError(err =>
+                [loginSlice.actions.updateShopStatusFail(err)]
+            )
+        )
+    })
+)
+
+const getShopStatus$: RootEpic = (action$) => action$.pipe(
+    filter(getShopStatusRequest.match),
+    switchMap((re) => {
+        console.log(re.payload);
+        return UserApi.getShopStatus().pipe(
+            mergeMap((res: any) => {
+                console.log(res);
+                return [
+                    loginSlice.actions.getShopStatusSuccess(res),
+                ];
+            }),
+            catchError(err =>
+                [loginSlice.actions.getShopStatusFail(err)]
+            )
+        )
+    })
+)
 export const LoginEpics = [
     login$,
     clearMessage$,
@@ -493,6 +570,8 @@ export const LoginEpics = [
     getUserInfo$,
     checkActiveAccount$,
     changePassword$,
+    updateShopStatus$,
+    getShopStatus$
 ];
 export const {
     getUserInfoRequest,
@@ -505,5 +584,7 @@ export const {
     checkAbleToLogin,
     checkActiveAccountRequest,
     changePasswordRequest,
+    updateShopStatusRequest,
+    getShopStatusRequest
 } = loginSlice.actions;
 export const loginReducer = loginSlice.reducer;

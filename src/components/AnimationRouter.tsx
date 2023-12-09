@@ -33,14 +33,10 @@ const AnimationRouter = () => {
                     <Route path="/seller" element={<SellerLayout />}>
                         <Route path="/seller" element={<SellerGeneral />}></Route>
                         <Route path="/seller/upload-sketch" element={<UploadSketch />}></Route>
-                        <Route path="/seller/withdraw" element={<SellerWithdraw />}></Route>
                         <Route path="/seller/order" element={<SellerBill />}></Route>
-                        <Route path="/seller/withdraw" element={<SellerWithdraw />}></Route>
                         <Route path="/seller/management-sketch" element={<SellerSketchs />}></Route>
                         <Route path="/seller/purchased-sketchs" element={<PurchasedSketchs />}></Route>
-                        <Route path="/seller/cart" element={<Cart />}></Route>
                         <Route path="/seller/profile" element={<ProfileResume />}></Route>
-                        <Route path="/seller/change-password" element={<ChangePassword />}></Route>
                     </Route>
                 </Route>
 

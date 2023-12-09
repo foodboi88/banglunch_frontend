@@ -140,7 +140,7 @@ export interface IDetailFood {
     seller: IUser
     galleries: IGallery[]
     food_categories: IFoodCategory[],
-    order_details: IOrderDetail[]
+    order_details: IOrderDetail
 }
 
 export interface IFoodCategory {

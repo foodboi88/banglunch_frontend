@@ -261,9 +261,9 @@ const DetailSketch = () => {
                                 </div>
                                 <div className="action">
                                 {
-                                    lstSketchsInCart.find(orderedFood => orderedFood.foodId === detailSketch?._id) ? //Nếu sản phẩm đã có trong giỏ thì hiển thị selectbox chỉnh sửa số lượng
+                                    lstSketchsInCart.find(orderedFood => orderedFood.foodId === detailSketch?._id) && !accesstokenExpired ? //Nếu sản phẩm đã có trong giỏ thì hiển thị selectbox chỉnh sửa số lượng
                                     <div className="adjust-number">
-                                        <InputNumber min={0} max={10} defaultValue={1} onChange={(event) => setNumberOfFoodInCart(event || 0)} />
+                                        <InputNumber min={0} max={10} defaultValue={detailSketch?.order_details.quantity} onChange={(event) => setNumberOfFoodInCart(event || 0)} />
                                         <motion.div
                                             whileHover={{ scale: 1.1 }}
                                             whileTap={{ scale: 0.95 }}

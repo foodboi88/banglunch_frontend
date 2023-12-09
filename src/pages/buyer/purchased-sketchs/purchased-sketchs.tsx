@@ -1,10 +1,10 @@
-import { Space } from 'antd';
+import { Button, Divider, Modal, Space } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { OrderStatus } from '../../../common/order.constant';
-import { IOrders } from '../../../common/order.interface';
+import { IOrderDetail, IOrders } from '../../../common/order.interface';
 import { IGetSketchRequest } from '../../../common/sketch.interface';
 import { IGetUsersRequest } from '../../../common/user.interface';
 import Utils from '../../../common/utils';
@@ -25,6 +25,7 @@ const PurchasedSketchs = () => {
     const [beginDate, setBeginDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [dataBillLst, setDataBillLst] = useState<any[]>([]);
+    const [detailOrder, setDetailOrder] = useState<IOrders>();
     const [currentSearchValue, setCurrentSearchValue] = useState<IGetSketchRequest>({ size: QUERY_PARAM.size, offset: 0 })
 
     const navigate = useNavigate();
@@ -133,7 +134,9 @@ const PurchasedSketchs = () => {
 
 
     const handleDetail = (record: any) => {
-        navigate(`/detail-sketch/${record?.product?.id}`)
+        console.log('record', record);
+        setDetailOrder(record);
+        setOpenModal(true);
     }
 
     const handleAddComment = (record: any) => {
@@ -182,10 +185,78 @@ const PurchasedSketchs = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}>
+            {
+                (detailOrder && openModal) &&
+                <Modal
+                    open={openModal}
+                    okText={'Xác nhận'}
+                    cancelText={'Đóng'}
+                    closable={true}
+                    onCancel={()=>setOpenModal(false)}
+                    title={'Chi tiết đơn hàng'}
+                    footer={
+                        <div>
+                            <Button onClick={() => setOpenModal(false)} type='default'>
+                                Đóng
+                            </Button>
+                        </div>
+                    }
+                >
+                    <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div>Tổng tiền món:</div>
+                            <div>{Utils.caculateTotalPrice(detailOrder.order_details) + ' VND'}</div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div>Tổng tiền ship:</div>
+                            <div>{Utils.formatMoney(detailOrder.deliveryCost) + ' VND'}</div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div>Tạo lúc: </div>
+                            <div>{(new Date(detailOrder.createdAt)).toUTCString()}</div>
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div>Mã đơn hàng:</div>
+                            <div>{detailOrder._id}</div>
+                        </div>
+                        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div>Hình thức thanh toán:</div>
+                            <div>{detailOrder.paymentMethods}</div>
+                        </div> */}
 
+                        <Divider>Danh sách sản phẩm</Divider>
+                        <div style={{ padding: '10px' }}>
+                            {detailOrder.order_details.map((item: IOrderDetail, index: number) => {
+                                return (
+                                    <div style={{ marginBottom: '30px' }}>
+                                        <div><b>Sản phẩm {index + 1}:</b>
+
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <div>Tiêu đề:</div>
+                                                <div>{item.foods.title}</div>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <div>Số lượng:</div>
+                                                <div>{item.quantity}</div>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <div>Giá:</div>
+                                                <div>{Utils.formatMoney(item.foods.price) + ' VND'}</div></div>
+                                            <div>
+                                                <img style={{ width: "200px" }} src={item.foods?.galleries ? item.foods?.galleries[0]?.filePath : ''} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                    </div>
+                </Modal>
+            }
             <div className='table-area'>
                 <CTable
-                    tableMainTitle='Danh sách sản phẩm đã mua'
+                    tableMainTitle='Lịch sử mua hàng'
                     allowDateRangeSearch={true}
                     allowTextSearch={true}
                     onChangeInput={onChangeInput}
