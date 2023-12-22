@@ -1,8 +1,7 @@
+import { Layout, Spin } from "antd";
 import { useEffect } from "react";
 import "./App.css";
 import "./App.scss";
-// import CMainRouter from './components/CMainRouter';
-import { Layout, Spin } from "antd";
 import AnimationRouter from "./components/AnimationRouter";
 import CFooter from "./components/Footer/CFooter";
 import { CHeader } from "./components/Header/CHeader";

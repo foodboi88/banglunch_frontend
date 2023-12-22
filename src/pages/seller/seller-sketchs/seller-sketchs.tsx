@@ -5,10 +5,7 @@ import { useEffect, useState } from 'react';
 import { IGetWithdrawRequest } from '../../../common/user.interface';
 import Utils from '../../../common/utils';
 import CTable from '../../../components/CTable/CTable';
-import TotalBox from '../../../components/TotalBox/TotalBox';
 import { QUERY_PARAM } from '../../../constants/get-api.constants';
-import SketchCancel from '../../../images/seller-product/document-cancel.png';
-import Sketch from '../../../images/seller-product/document-text.png';
 import { deleteSketchRequest, getSketchListByAuthorIdRequest } from '../../../redux/controller';
 import { useDispatchRoot, useSelectorRoot } from '../../../redux/store';
 
@@ -213,23 +210,9 @@ const SellerSketchs = () => {
                     </Modal>
                 </div>
             }
-            <div className='statistic-area'>
-                <TotalBox
-                    key={1}
-                    title={'Tổng số sản phẩm'}
-                    number={sketchStatistic?.totalProduct ? sketchStatistic?.totalProduct : 0}
-                    icon={Sketch}
-                />
-                <TotalBox
-                    key={1}
-                    title={'Số sản phẩm bị ẩn'}
-                    number={sketchStatistic?.totalHiddenProduct ? sketchStatistic?.totalHiddenProduct : 0}
-                    icon={SketchCancel}
-                />
-            </div>
             <div className='table-area'>
                 <CTable
-                    tableMainTitle='Danh sách bản vẽ của bạn'
+                    tableMainTitle='Danh sách đồ ăn của quán'
                     allowDateRangeSearch={true}
                     allowTextSearch={true}
                     onChangeInput={onChangeInput}

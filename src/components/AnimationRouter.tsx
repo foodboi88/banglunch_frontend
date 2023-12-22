@@ -16,7 +16,6 @@ import UploadSketch from "../pages/seller/UploadSketch/UploadSketch";
 import SellerBill from "../pages/seller/seller-bill/seller-bill";
 import SellerGeneral from "../pages/seller/seller-general/seller-general";
 import SellerSketchs from "../pages/seller/seller-sketchs/seller-sketchs";
-import SellerWithdraw from "../pages/seller/seller-withdraw/seller-withdraw";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import PrivateBuyerRoutes from "./PrivateBuyerRoutes";
 import PrivateSellerRoutes from "./PrivateSellerRoutes";
@@ -28,7 +27,7 @@ const AnimationRouter = () => {
         <AnimatePresence>
             <Routes location={location} key={location.pathname}>
 
-                {/* Trang kỹ sư - công ty */}
+                {/* Chủ quán - quán ăn */}
                 <Route element={<PrivateSellerRoutes />}>
                     <Route path="/seller" element={<SellerLayout />}>
                         <Route path="/seller" element={<SellerGeneral />}></Route>
@@ -73,18 +72,3 @@ const AnimationRouter = () => {
 };
 
 export default AnimationRouter;
-
-
-// http://vroteam.online:3000/purchased-successfully?
-// vnp_Amount=22000000&
-// vnp_BankCode=NCB&
-// vnp_BankTranNo=VNP14062588&
-// vnp_CardType=ATM&
-// vnp_OrderInfo=Thanh+toan+cho+ma+GD%3A0b0ecaff-b6a8-4ea8-ad86-2e746f0191bb&
-// vnp_PayDate=20230710165116&
-// vnp_ResponseCode=00&
-// vnp_TmnCode=VKCTCEMP&
-// vnp_TransactionNo=14062588&
-// vnp_TransactionStatus=00&
-// vnp_TxnRef=0b0ecaff-b6a8-4ea8-ad86-2e746f0191bb&
-// vnp_SecureHash=b1d165c371892f74362d4dac7cf22117191fa0e28375dc78598ec8c75749eae6a2a7f0b1771f83d12a87ecd1fad9625fdcf35160af6416bacf22c6d4c44fbe7d

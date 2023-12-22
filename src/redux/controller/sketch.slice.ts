@@ -1673,7 +1673,6 @@ const uploadContentSketch$: RootEpic = (action$) =>
     action$.pipe(
         filter(uploadSketchRequest.match),
         switchMap((re) => {
-            // IdentityApi.login(re.payload) ?
             console.log(re);
 
             const { imageUploadLst, ...bodyrequest } = re.payload
