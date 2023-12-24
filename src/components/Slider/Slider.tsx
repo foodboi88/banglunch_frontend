@@ -20,7 +20,7 @@ const Slider = () => {
             <div className='slider-category'>
                 <div className='slider-category-title'>
                     <HiOutlineSquares2X2 />
-                    <span>Tất cả danh mục sản phẩm</span>
+                    <span>Tất cả danh mục món ăn</span>
                 </div>
                 {lstCategory?.map((item: any, index: any) => {
                     <div className='slider-category-item'>

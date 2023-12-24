@@ -30,16 +30,16 @@ const ruleList = [
     "Mọi file đăng bán phải đảm bảo mở được, mô tả đầy đủ thông tin và đúng như hình ảnh đính kèm",
     "Nội dung file nén đã được kiếm tra, đảm bảo không chứa tệp tin không khả dụng, độc hại, virus hoặc bất cứ liên kết khác",
     "Phải đảm bảo file download có chứa đầy đủ các file đã mô tả trong tiêu đề và mô tả chi tiết",
-    "Tât cả bản vẽ bị báo cáo vi phạm bản quyền nếu được ban quản trị xác nhận là đúng, bản vẽ sẽ bị xóa bỏ",
-    "Bản vẽ đã đăng trên VRO Group là thành viên đã đồng ý cho phép các thành viên download và sử dụng",
+    "Tât cả món ăn bị báo cáo vi phạm bản quyền nếu được ban quản trị xác nhận là đúng, món ăn sẽ bị xóa bỏ",
+    "món ăn đã đăng trên VRO Group là thành viên đã đồng ý cho phép các thành viên download và sử dụng",
 ];
 
 const UploadSketch = () => {
     const [current, setCurrent] = useState(0); // Biến kiểm tra bước hiện tại
-    const [imageUploadLst, setImageUploadLst] = useState<UploadFile[]>([]); // Biến lưu giá trị ảnh bản vẽ đã upload
-    const [checkLstImageUploadLst, setCheckLstImageUploadLst] = useState<UploadFile[]>([]); // Biến lưu giá trị ảnh bản vẽ đã upload
+    const [imageUploadLst, setImageUploadLst] = useState<UploadFile[]>([]); // Biến lưu giá trị ảnh món ăn đã upload
+    const [checkLstImageUploadLst, setCheckLstImageUploadLst] = useState<UploadFile[]>([]); // Biến lưu giá trị ảnh món ăn đã upload
 
-    const [isCheckedRules, setIsCheckedRules] = useState(false); // Biến lưu giá trị quy tắc bản vẽ
+    const [isCheckedRules, setIsCheckedRules] = useState(false); // Biến lưu giá trị quy tắc món ăn
     const [form] = Form.useForm();
 
     const { architectureList} = useSelectorRoot((state) => state.sketch); // Lst cac ban ve        
@@ -125,22 +125,22 @@ const UploadSketch = () => {
                             ? [
 
                                 {
-                                    title: "Thông tin bản vẽ",
+                                    title: "Thông tin món ăn",
                                     icon: <ProfileOutlined />,
                                 },
                                 {
-                                    title: "Upload file bản vẽ",
+                                    title: "Upload ảnh món ăn",
                                     icon: <PictureOutlined />,
                                 },
                             ]
                             : [
 
                                 {
-                                    // title: 'Mô tả bản vẽ',
+                                    // title: 'Mô tả món ăn',
                                     icon: <ProfileOutlined />,
                                 },
                                 {
-                                    // title: 'Thông tin bản vẽ',
+                                    // title: 'Thông tin món ăn',
                                     icon: <PictureOutlined />,
                                 },
                             ]
@@ -152,7 +152,7 @@ const UploadSketch = () => {
                         {current === 0 && (
                             <div className="content-area">
                                 <div className="sketch-content">
-                                    <div className="title">Mô tả bản vẽ</div>
+                                    <div className="title">Mô tả món ăn</div>
                                     <div className="description">
                                         Vui lòng nhập các thông tin chung
                                     </div>
@@ -220,53 +220,6 @@ const UploadSketch = () => {
                                 <div className="sketch-content">
                                     <div className="image">
                                         <Form.Item
-                                            name='length'
-                                            label={<span>Chiều dài món <strong>*</strong>(thông tin dùng cho dịch vụ vận chuyển)</span>}
-
-                                        >
-                                            
-                                                <Input
-                                                    placeholder="Nhập chiều dài"
-                                                    maxLength={TEXT_FIELD.MAX_LENGTH}
-
-                                                />
-                                        </Form.Item>
-                                        <Form.Item
-                                            name='width'
-                                            label={<span>Chiều rộng món <strong>*</strong>(thông tin dùng cho dịch vụ vận chuyển)</span>}
-
-                                        >
-
-                                                <Input
-                                                    placeholder="Nhập chiều rộng"
-                                                    maxLength={TEXT_FIELD.MAX_LENGTH}
-
-                                                />
-                                        </Form.Item>
-                                        <Form.Item
-                                            name='height'
-                                            label={<span>Chiều cao món <strong>*</strong>(thông tin dùng cho dịch vụ vận chuyển)</span>}
-
-                                        >
-                                            
-                                            <Input
-                                                placeholder="Nhập chiều cao"
-                                                maxLength={TEXT_FIELD.MAX_LENGTH}
-
-                                            />
-                                        </Form.Item>
-                                        <Form.Item
-                                            name='weight'
-                                            label={<span>Khối lượng <strong>*</strong>(thông tin dùng cho dịch vụ vận chuyển)</span>}
-                                        >
-                                            
-                                                <Input
-                                                    placeholder="Nhập khối lượng"
-                                                    maxLength={TEXT_FIELD.MAX_LENGTH}
-
-                                                />
-                                        </Form.Item>
-                                        <Form.Item
                                             name='imageUploadLst'
                                             label={<span>Hình ảnh <strong>*</strong></span>}
                                             className="thumbnail"
@@ -314,31 +267,7 @@ const UploadSketch = () => {
                                     </div>
 
 
-                                    <Form.Item
-                                    >
-                                        <div className="title-input">
-                                            Quy định chung
-                                        </div>
-                                        <div className="rule-list">
-                                            {ruleList.map((item) => (
-                                                <div>{`- ${item}`}</div>
-                                            ))}
-                                        </div>
-                                    </Form.Item>
-                                    <Form.Item
-                                        name='required'
-                                    >
-                                        <Checkbox
-                                            onChange={(e) =>
-                                                setIsCheckedRules(
-                                                    e.target.checked
-                                                )
-                                            }
-                                        >
-                                            Tôi đã đọc và đồng ý với quy định
-                                            chung của VRO Group
-                                        </Checkbox>
-                                    </Form.Item>
+                                    
                                 </div>
                                 <motion.div className="btn-submit-upload">
                                     <Form.Item>

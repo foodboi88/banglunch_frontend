@@ -33,7 +33,7 @@ const architectureTools = [
     { label: "Nhà xưởng", value: "Nhà xưởng" },
     { label: "Nội thất", value: "Nội thất" },
     { label: "Ngoại thất", value: "Ngoại thất" },
-    { label: "Bản vẽ khác", value: "Bản vẽ khác" },
+    { label: "món ăn khác", value: "món ăn khác" },
 ];
 const stylesTools = [
     { label: "Cổ điển", value: "Cổ điển" },

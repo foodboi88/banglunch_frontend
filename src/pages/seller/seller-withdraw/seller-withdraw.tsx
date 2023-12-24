@@ -169,13 +169,13 @@ const SellerWithdraw = () => {
 
   // let statisticalUser = [
   //   {
-  //       title: "Tổng số bản vẽ toàn sàn",
+  //       title: "Tổng số món ăn toàn sàn",
   //       number: sketchStatistic?.totalSketch ? sketchStatistic?.totalSketch : 0,
   //       icon: UserIcon,
   //   },
 
   //   {
-  //       title: "Tổng số bản vẽ mới",
+  //       title: "Tổng số món ăn mới",
   //       number: sketchStatistic?.totalNewSketch ? sketchStatistic?.totalNewSketch : 0,
   //       icon: UserMinus,
   //   },

@@ -80,25 +80,6 @@ const PurchasedSketchs = () => {
             )
         },
         {
-            title: 'Thời gian giao dự kiến',
-            key: 'product',
-            render: (_, record) => (
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.expectedDeliveryTime ? new Date(record?.expectedDeliveryTime || '').toUTCString() : ''}
-                </div>
-            )
-        },
-        {
-            title: 'Giá vận chuyển',
-            dataIndex: 'price',
-            key: 'price',
-            render: (_, record) => (
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'end' }}>
-                    {Utils.formatMoney(record?.deliveryCost) + ' VND'}
-                </div>
-            )
-        },
-        {
             title: 'Giá tổng',
             dataIndex: 'price',
             key: 'price',
@@ -112,15 +93,21 @@ const PurchasedSketchs = () => {
             title: 'Thao tác',
             key: 'action',
             render: (_, record) => (
-                <div>
-                    <Space size="middle">
+                <div style={{gap: '15px', display: 'flex'}}>
+                    <div>
                         <a onClick={(event) => handleDetail(record)}>Chi tiết</a>
-                    </Space>
+                    </div >
                     {
                         record.orderStatus === OrderStatusEnums.Shipping &&
-                        <Space size="middle">
+                        <div>
+                            <a onClick={(event) => {}}>Đã nhận</a>
+                        </div >
+                    }
+                    {
+                        record.orderStatus === OrderStatusEnums.Received &&
+                        <div>
                             <a onClick={(event) => handleAddComment(record)}>Đánh giá</a>
-                        </Space>
+                        </div >
                     }
                 </div>
             ),
@@ -224,12 +211,12 @@ const PurchasedSketchs = () => {
                             <div>{detailOrder.paymentMethods}</div>
                         </div> */}
 
-                        <Divider>Danh sách sản phẩm</Divider>
+                        <Divider>Danh sách món ăn</Divider>
                         <div style={{ padding: '10px' }}>
                             {detailOrder.order_details.map((item: IOrderDetail, index: number) => {
                                 return (
                                     <div style={{ marginBottom: '30px' }}>
-                                        <div><b>Sản phẩm {index + 1}:</b>
+                                        <div><b>món ăn {index + 1}:</b>
 
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <div>Tiêu đề:</div>

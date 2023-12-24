@@ -1,4 +1,4 @@
-import { Modal, Space } from 'antd';
+import { Button, Modal, Space } from 'antd';
 import { ColumnType } from 'antd/lib/table';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -12,12 +12,12 @@ import { useDispatchRoot, useSelectorRoot } from '../../../redux/store';
 import { IFood } from '../../../common/food.interface';
 import CModalEditSketch from '../../../components/ModalEditSketch/CModalEditSketch';
 import './seller-sketchs.styles.scss';
+import { useNavigate } from 'react-router-dom';
 
 const SellerSketchs = () => {
+    const navigate = useNavigate();
     const {
-        sketchsOfArchitect,
         totalSketchRecords,
-        sketchStatistic,
         shopDetail
     } = useSelectorRoot((state) => state.sketch);
 
@@ -99,13 +99,13 @@ const SellerSketchs = () => {
 
     // let statisticalUser = [
     //   {
-    //       title: "Tổng số bản vẽ toàn sàn",
+    //       title: "Tổng số món ăn toàn sàn",
     //       number: sketchStatistic?.totalSketch ? sketchStatistic?.totalSketch : 0,
     //       icon: UserIcon,
     //   },
 
     //   {
-    //       title: "Tổng số bản vẽ mới",
+    //       title: "Tổng số món ăn mới",
     //       number: sketchStatistic?.totalNewSketch ? sketchStatistic?.totalNewSketch : 0,
     //       icon: UserMinus,
     //   },
@@ -179,6 +179,11 @@ const SellerSketchs = () => {
         // dispatch(getSketchByArchitectRequest(currentSearchValue))
     }
 
+    const routerToUpload = () => {
+        navigate(`/seller/upload`);
+
+    }
+
     return (
         <motion.div className='sketch-main'
             initial={{ opacity: 0 }}
@@ -211,10 +216,14 @@ const SellerSketchs = () => {
                 </div>
             }
             <div className='table-area'>
+                <div className='button'>
+                    <div></div>
+                    <Button onClick={routerToUpload}>Upload đồ ăn</Button>
+                </div>
                 <CTable
                     tableMainTitle='Danh sách đồ ăn của quán'
-                    allowDateRangeSearch={true}
-                    allowTextSearch={true}
+                    // allowDateRangeSearch={true}
+                    // allowTextSearch={true}
                     onChangeInput={onChangeInput}
                     onChangeRangePicker={onChangeRangePicker}
                     onSearch={onSearch}

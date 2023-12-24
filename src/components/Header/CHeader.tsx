@@ -201,7 +201,7 @@ export const CHeader = (props: MyProps) => {
 
     // Hàm xử lý khi click vào avatar
     const onClickAvatar = () => {
-        userRole === ROLE.BUYER ? navigate('/buyer') : navigate('/seller')
+        userRole === ROLE.BUYER ? navigate('/buyer/purchased-food') : navigate('/seller/order')
     }
 
     return (
@@ -218,7 +218,7 @@ export const CHeader = (props: MyProps) => {
                 </div>
 
                 <div className="header-action-type">
-                    <div className="header-action-item active">
+                    {/* <div className="header-action-item active">
                         Trang chủ
                     </div>
                     <div className="header-action-item">
@@ -232,7 +232,7 @@ export const CHeader = (props: MyProps) => {
                     </div>
                     <div className="header-action-item">
                         Liên hệ
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="header-right">
@@ -351,7 +351,7 @@ export const CHeader = (props: MyProps) => {
                                     <div className={`header-content-input draw `}>
                                         <Input
                                             className="search-input"
-                                            placeholder="Tìm kiếm bản vẽ"
+                                            placeholder="Tìm kiếm món ăn"
                                             onPressEnter={handleSearching}
                                         />
                                     </div>

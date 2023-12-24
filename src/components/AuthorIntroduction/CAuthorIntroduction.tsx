@@ -52,7 +52,7 @@ const CAuthorIntroduction = (props: IAuthor) => {
                         Tham gia: <strong>{formatDate(props?.createdAt || '')}</strong>
                     </div>
                     <div className="grid-item">
-                        Sản phẩm: <strong>{props.totalProduct}</strong>
+                        món ăn: <strong>{props.totalProduct}</strong>
                     </div>
                     <div className="grid-item">
                         Địa chỉ: <strong>{props.address}</strong>

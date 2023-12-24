@@ -15,8 +15,8 @@ import { API_URL } from "../../enum/api.enum";
 export default class SketchsApi {
     static apiURL = API_URL;
 
-    static getFoodById(sketchId: string, userId: string): Observable<any> {
-        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_DETAIL_FOOD}?foodId=${sketchId}&userId=${userId}`;
+    static getFoodById(sketchId: string): Observable<any> {
+        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_DETAIL_FOOD}?foodId=${sketchId}`;
         return HttpClient.get(api).pipe(
             map(
                 (res) => (res as any) || null,
@@ -139,7 +139,7 @@ export default class SketchsApi {
         );
     }
 
-    // Thêm bản vẽ vào giỏ hàng
+    // Thêm món ăn vào giỏ hàng
     static addSketchToCart(body: any): Observable<any> {
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.ADD_SKETCH_TO_CART}`;
         return HttpClient.post(api, body).pipe(
@@ -150,7 +150,7 @@ export default class SketchsApi {
         );
     }
 
-    // Lấy số lượng bản vẽ trong giỏ hàng
+    // Lấy số lượng món ăn trong giỏ hàng
     static getSketchQuantityInCart(): Observable<any> {
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_SKETCH_QUANTITY_IN_CART}`;
         return HttpClient.get(api).pipe(
@@ -161,7 +161,7 @@ export default class SketchsApi {
         );
     }
 
-    // Lấy tất cả bản vẽ trong giỏ hàng
+    // Lấy tất cả món ăn trong giỏ hàng
     static getAllFoodInCart(): Observable<any> {
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.GET_ALL_FOOD_IN_CART}`;
         return HttpClient.get(api).pipe(
@@ -172,7 +172,7 @@ export default class SketchsApi {
         );
     }
 
-    // Xóa sản phẩm trong giỏ
+    // Xóa món ăn trong giỏ
     static deleteSketchInCart(sketchId: string): Observable<any> {
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.DELETE_SKETCH_IN_CART}/${sketchId}`;
         return HttpClient.delete(api).pipe(
@@ -183,7 +183,7 @@ export default class SketchsApi {
         );
     }
 
-    // KTS quản lý bản vẽ
+    // KTS quản lý món ăn
     static getAllSketchByArchitect(bodyrequest: any): Observable<any> {
         const queryParam = Utils.parseObjectToQueryParameter(bodyrequest);
 
@@ -196,7 +196,7 @@ export default class SketchsApi {
         );
     }
 
-    // Xóa sản phẩm của KTS
+    // Xóa món ăn của KTS
     static deleteSketchOfArchitect(bodyrequest: any): Observable<any> {
         const queryParam = Utils.parseObjectToQueryParameter(bodyrequest);
 
@@ -209,7 +209,7 @@ export default class SketchsApi {
         );
     }
 
-    // Sửa sản phẩm của KTS <===== sửa ở đây nhé 
+    // Sửa món ăn của KTS <===== sửa ở đây nhé 
     static editSketchOfArchitect(bodyrequest: IUploadSketchRequest): Observable<any> {
         const finalBodyrequest = {
             title: bodyrequest.title,
@@ -226,7 +226,7 @@ export default class SketchsApi {
         );
     }
 
-    // Thống kê sản phẩm của KTS
+    // Thống kê món ăn của KTS
     static getSketchStatistic(): Observable<any> {
 
         const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.STATISTIC_PRODUCT}`;

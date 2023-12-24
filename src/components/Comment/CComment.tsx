@@ -142,7 +142,7 @@ const CComment = () => {
                     <Rate
                         allowHalf
                         // defaultValue={ratesLst?.rateProduct}
-                        count={5}
+                        count={10}
                         disabled
                         value={ratesLst?.averageRate}
                     />

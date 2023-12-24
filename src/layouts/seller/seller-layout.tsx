@@ -30,11 +30,11 @@ const SellerLayout = () => {
 
 	useEffect(() => {
 		if (window.location.pathname === "/seller") setActive(1);
-		if (window.location.pathname === "/seller/management-sketch") setActive(2);
+		if (window.location.pathname === "/seller/management-food") setActive(2);
 		if (window.location.pathname === "/seller/order") setActive(3);
-		if (window.location.pathname === "/seller/upload-sketch") setActive(6);
+		if (window.location.pathname === "/seller/upload") setActive(6);
 		if (window.location.pathname === "/seller/withdraw") setActive(7);
-		if (window.location.pathname === "/seller/purchased-sketchs") setActive(8);
+		if (window.location.pathname === "/seller/purchased-food") setActive(8);
 		if (window.location.pathname === "/seller/cart") setActive(9);
 		if (window.location.pathname === "/seller/profile") setActive(10);
 		if (window.location.pathname === "/seller/change-password") setActive(13);
@@ -60,7 +60,7 @@ const SellerLayout = () => {
 			<div className="main-profile">
 				<div className='profile-navbar'>
 					<div>
-						Trạng thái quán: <Switch checkedChildren="Mở cửa" unCheckedChildren="Đóng cửa" onClick={changeShopStatus} defaultChecked={shopStatus} />
+						Trạng thái quán: <Switch checkedChildren="Mở cửa" unCheckedChildren="Đóng cửa" onClick={changeShopStatus} checked={status} />
 					</div>
 					<div className={'profile-navbar-item' + (active === 1 ? ' active' : '')} onClick={() => {
 						setActive(1)
@@ -69,17 +69,9 @@ const SellerLayout = () => {
 						<BiGridAlt className='profile-navbar-item-icon' />
 						<span className='profile-navbar-item-text'>Tổng quan</span>
 					</div>
-					<div className={'profile-navbar-item' + (active === 10 ? ' active' : '')} onClick={() => {
-						setActive(10)
-						navigate('/seller/profile')
-					}
-					}>
-						<BiGridAlt className='profile-navbar-item-icon' />
-						<span className='profile-navbar-item-text'>Hồ sơ cá nhân</span>
-					</div>
 					<div className={'profile-navbar-item' + (active === 2 ? ' active' : '')} onClick={() => {
 						setActive(2)
-						navigate("/seller/management-sketch")
+						navigate("/seller/management-food")
 					}}>
 						<AiOutlineSetting className='profile-navbar-item-icon' />
 						<span className='profile-navbar-item-text'>Quản lý đồ ăn</span>
@@ -90,14 +82,6 @@ const SellerLayout = () => {
 					}}>
 						<BsShop className='profile-navbar-item-icon' />
 						<span className='profile-navbar-item-text'>Quản lý đơn hàng</span>
-					</div>
-					
-					<div className={'profile-navbar-item' + (active === 6 ? ' active' : '')} onClick={() => {
-						setActive(6)
-						navigate('/seller/upload-sketch')
-					}}>
-						<AiOutlineGift className='profile-navbar-item-icon' />
-						<span className='profile-navbar-item-text'>Upload đồ ăn</span>
 					</div>
 				</div>
 				<div className='profile-content'>

@@ -343,6 +343,7 @@ const loginSlice = createSlice({
         },
         updateShopStatusSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
+            state.shopStatus = action.payload.data.status
             notification.open({
                 message: action.payload.data.message,
                 onClick: () => {

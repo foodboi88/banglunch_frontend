@@ -22,6 +22,7 @@ import {
     getRatesBySketchIdRequest
 } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import { ROLE } from "../../enum/role.enum";
 
 const DetailSketch = () => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const DetailSketch = () => {
         lstSketchsInCart,
         mostViewedSketchList
     } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
-    const { tokenLogin, accesstokenExpired } = useSelectorRoot((state) => state.login);
+    const { userRole, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
     const dispatch = useDispatchRoot();
     const { foodId } = useParams(); // Lấy ra id của sketch từ url
@@ -93,16 +94,12 @@ const DetailSketch = () => {
 
     useEffect(() => {
         if (foodId) {
-            const userId = Utils.getValueLocalStorage("user_id");
-            dispatch(getDetailSketchPageContentRequest({
-                foodId,
-                userId: userId || ''
-            }));
+            dispatch(getDetailSketchPageContentRequest({foodId}));
             dispatch(getRatesBySketchIdRequest(foodId));
         }
     }, [foodId]);
 
-    // Kiểm tra xem có chi tiết bản vẽ hay không
+    // Kiểm tra xem có chi tiết món ăn hay không
     useEffect(() => {
         if (detailSketch) {
             setImages(detailSketch.galleries);
@@ -110,6 +107,14 @@ const DetailSketch = () => {
             setTypeOfArchitectures(detailSketch.food_categories);
         }
     }, [detailSketch]);
+
+    useEffect(()=>{
+        if(lstSketchsInCart.length>0){
+            lstSketchsInCart.forEach(item => {
+                if(item.foodId===foodId) setNumberOfFoodInCart(item.quantity)
+            })
+        }
+    },[lstSketchsInCart])
 
     const handleNextCard = () => {
         setCurrentIndex(currentIndex + 1);
@@ -132,10 +137,10 @@ const DetailSketch = () => {
         } else {
             notification.open({
                 message: "Bạn chưa đăng nhập",
-                description: "Vui lòng đăng nhập để thêm sản phẩm vào giỏ!",
+                description: "Vui lòng đăng nhập để thêm món ăn vào giỏ!",
 
                 onClick: () => {
-                    console.log("Vui lòng đăng nhập để thêm sản phẩm vào giỏ!");
+                    console.log("Vui lòng đăng nhập để thêm món ăn vào giỏ!");
                 },
                 style: {
                     marginTop: 50,
@@ -171,7 +176,7 @@ const DetailSketch = () => {
                     </Breadcrumb.Item>
 
                     <Breadcrumb.Item className="current-link">
-                        Danh sách bản vẽ nổi bật
+                        Danh sách món ăn nổi bật
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>
@@ -203,33 +208,7 @@ const DetailSketch = () => {
                                         {Utils.formatMoney(info.price)} VNĐ
                                     </div>
                                 )}
-                                <div className="rate">
-                                     {ratesLst && ratesLst.averageRate ? (
-                                        <Rate
-                                            defaultValue={ratesLst.averageRate}
-                                            disabled
-                                            count={5}
-                                        />
-                                    ) : 
-                                    (
-                                        <Rate
-                                            defaultValue={0}
-                                            disabled
-                                            count={5}
-                                        />
-                                    ) 
-                                    } 
-                                </div>
                                 <div className="property">
-                                    <div className="content">
-                                        <img src={IconDetail1} alt="" />
-                                        <div className="text">
-                                            Ngày đăng:{" "}
-                                            {new Date(
-                                                info.createdAt
-                                            ).toLocaleDateString("en-GB")}
-                                        </div>
-                                    </div>
                                     <div className="content">
                                         <img src={IconDetail6} alt="" />
                                         <div className="text">
@@ -259,11 +238,28 @@ const DetailSketch = () => {
                                         {info.content}
                                     </div>
                                 </div>
-                                <div className="action">
                                 {
-                                    lstSketchsInCart.find(orderedFood => orderedFood.foodId === detailSketch?._id) && !accesstokenExpired ? //Nếu sản phẩm đã có trong giỏ thì hiển thị selectbox chỉnh sửa số lượng
-                                    <div className="adjust-number">
-                                        <InputNumber min={0} max={10} defaultValue={detailSketch?.order_details.quantity} onChange={(event) => setNumberOfFoodInCart(event || 0)} />
+                                    userRole === ROLE.BUYER // nếu là buyer thì mới cho hiện nút
+                                     && <div className="action">
+                                    {
+                                        lstSketchsInCart.find(orderedFood => orderedFood.foodId === detailSketch?._id) && !accesstokenExpired ? //Nếu món ăn đã có trong giỏ thì hiển thị selectbox chỉnh sửa số lượng
+                                        <div className="adjust-number">
+                                            <InputNumber min={0} max={10} value={numberOfFoodInCart} defaultValue={numberOfFoodInCart} onChange={(event) => setNumberOfFoodInCart(event || 0)} />
+                                            <motion.div
+                                                whileHover={{ scale: 1.1 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                <Button
+                                                    className="add-to-card"
+                                                    onClick={() =>
+                                                        onChangeFoodInCart(numberOfFoodInCart)
+                                                    }
+                                                >
+                                                    Sửa số lượng
+                                                </Button>
+                                            </motion.div>
+                                        </div>
+                                        :
                                         <motion.div
                                             whileHover={{ scale: 1.1 }}
                                             whileTap={{ scale: 0.95 }}
@@ -271,29 +267,15 @@ const DetailSketch = () => {
                                             <Button
                                                 className="add-to-card"
                                                 onClick={() =>
-                                                    onChangeFoodInCart(numberOfFoodInCart)
+                                                    onChangeFoodInCart(1)
                                                 }
                                             >
-                                                Sửa số lượng
+                                                Thêm vào giỏ hàng
                                             </Button>
                                         </motion.div>
+                                    }
                                     </div>
-                                    :
-                                    <motion.div
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <Button
-                                            className="add-to-card"
-                                            onClick={() =>
-                                                onChangeFoodInCart(1)
-                                            }
-                                        >
-                                            Thêm vào giỏ hàng
-                                        </Button>
-                                    </motion.div>
                                 }
-                                </div>
                             </>
                         )}
                 </div>
@@ -347,8 +329,6 @@ const DetailSketch = () => {
                                         views={card.views}
                                         price={card.price}
                                         category={card.category || ''}
-
-                                    // type={card.type}
                                     />
                                 </Col>
                             ))}

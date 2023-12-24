@@ -380,10 +380,10 @@ const Home = () => {
             </div>
 
 
-            {/* Bản vẽ bán chạy */}
+            {/* món ăn bán chạy */}
             <div className="tool-of-web">
                 <div className="title">
-                    <div>MÓN ĂN BÁN CHẠY</div>
+                    <div>MÓN ĂN MỚI</div>
                     <div className="sub-title">
                         <Col>
                             <Button
@@ -549,60 +549,7 @@ const Home = () => {
 
             /> */}
 
-            {/* Bản vẽ bán chạy */}
-            <div className="tool-of-web">
-                <div className="title">
-                    <div>MÓN ĂN MỚI</div>
-                    <div className="sub-title">
-                        <Col>
-                            <Button
-                                icon={<ArrowLeftOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('prev', 'mostView')}
-                                disabled={currentIndexMostViewedSketch === 0 && true}
-                            />
-                        </Col>
-                        <Col>
-                            <Button
-                                icon={<ArrowRightOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('next', 'mostView')}
-                                disabled={
-                                    currentIndexMostViewedSketch >= mostViewedSketchList.length - numberOfCardShow && true
-                                }
-                            />
-                        </Col>
-                    </div>
-                </div>
-                <div className={"lst-tool " + ((mostViewedSketchList && mostViewedSketchList.length < numberOfCardShow) && 'less-card')}>
-                    <Row gutter={[16, 16]}>
-                        {mostViewedSketchList
-                            .slice(
-                                currentIndexMostViewedSketch,
-                                currentIndexMostViewedSketch + numberOfCardShow
-                            )
-                            .map((card) => (
-                                <Col
-                                    onClick={() => {
-                                        handleClickCard(card._id);
-                                    }}
-                                    span={spanCol}
-                                    key={card._id}
-                                >
-                                    <CProductCard
-                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
-                                        title={card.title}
-                                        views={card.views}
-                                        price={card.price}
-                                        category={card.category}
-                                    />
-                                </Col>
-                            ))}
-                    </Row>
-
-                </div>
-            </div>
-
+    
 
             <div className='homepage-footer'>
                 <div className="left-footer">
@@ -610,11 +557,11 @@ const Home = () => {
                         <div>Lời chào từ BangLunch <strong>”</strong></div>
                     </div>
                     <div className="wellcome">
-                        Công ty X xin gửi lời chào trân trọng đến Quý khách hàng. 
+                        Công ty BangLunch xin gửi lời chào trân trọng đến Quý khách hàng. 
 
-Công ty X là một trong những doanh nghiệp sản xuất và kinh doanh các sản phẩm từ cà phê với quy mô lớn và uy tín tại Việt Nam với quy mô 10 nhà máy sản xuất, tổng diện tích xây dựng lên đến 15.000ha, lực lượng lao động trên 400 người. 
+BangLunch là một trong những doanh nghiệp kinh doanh online với quy mô lớn và uy tín tại Việt Nam với kinh nghiệm 20 năm, nhân sự trên 400 người. 
 
-Trải qua hơn 30 năm kinh nghiệm hoạt động, công ty đã không ngừng khẳng định vị thế thương hiệu trên thị trường và niềm tin đối với khách hàng. Hiện nay sản phẩm của công ty đã được xuất khẩu sang hơn 30 quốc gia và vùng lãnh thổ, cùng với hệ thống phân phối rộng khắp trong cả nước. 
+Trải qua hơn 20 năm kinh nghiệm hoạt động, công ty đã không ngừng khẳng định vị thế thương hiệu trên thị trường và niềm tin đối với khách hàng. Hiện nay dịch vụ kinh doanh đồ ăn online của công ty đã được sử dụng tại hơn 30 quốc gia và vùng lãnh thổ, cùng với hệ thống máy chủ phân phối rộng khắp trong cả nước. 
 
                     </div>
                     <div className="info">

@@ -42,21 +42,14 @@ const { Option } = Select;
 
 const Cart = () => {
     const navigate = useNavigate();
-    const { lstSketchsInCart, sketchsQuantityInCart,deliveryDetail, purchaseResponse } =
+    const { lstSketchsInCart, sketchsQuantityInCart,deliveryDetail } =
         useSelectorRoot((state) => state.sketch);
-    const { tokenLogin, userName, userMail, userPhone, accesstokenExpired } = useSelectorRoot((state) => state.login);
+    const { userName, userMail, userPhone, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
     const dispatch = useDispatchRoot();
 
-    const [voucherCode, setVoucherCode] = useState("");
-    const [paymentMethod, setPaymentMethod] = useState("");
-    const [receivedProvince, setReceivedProvince] = useState("");
-    const [receivedDistrict, setReceivedDistrict] = useState("");
-    const [receivedWard, setReceivedWard] = useState("");
-
-    const [tmpData, setTmpData] = useState<any[]>([]);
+    const [tmpData, setTmpData] = useState<any[]>(lstSketchsInCart);
     const [totalMoney, setTotalMoney] = useState(0);
-    const [amount, setAmount] = useState(0);
 
 
     const infoUser = [
@@ -77,27 +70,9 @@ const Cart = () => {
         },
     ];
 
-    let infoCart = [
-        {
-            key: "1",
-            label: "Tạm tính",
-            value: totalMoney + '    VND',
-        },
-        {
-            key: "2",
-            label: "Giá vận chuyển",
-            value: (deliveryDetail?.total_fee || 0) + '    VND',
-        },{
-            key: "3",
-            label: "Thời gian nhận dự kiến",
-            value: new Date(deliveryDetail?.expected_delivery_time || ''),
-        },
-    ];
-
     const columns = [
-        Table.SELECTION_COLUMN,
         {
-            title: `Tất cả (${sketchsQuantityInCart} sản phẩm)`,
+            title: `Tất cả (${sketchsQuantityInCart} món ăn)`,
             key: "title",
             render: (record: IOrderDetail) => (
                 <div className="sketch-cart-info">
@@ -118,9 +93,7 @@ const Cart = () => {
         {
             key: "5",
             title: (
-                <div className="sketch-cart-action-title">
-                    <DeleteOutlined /> Xóa tất cả
-                </div>
+''
             ),
             render: (record: any) => {
                 return (
@@ -144,36 +117,22 @@ const Cart = () => {
                                 <DeleteOutlined />
                                 Xóa
                             </div>
-                        </div>
+                        </div>  
                     </>
                 );
             },
         },
     ];
 
-    useEffect(() => { 
-        if (lstSketchsInCart) {
-            setTmpData(lstSketchsInCart);
-            const listFoods: string[] = lstSketchsInCart.map(item => item._id)
-            const bodyrequest: any =
-            {
-                fromWardCode: "20314",
-                toWardCode: "510101",
-                toDistrictId: 1566,
-                items: [listFoods]
-            }
-            console.log(bodyrequest)
-            dispatch(createShippingOrderRequest(bodyrequest))
+    useEffect(()=>{
+        if(lstSketchsInCart){
+            setTmpData(lstSketchsInCart)
         }
-        
-    }, [lstSketchsInCart]);
+    },[lstSketchsInCart])
 
-
-    useEffect(() => { // Set lại tổng tiền khi list sản phẩm thay đổi
+    useEffect(() => { // Set lại tổng tiền khi list món ăn thay đổi
         const totalMoney = tmpData.reduce((total: any, item: any) => total + item.price*item.quantity, 0)
         setTotalMoney(totalMoney);
-        const amount = totalMoney + deliveryDetail?.total_fee;
-        setAmount(amount);
     }, [tmpData,deliveryDetail])
 
     const rowSelection = {
@@ -198,10 +157,10 @@ const Cart = () => {
         } else {
             notification.open({
                 message: "Phiên đăng nhập của bạn đã hết",
-                description: "Vui lòng đăng nhập lại để xóa sản phẩm giỏ!",
+                description: "Vui lòng đăng nhập lại để xóa món ăn giỏ!",
 
                 onClick: () => {
-                    console.log("Vui lòng đăng nhập để xóa sản phẩm giỏ!");
+                    console.log("Vui lòng đăng nhập để xóa món ăn giỏ!");
                 },
                 style: {
                     marginTop: 50,
@@ -212,31 +171,13 @@ const Cart = () => {
     };
 
     const paymentHandle = () => {
-        if (!receivedWard || !receivedDistrict || !receivedProvince) {
-            notification.open({
-                message: "Vui lòng chọn vị trí nhận hàng",
-                onClick: () => {
-                    console.log("Notification Clicked!");
-                },
-                style: {
-                    marginTop: 50,
-                    paddingTop: 40,
-                },
-            });
-        } else {
-            const bodyrequest: ICreateOrder = {
-                deliveryCost: deliveryDetail?.total_fee || 0,
-                expectedDeliveryTime: new Date(deliveryDetail?.expected_delivery_time || '')
-            };
-            dispatch(purchaseRequest(bodyrequest));
-            navigate(`/buyer/purchased-sketchs`);
-        }
+        const bodyrequest: ICreateOrder = {
+            deliveryCost: deliveryDetail?.total_fee || 0,
+            expectedDeliveryTime: new Date(deliveryDetail?.expected_delivery_time || '')
+        };
+        dispatch(purchaseRequest(bodyrequest));
+        navigate(`/buyer/purchased-food`);
     };
-
-    // useEffect(() => {
-    //     if (purchaseResponse) {
-    //     }
-    // },[purchaseResponse])
 
     return (
         <div className="main-cart">
@@ -246,7 +187,6 @@ const Cart = () => {
                     <Table
                         className="table-source"
                         columns={columns}
-                        rowSelection={{ ...rowSelection }}
                         dataSource={tmpData}
                         pagination={false}
                     />
@@ -256,10 +196,6 @@ const Cart = () => {
                         <div className="title">
                             <div className="title-text">
                                 Thông tin khách hàng
-                            </div>
-                            <div className="title-edit">
-                                <EditOutlined />
-                                Chỉnh sửa
                             </div>
                         </div>
                         {infoUser &&
@@ -273,174 +209,14 @@ const Cart = () => {
                                     </div>
                                 </div>
                             ))}
-                        <div className="info-user">
-                            <div className="label-info-user">
-                                Tỉnh/Thành phố
-                            </div>
-                            <div className="value-info-user">
-                                <Select
-                                    showSearch
-                                    style={{ width: 200 }}
-                                    placeholder="Search to Select"
-                                    optionFilterProp="children"
-                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                    filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                                    }
-                                    onChange={(event)=>setReceivedProvince(event)}
-                                    options={[
-                                    {
-                                        value: '1',
-                                        label: 'Not Identified',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Closed',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Communicated',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Identified',
-                                    },
-                                    {
-                                        value: '5',
-                                        label: 'Resolved',
-                                    },
-                                    {
-                                        value: '6',
-                                        label: 'Cancelled',
-                                    },
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div className="info-user">
-                            <div className="label-info-user">
-                                Quận/Huyện
-                            </div>
-                            <div className="value-info-user">
-                                <Select
-                                    showSearch
-                                    style={{ width: 200 }}
-                                    placeholder="Search to Select"
-                                    optionFilterProp="children"
-                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                    filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                                    }
-                                    onChange={(event)=>setReceivedDistrict(event)}
-                                    options={[
-                                    {
-                                        value: '1',
-                                        label: 'Not Identified',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Closed',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Communicated',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Identified',
-                                    },
-                                    {
-                                        value: '5',
-                                        label: 'Resolved',
-                                    },
-                                    {
-                                        value: '6',
-                                        label: 'Cancelled',
-                                    },
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div className="info-user">
-                            <div className="label-info-user">
-                                Xã/Phường
-                            </div>
-                            <div className="value-info-user">
-                                <Select
-                                    showSearch
-                                    style={{ width: 200 }}
-                                    placeholder="Search to Select"
-                                    optionFilterProp="children"
-                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                    filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                                    }
-                                    onChange={(event)=>setReceivedWard(event)}
-                                    options={[
-                                    {
-                                        value: '1',
-                                        label: 'Not Identified',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Closed',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Communicated',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'Identified',
-                                    },
-                                    {
-                                        value: '5',
-                                        label: 'Resolved',
-                                    },
-                                    {
-                                        value: '6',
-                                        label: 'Cancelled',
-                                    },
-                                    ]}
-                                />
-                            </div>
-                        </div>
-                        <div className="info-user">
-                            <div className="label-info-user">
-                                Địa chỉ cụ thể
-                            </div>
-                            <div className="value-info-user">
-                                <TextArea/>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     <div className="right-content-cart-info-cart">
-                        <div className="title">
-                            <div className="title-text">
-                                Thông tin thanh toán
-                            </div>
-                            <div className="title-edit">
-                                {/* <EditOutlined />
-                                Chỉnh sửa */}
-                            </div>
-                        </div>
-                        {infoCart &&
-                            infoCart.map((item, index) => (
-                                <div className="info-cart">
-                                    <div className="label-info-user">
-                                        {item.label}
-                                    </div>
-                                    <div className="value-info-user">
-                                        {item.value.toLocaleString().replace(/,/g, '.') }
-                                    </div>
-                                </div>
-                            ))}
-
                         <div className="total-price">
                             <div className="total-price-title">Tổng tiền</div>
                             <div className="total-price-value">
-                                {amount.toLocaleString().replace(/,/g, '.') + ' VND'}
+                                {totalMoney.toLocaleString().replace(/,/g, '.') + ' VND'}
                             </div>
                         </div>
                     </div>

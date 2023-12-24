@@ -497,7 +497,7 @@ const sketchSlice = createSlice({
             state.checkProductsFile = true;
             notification.open({
                 message: "Thành công",
-                description: "Tải bản vẽ lên thành công",
+                description: "Tải món ăn lên thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -509,7 +509,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: "Tải bản vẽ lên thất bại",
+                description: "Tải món ăn lên thất bại",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -590,15 +590,15 @@ const sketchSlice = createSlice({
         addSketchToCartFail(state, action: PayloadAction<any>) {
             state.loading = false;
             notification.open({
-                message: "Thêm sản phẩm không thành công",
-                description: action.payload.response.message === 'Products-already-in-the-cart' ? 'Sản phẩm đã có trong giỏ' : 'Network error',
+                message: "Thêm món ăn không thành công",
+                description: action.payload.response.message === 'Products-already-in-the-cart' ? 'món ăn đã có trong giỏ' : 'Network error',
                 onClick: () => {
                     console.log(action.payload.message);
                 },
             });
         },
 
-        //Lấy số lượng sản phẩm trong giỏ
+        //Lấy số lượng món ăn trong giỏ
         getSketchQuantityInCartRequest(state) {
             state.loading = true;
         },
@@ -611,7 +611,7 @@ const sketchSlice = createSlice({
             state.loading = false;
         },
 
-        //Lấy tất cả sản phẩm trong giỏ
+        //Lấy tất cả món ăn trong giỏ
         getAllSketchInCartRequest(state) {
             state.loading = true;
         },
@@ -671,10 +671,24 @@ const sketchSlice = createSlice({
         purchaseSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             state.purchaseResponse = action.payload.data;
+            notification.open({
+                message: action.payload.response?.message,
+                description: action.payload.response?.message || 'Network error',
+                onClick: () => {
+                    console.log(action.payload.response?.message);
+                },
+            });
         },
         purchaseFail(state, action: PayloadAction<any>) {
             state.loading = false;
             state.purchaseResponse = action.payload
+            notification.open({
+                message: action.payload.response?.message,
+                description: action.payload.response?.message || 'Network error',
+                onClick: () => {
+                    console.log(action.payload.response?.message);
+                },
+            });
         },
 
         // Get Author intro
@@ -805,7 +819,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             // notification.open({
             //     message: "Thành công",
-            //     description: "Thanh toán bản vẽ thành công",
+            //     description: "Thanh toán món ăn thành công",
             //     onClick: () => {
             //         console.log("Notification Clicked!");
             //     },
@@ -817,7 +831,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: "Thanh toán bản vẽ không thành công",
+                description: "Thanh toán món ăn không thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -925,7 +939,7 @@ const sketchSlice = createSlice({
             console.log(action);
             state.loading = false;
             notification.open({
-                message: action.payload.response.message === "Not found" ? "Không tìm thấy bản vẽ nào" : action.payload.response.message,
+                message: action.payload.response.message === "Not found" ? "Không tìm thấy món ăn nào" : action.payload.response.message,
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -945,7 +959,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thành công",
-                description: "Xóa bản vẽ thành công",
+                description: "Xóa món ăn thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -957,7 +971,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: action?.payload?.message || "Xóa bản vẽ không thành công",
+                description: action?.payload?.message || "Xóa món ăn không thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1248,7 +1262,7 @@ const sketchSlice = createSlice({
             // Cu chia het cho 2 thi la up file thanh cong
             notification.open({
                 message: "Thành công",
-                description: "Cập nhật bản vẽ thành công",
+                description: "Cập nhật món ăn thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1260,7 +1274,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: "Cập nhật bản vẽ thất bại",
+                description: "Cập nhật món ăn thất bại",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1279,7 +1293,7 @@ const sketchSlice = createSlice({
             // Cu chia het cho 2 thi la up file thanh cong
             notification.open({
                 message: "Thành công",
-                description: "Cập nhật bản vẽ thành công",
+                description: "Cập nhật món ăn thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1516,7 +1530,7 @@ const getDetailSketch$: RootEpic = (action$) =>
         concatMap((re) => {
             // IdentityApi.login(re.payload) ?
             console.log(re);
-            return SketchsApi.getFoodById(re.payload.foodId, re.payload.userId).pipe(
+            return SketchsApi.getFoodById(re.payload.foodId).pipe(
                 concatMap((res: any) => {
                     console.log(res);
 

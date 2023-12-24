@@ -7,7 +7,7 @@ import Utils from "../../common/utils";
 export default class StatisticAPI {
     static apiURL = API_URL;
 
-    // Lấy ra thống kê tổng quan về tổng doanh thu, số lượng đơn hàng, số lượng sản phẩm, số lượng người dùng của cửa hàng
+    // Lấy ra thống kê tổng quan về tổng doanh thu, số lượng đơn hàng, số lượng món ăn, số lượng người dùng của cửa hàng
     static getOverViewStatistic(): Observable<any> {
         const api = `${StatisticAPI.apiURL.HOST}/${this.apiURL.OVERVIEW_STATISTIC}`;
         return HttpClient.get(api).pipe(

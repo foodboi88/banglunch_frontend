@@ -24,7 +24,7 @@ export enum API_URL {
     GET_SELLER_INFO = "sellers/profile",
     GET_RATES_BY_SKETCH_ID = "comments/get-comments-by-food",
     GET_PRODUCT_FILE_BY_ID = "product-files/by-id-product",
-    ADD_SKETCH_TO_CART = "orders/update-food-in-cart", // Thêm bản vẽ vào giỏ hàng
+    ADD_SKETCH_TO_CART = "orders/update-food-in-cart", // Thêm món ăn vào giỏ hàng
     GET_SKETCH_QUANTITY_IN_CART = "Carts/get-quantity-product-my-cart",
     GET_ALL_FOOD_IN_CART = "orders/cart-by-user",
     PAYMENT = "orders/create-order",

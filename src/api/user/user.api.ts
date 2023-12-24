@@ -7,7 +7,7 @@ import HttpClient from "../http-client";
 export default class UserApi {
     static apiURL = API_URL;
 
-    // Lấy ra thống kê tổng quan về tổng doanh thu, số lượng đơn hàng, số lượng sản phẩm, số lượng người dùng của cửa hàng
+    // Lấy ra thống kê tổng quan về tổng doanh thu, số lượng đơn hàng, số lượng món ăn, số lượng người dùng của cửa hàng
     static getOverViewStatistic(): Observable<any> {
         const api = `${UserApi.apiURL.HOST}/${this.apiURL.GET_OVERVIEW_STATISTIC}`;
         return HttpClient.get(api).pipe(
@@ -18,7 +18,7 @@ export default class UserApi {
         );
     }
 
-    // Lấy ra các sản phẩm hot nhất
+    // Lấy ra các món ăn hot nhất
     static getHotProducts(body: any): Observable<any> {
         console.log(body);
 

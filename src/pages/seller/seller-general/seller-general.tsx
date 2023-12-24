@@ -36,7 +36,7 @@ const SellerGeneral = () => {
 					icon: ShopIcon
 				},
 				{
-					title: "Tổng sản phẩm",
+					title: "Tổng món ăn",
 					number: overViewStatistic.totalProduct,
 					icon: ShopIcon
 				},

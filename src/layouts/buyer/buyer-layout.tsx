@@ -11,7 +11,7 @@ const BuyerLayout = () => {
     useEffect(() => {
         if (window.location.pathname === "/buyer") setActive(1);
         if (window.location.pathname === "/buyer/become-seller") setActive(3);
-        if (window.location.pathname === "/buyer/purchased-sketchs") setActive(5);
+        if (window.location.pathname === "/buyer/purchased-food") setActive(5);
         if (window.location.pathname === "/buyer/cart") setActive(8);
         if (window.location.pathname === "/buyer/change-password") setActive(4);
 
@@ -20,14 +20,6 @@ const BuyerLayout = () => {
     return (
         <div className="main-profile">
             <div className='profile-navbar'>
-                <div className={'profile-navbar-item' + (active === 1 ? ' active' : '')} onClick={() => {
-                    setActive(1)
-                    navigate('/buyer')
-                }
-                }>
-                    <BiGridAlt className='profile-navbar-item-icon' />
-                    <span className='profile-navbar-item-text'>Hồ sơ cá nhân</span>
-                </div>
                 <div className={'profile-navbar-item' + (active === 8 ? ' active' : '')} onClick={() => {
                     setActive(8)
                     navigate('/buyer/cart')
@@ -38,19 +30,11 @@ const BuyerLayout = () => {
                 </div>
                 <div className={'profile-navbar-item' + (active === 5 ? ' active' : '')} onClick={() => {
                     setActive(5)
-                    navigate('/buyer/purchased-sketchs')
+                    navigate('/buyer/purchased-food')
                 }
                 }>
                     <BsShop className='profile-navbar-item-icon' />
                     <span className='profile-navbar-item-text'>Lịch sử mua hàng</span>
-                </div>
-                <div className={'profile-navbar-item' + (active === 3 ? ' active' : '')} onClick={() => {
-                    setActive(3)
-                    navigate('/buyer/become-seller')
-                }
-                }>
-                    <BsShop className='profile-navbar-item-icon' />
-                    <span className='profile-navbar-item-text'>Trở thành người bán</span>
                 </div>
             </div>
             <div className='profile-content'>

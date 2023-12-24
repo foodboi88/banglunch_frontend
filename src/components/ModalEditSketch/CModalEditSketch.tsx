@@ -62,7 +62,7 @@ const CModalEditSketch = (props: MyProps) => {
                 props.setOpenModalEdit(false)
             }}
             cancelText={'Hủy'}
-            title="Chỉnh sửa bản vẽ"
+            title="Chỉnh sửa món ăn"
         >
             <div className="main-upload">
                 <div className="upload-area">

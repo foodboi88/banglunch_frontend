@@ -70,25 +70,6 @@ const SellerBill = () => {
             )
         },
         {
-            title: 'Thời gian giao dự kiến',
-            key: 'product',
-            render: (_, record) => (
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {record?.expectedDeliveryTime ? new Date(record?.expectedDeliveryTime || '').toUTCString() : ''}
-                </div>
-            )
-        },
-        {
-            title: 'Giá vận chuyển',
-            dataIndex: 'price',
-            key: 'price',
-            render: (_, record) => (
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center', justifyContent: 'end' }}>
-                    {Utils.formatMoney(record?.deliveryCost) + ' VND'}
-                </div>
-            )
-        },
-        {
             title: 'Giá tổng',
             dataIndex: 'price',
             key: 'price',
@@ -235,12 +216,12 @@ const SellerBill = () => {
                                 <div>{detailOrder.user?.phone}</div>
                             </div>
                         </div>
-                        <Divider>Danh sách sản phẩm</Divider>
+                        <Divider>Danh sách món ăn</Divider>
                         <div style={{ padding: '10px' }}>
                             {detailOrder.order_details.map((item: IOrderDetail, index: number) => {
                                 return (
                                     <div style={{ marginBottom: '30px' }}>
-                                        <div><b>Sản phẩm {index + 1}:</b>
+                                        <div><b>món ăn {index + 1}:</b>
 
                                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                 <div>Tiêu đề:</div>
@@ -268,8 +249,8 @@ const SellerBill = () => {
             <div className='table-area'>
                 <CTable
                     tableMainTitle='Danh sách đơn hàng'
-                    allowDateRangeSearch={true}
-                    allowTextSearch={true}
+                    // allowDateRangeSearch={true}
+                    // allowTextSearch={true}
                     onChangeInput={onChangeInput}
                     onChangeRangePicker={onChangeRangePicker}
                     onSearch={onSearch}

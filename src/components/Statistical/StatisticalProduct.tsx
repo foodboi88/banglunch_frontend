@@ -11,7 +11,7 @@ const StatisticalProduct = () => {
 
     const columns: ColumnType<any>[] = [
         {
-            title: 'Tên sản phẩm',
+            title: 'Tên món ăn',
             dataIndex: 'title',
             key: 'title',
             render: (_, record) => (
@@ -85,7 +85,7 @@ const StatisticalProduct = () => {
     return (
         <div className='main-static-product'>
             <div className="static-product-title">
-                Top {hotProducts.length} sản phẩm bán chạy
+                Top {hotProducts.length} món ăn bán chạy
             </div>
             <div className="static-product-content">
                 <CTable

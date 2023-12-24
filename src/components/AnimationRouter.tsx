@@ -31,11 +31,9 @@ const AnimationRouter = () => {
                 <Route element={<PrivateSellerRoutes />}>
                     <Route path="/seller" element={<SellerLayout />}>
                         <Route path="/seller" element={<SellerGeneral />}></Route>
-                        <Route path="/seller/upload-sketch" element={<UploadSketch />}></Route>
+                        <Route path="/seller/upload" element={<UploadSketch />}></Route>
                         <Route path="/seller/order" element={<SellerBill />}></Route>
-                        <Route path="/seller/management-sketch" element={<SellerSketchs />}></Route>
-                        <Route path="/seller/purchased-sketchs" element={<PurchasedSketchs />}></Route>
-                        <Route path="/seller/profile" element={<ProfileResume />}></Route>
+                        <Route path="/seller/management-food" element={<SellerSketchs />}></Route>
                     </Route>
                 </Route>
 
@@ -44,11 +42,8 @@ const AnimationRouter = () => {
                 <Route element={<PrivateBuyerRoutes />}>
 
                     <Route path="/buyer" element={<BuyerLayout />}>
-                        <Route path="/buyer" element={<ProfileResume />}></Route>
-                        <Route path="/buyer/become-seller" element={<ProfileBecomeSeller />}></Route>
-                        <Route path="/buyer/purchased-sketchs" element={<PurchasedSketchs />}></Route>
+                        <Route path="/buyer/purchased-food" element={<PurchasedSketchs />}></Route>
                         <Route path="/buyer/cart" element={<Cart />}></Route>
-                        <Route path="/buyer/change-password" element={<ChangePassword />}></Route>
                     </Route>
                 </Route>
 

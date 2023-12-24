@@ -32,8 +32,8 @@ const PurchaseSuccessfully = () => {
     },[])
 
     const handleConfirmPurchased = () => {
-        if(userRole === "user") navigate('/buyer/purchased-sketchs')
-        else if(userRole === "seller") 	navigate('/seller/purchased-sketchs')
+        if(userRole === "user") navigate('/buyer/purchased-food')
+        else if(userRole === "seller") 	navigate('/seller/purchased-food')
         else navigate('/')
     }
 
@@ -51,7 +51,7 @@ const PurchaseSuccessfully = () => {
                                 handleConfirmPurchased()
                             }}
                         >
-                            Quay lại trang sản phẩm đã mua của bạn
+                            Quay lại trang món ăn đã mua của bạn
                         </Button>
                     </div>
                 </div>
