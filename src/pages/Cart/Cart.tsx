@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import {
-    DeleteOutlined,
-    EditOutlined
+    DeleteOutlined
 } from "@ant-design/icons";
 import {
     Button,
@@ -10,11 +9,10 @@ import {
     Table,
     notification
 } from "antd";
-import TextArea from "antd/lib/input/TextArea";
 import { useNavigate } from "react-router-dom";
 import { ICreateOrder, IOrderDetail, IUpdateFoodInCart } from "../../common/order.interface";
 import { IDetailSketch, ISketchInCart } from "../../common/sketch.interface";
-import { addSketchToCartRequest, createShippingOrderRequest, purchaseRequest } from "../../redux/controller";
+import { addSketchToCartRequest, purchaseRequest } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 import "./styles.cart.scss";
 

@@ -70,7 +70,7 @@ const CComment = () => {
     };
     return (
         <div className='main-comment'>
-            <div className='title'>Bình luận ({ratesLst?.numberOfItems ? ratesLst?.numberOfItems: 0})</div>
+            <div className='title'>Bình luận ({ratesLst?.numberOfItems ? ratesLst?.numberOfItems : 0})</div>
             <div className='btn-group-and-total-rate'>
                 <Button.Group>
                     <motion.div

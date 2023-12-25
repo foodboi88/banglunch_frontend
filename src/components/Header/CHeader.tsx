@@ -151,11 +151,11 @@ export const CHeader = (props: MyProps) => {
     // Hàm chuyển đổi trạng thái đóng mở modal login
     const toggleLoginModal = () => {
         setIsOpenLoginModal(!isOpenLoginModal);
-        setIsOpenRegisterModal(!isOpenRegisterModal);
+setIsOpenRegisterModal(!isOpenRegisterModal);
     };
     // Hàm chuyển đổi trạng thái đóng mở modal registration
     const toggleRegisterModal = () => {
-        setIsOpenLoginModal(!isOpenLoginModal);
+setIsOpenLoginModal(!isOpenLoginModal);
         setIsOpenRegisterModal(!isOpenRegisterModal);
     };
 
@@ -310,6 +310,7 @@ export const CHeader = (props: MyProps) => {
                         />
                         <Register
                             isOpenModal={isOpenRegisterModal}
+                            setIsOpenRegisterModal={setIsOpenRegisterModal}
                             toggleLoginModal={toggleLoginModal}
                             toggleRegisterModal={toggleRegisterModal}
                             handleCancelModal={handleCancelModal}

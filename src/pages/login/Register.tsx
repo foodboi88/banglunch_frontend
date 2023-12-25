@@ -1,18 +1,20 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { Button, Checkbox, Form, Input, Modal, Switch } from "antd";
 import { useEffect, useState } from "react";
 
-import "./login.scss";
+import { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { Rule } from "antd/lib/form";
 import { motion } from "framer-motion";
+import { REGISTER_MODE } from "../../constants/role.constants";
+import { registerRequest, registerSellerRequest } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
-import { registerRequest } from "../../redux/controller";
-import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import "./login.scss";
 interface MyProps {
     isOpenModal: boolean;
     toggleRegisterModal: () => void;
     toggleLoginModal: () => void;
     handleCancelModal: () => void;
+    setIsOpenRegisterModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const regexPhoneNumber = /^0(1\d{9}|3\d{8}|5\d{8}|7\d{8}|8\d{8}|9\d{8})$/;
 const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -20,53 +22,10 @@ const regexPass =
     /^.{6,}$/;
 
 const Register = (props: MyProps) => {
-    const [userNameReq, setUserNameReq] = useState<string>("");
-    const [userNumberPhoneReq, setUserNumberPhoneReq] = useState<string>("");
-    const [userEmailReq, setUserEmailReq] = useState<string>("");
-    const [userPassReq, setUserPassReq] = useState<string>("");
-    const [userConfirmPassReq, setUserConfirmPassReq] = useState<string>("");
-    const [checkReqBtn, setCheckReqBtn] = useState<boolean>(false);
+    const [registerMode, setRegisterMode] = useState<boolean>(false)
     const dispatch = useDispatchRoot();
     const [checked, setChecked] = useState<boolean>(false);
     const { registerSuccess } = useSelectorRoot((state) => state.login);
-
-    useEffect(() => {
-        userNameReq &&
-            regexPhoneNumber.test(userNumberPhoneReq) &&
-            regexEmail.test(userEmailReq) &&
-            userPassReq.length >= 6 &&
-            userConfirmPassReq === userPassReq &&
-            checked
-            ? setCheckReqBtn(true)
-            : setCheckReqBtn(false);
-    }, [
-        userNameReq,
-        userNumberPhoneReq,
-        userEmailReq,
-        userPassReq,
-        userConfirmPassReq,
-        checked,
-    ]);
-
-    const handleInputNameReqChange = (event: { target: { value: any } }) => {
-        setUserNameReq(event.target.value);
-    };
-    const handleInputPhoneNumberReqChange = (event: {
-        target: { value: any };
-    }) => {
-        setUserNumberPhoneReq(event.target.value);
-    };
-    const handleInputEmailReqChange = (event: { target: { value: any } }) => {
-        setUserEmailReq(event.target.value);
-    };
-    const handleInputPassReqChange = (event: { target: { value: any } }) => {
-        setUserPassReq(event.target.value);
-    };
-    const handleInputConfirmPassReqChange = (event: {
-        target: { value: any };
-    }) => {
-        setUserConfirmPassReq(event.target.value);
-    };
 
     const phoneValidator = (
         rule: Rule,
@@ -112,18 +71,39 @@ const Register = (props: MyProps) => {
 
     const onFinish = async (account: any): Promise<any> => {
         console.log(account);
-        const bodyrequest = {
-            email: account.emailReg,
-            password: account.passwordReq,
-            confirmPassword: account.confirmPasswordReq,
-            name: account.nameReg,
-            phone: account.phoneNumberReg,
-            address: "string",
-            dob: "2023-04-11T04:18:58.326Z",
-            gender: true,
-            additionalProp1: {}
-        };
-        dispatch(registerRequest(bodyrequest));
+        if (registerMode === REGISTER_MODE.BUYER) {
+            const bodyrequest = {
+                email: account.emailReg,
+                password: account.passwordReq,
+                confirmPassword: account.confirmPasswordReq,
+                name: account.nameReg,
+                phone: account.phoneNumberReg,
+                address: account.address,
+                dob: "2023-04-11T04:18:58.326Z",
+                gender: true,
+                additionalProp1: {}
+            };
+            console.log(bodyrequest)
+            dispatch(registerRequest(bodyrequest));
+        } else {
+            const bodyrequest = {
+                email: account.emailReg,
+                password: account.passwordReq,
+                confirmPassword: account.confirmPasswordReq,
+                name: account.nameReg,
+                phone: account.phoneNumberReg,
+                address: account.address,
+                dob: "2023-04-11T04:18:58.326Z",
+                gender: true,
+                identityId: account.identityId,
+                personalTaxCode: account.personalTaxCode,
+                fromDetailAddress: account.fromDetailAddress,
+                additionalProp1: {}
+            };
+                        console.log(bodyrequest)
+            dispatch(registerSellerRequest(bodyrequest));
+
+        }
     };
 
     const handleChangeCheckBox = (event: CheckboxChangeEvent) => {
@@ -133,7 +113,7 @@ const Register = (props: MyProps) => {
 
     useEffect(() => {
         if (registerSuccess) {
-            props.toggleLoginModal()
+            props.setIsOpenRegisterModal(false)
         }
     }, [registerSuccess]);
 
@@ -154,6 +134,7 @@ const Register = (props: MyProps) => {
                     onFinish={(item) => onFinish(item)}
                     layout="vertical"
                 >
+                    <Switch checkedChildren="Đăng ký làm chủ quán" unCheckedChildren="Đăng ký làm người mua" onClick={(event)=>setRegisterMode(event)} defaultChecked={registerMode} />
                     <div className="row-item">
                         <Form.Item
                             label="Họ và tên"
@@ -168,7 +149,6 @@ const Register = (props: MyProps) => {
                             <Input
                                 className="form-input"
                                 placeholder="Nhập họ tên"
-                                onChange={handleInputNameReqChange}
                             />
                         </Form.Item>
                         <Form.Item
@@ -184,7 +164,6 @@ const Register = (props: MyProps) => {
                             <Input
                                 className="form-input"
                                 placeholder="Nhập số điện thoại"
-                                onChange={handleInputPhoneNumberReqChange}
                             />
                         </Form.Item>
                     </div>
@@ -202,13 +181,28 @@ const Register = (props: MyProps) => {
                             <Input
                                 className="form-input"
                                 placeholder="Nhập email/sđt"
-                                onChange={handleInputEmailReqChange}
                             />
                         </Form.Item>
                         <div className="check-label">
                             Mỗi email chỉ được đăng ký 1 tài khoản.
                         </div>
                     </div>
+
+                    <Form.Item
+                        label="Địa chỉ cá nhân"
+                        name="address"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Vui lòng nhập Địa chỉ cá nhân",
+                            },
+                        ]}
+                    >
+                        <Input
+                            className="form-input"
+                            placeholder="Nhập số Địa chỉ cá nhân"
+                        />
+                    </Form.Item>
                     <div>
                         <Form.Item
                             label="Mật khẩu"
@@ -232,7 +226,6 @@ const Register = (props: MyProps) => {
                                 }
                                 type="password"
                                 placeholder="Nhập mật khẩu"
-                                onChange={handleInputPassReqChange}
                             />
                         </Form.Item>
                         <div className="check-label">
@@ -272,9 +265,60 @@ const Register = (props: MyProps) => {
                                 className="form-input"
                                 id="basic_ConfirmPasswordRegiter"
                                 placeholder="Nhập lại mật khẩu"
-                                onChange={handleInputConfirmPassReqChange}
                             />
                         </Form.Item>
+                        {
+                            registerMode === REGISTER_MODE.SELLER && 
+                            <>
+                                <Form.Item
+                                    label="Căn cước công dân"
+                                    name="identityId"
+                                    rules={[
+                                        {
+                                            required: registerMode === REGISTER_MODE.SELLER ? true : false,
+                                            message: "Vui lòng nhập số Căn cước công dân",
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        className="form-input"
+                                        placeholder="Nhập số căn cước công dân"
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Mã số thuế cá nhân"
+                                    name="personalTaxCode"
+                                    rules={[
+                                        {
+                                            required: registerMode === REGISTER_MODE.SELLER ? true : false,
+                                            message: "Vui lòng nhập Mã số thuế cá nhân",
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        className="form-input"
+                                        placeholder="Nhập Mã số thuế cá nhân"
+                                    />
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Địa chỉ quán"
+                                    name="fromDetailAddress"
+                                    rules={[
+                                        {
+                                            required: registerMode === REGISTER_MODE.SELLER ? true : false,
+                                            message: "Vui lòng nhập Địa chỉ quán",
+                                        },
+                                    ]}
+                                >
+                                    <Input
+                                        className="form-input"
+                                        placeholder="Nhập Địa chỉ quán"
+                                    />
+                                </Form.Item>
+                            </>
+                        }
                     </div>
 
                     <Form.Item
@@ -304,23 +348,15 @@ const Register = (props: MyProps) => {
                             whileTap={{ scale: 0.95 }}
                             whileFocus={{ scale: 1.05 }}
                         >
-                            {checkReqBtn ? (
                                 <Button
                                     type="primary"
                                     htmlType="submit"
                                     className="login-form-button active"
+                                    disabled={!checked}
                                 >
                                     Đăng ký
                                 </Button>
-                            ) : (
-                                <Button
-                                    type="primary"
-                                    htmlType="submit"
-                                    className="login-form-button"
-                                >
-                                    Đăng ký
-                                </Button>
-                            )}
+
                         </motion.div>
                         <div className="change-to-register">
                             Bạn đã có tài khoản ?

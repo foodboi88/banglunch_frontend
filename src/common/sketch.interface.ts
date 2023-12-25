@@ -141,6 +141,7 @@ export interface IDetailFood {
     galleries: IGallery[]
     food_categories: IFoodCategory[],
     order_details: IOrderDetail
+    summarizedComments: string
 }
 
 export interface IFoodCategory {

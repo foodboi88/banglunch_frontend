@@ -307,6 +307,43 @@ const loginSlice = createSlice({
             state.registerSuccess = false;
         },
 
+        registerSellerRequest(state, action: PayloadAction<any>) {
+            state.loading = true;
+            state.registerSuccess = false;
+            console.log("Da chui vao voi action: ", action);
+        },
+
+        registerSellerSuccess(state, action: PayloadAction<any>) {
+            console.log(action.payload.data.message);
+            state.loading = false;
+
+            notification.open({
+                message: action.payload.data.message,
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+            });
+
+            // state.user = action.payload.user
+            state.isSuccess = true;
+            state.registerSuccess = true;
+        },
+
+        registerSellerFail(state, action: PayloadAction<any>) {
+            console.log(action);
+
+            notification.open({
+                message: action.payload.response?.message ? action.payload.response?.message : "Đăng ký không thành công!",
+                // description:
+                //     action.payload.response.message,
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+            });
+            state.loading = false;
+            state.registerSuccess = false;
+        },
+
         changePasswordRequest(state, action: PayloadAction<any>) {
             state.loading = true;
         },
@@ -459,6 +496,25 @@ const register$: RootEpic = (action$) =>
             );
         })
     );
+
+const registerSeller$: RootEpic = (action$) =>
+    action$.pipe(
+        filter(registerSellerRequest.match),
+        switchMap((re) => {
+            return IdentityApi.reqisterSeller(re.payload).pipe(
+                mergeMap((res: any) => {
+                    return [
+                        loginSlice.actions.registerSellerSuccess(res),
+                        loginSlice.actions.registerSuccess(res),
+
+                    ];
+                }),
+                catchError((err) => [
+                    loginSlice.actions.registerSellerFail(err),
+                ])
+            );
+        })
+    );
 const getUserInfo$: RootEpic = (action$) =>
     action$.pipe(
         filter(getUserInfoRequest.match),
@@ -572,7 +628,8 @@ export const LoginEpics = [
     checkActiveAccount$,
     changePassword$,
     updateShopStatus$,
-    getShopStatus$
+    getShopStatus$,
+    registerSeller$
 ];
 export const {
     getUserInfoRequest,
@@ -586,6 +643,7 @@ export const {
     checkActiveAccountRequest,
     changePasswordRequest,
     updateShopStatusRequest,
-    getShopStatusRequest
+    getShopStatusRequest,
+    registerSellerRequest
 } = loginSlice.actions;
 export const loginReducer = loginSlice.reducer;

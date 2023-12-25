@@ -42,6 +42,7 @@ import { ITool } from "../../common/tool.interface";
 import { IAuthor, IHotProducts, IOverViewStatistic, ISellerProfile, IUser } from "../../common/user.interface";
 import Utils from "../../common/utils";
 import { QUERY_PARAM } from "../../constants/get-api.constants";
+import { ROLE } from "../../enum/role.enum";
 
 type MessageLogin = {
     content: string;
@@ -591,7 +592,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thêm món ăn không thành công",
-                description: action.payload.response.message === 'Products-already-in-the-cart' ? 'món ăn đã có trong giỏ' : 'Network error',
+                description: action.payload.response.statusCode === 'Products-already-in-the-cart' ? 'món ăn đã có trong giỏ' : 'Network error',
                 onClick: () => {
                     console.log(action.payload.message);
                 },
@@ -1214,6 +1215,29 @@ const sketchSlice = createSlice({
             if (action.payload.status === 400 || action.payload.status === 404) {
                 notification.error({
                     message: 'Lỗi tải dữ liệu',
+                    description: action.payload.response.message,
+                    onClick: () => {
+                        console.log("Notification Clicked!");
+                    },
+                });
+            }
+        },
+
+        addCommentRequest(state, action: PayloadAction<any>) {
+            state.loading = true;
+        },
+
+        addCommentSuccess(state, action: PayloadAction<any>) {
+            state.loading = false;
+            console.log(action.payload);
+        },
+
+        addCommentFail(state, action: PayloadAction<any>) {
+            state.loading = false;
+
+            if (action.payload.status === 400 || action.payload.status === 404) {
+                notification.error({
+                    message: 'Lỗi',
                     description: action.payload.response.message,
                     onClick: () => {
                         console.log("Notification Clicked!");
@@ -2242,6 +2266,23 @@ const getPurchasedSketchs$: RootEpic = (action$) =>
         })
     );
 
+const addComment$: RootEpic = (action$) =>
+    action$.pipe(
+        filter(addCommentRequest.match),
+        switchMap((re) => {
+            console.log(re);
+            return SketchsApi.addComment(re.payload).pipe(
+                switchMap((res: any) => {
+                    return [
+                        sketchSlice.actions.addCommentSuccess(res),
+                        sketchSlice.actions.getPurchasedSketchsRequest()
+                    ]
+                }),
+                catchError((err) => [sketchSlice.actions.addCommentFail(err)])
+            );
+        })
+    );
+
 const getSellerProfile$: RootEpic = (action$) =>
     action$.pipe(
         filter(getSellerProfileRequest.match),
@@ -2327,10 +2368,18 @@ const approveOrder$: RootEpic = (action$) =>
             }
             return OrderApi.approveOrder(re.payload).pipe(
                 switchMap((res: any) => {
-                    return [
-                        sketchSlice.actions.approveOrderSuccess(res),
-                        sketchSlice.actions.getBillListRequests(getBillBodyrequest)
-                    ];
+                    const role = Utils.getValueLocalStorage("role"); // Check xem role của người dùng là mua hay bán để call api get danh sách đơn hàng tương ứng
+                    if (role === ROLE.SELLER) {
+                        return [
+                            sketchSlice.actions.approveOrderSuccess(res),
+                            sketchSlice.actions.getBillListRequests(getBillBodyrequest)
+                        ];
+                    } else {
+                        return [
+                            sketchSlice.actions.approveOrderSuccess(res),
+                            sketchSlice.actions.getPurchasedSketchsRequest()
+                        ]
+                    }
                 }),
                 catchError((err) => [sketchSlice.actions.approveOrderFail(err)])
             );
@@ -2394,7 +2443,8 @@ export const SketchEpics = [
     getPurchasedSketchs$,
     getSellerProfile$,
     editSketch$,
-    approveOrder$
+    approveOrder$,
+    addComment$
 ];
 export const {
     getLatestSketchRequest,
@@ -2458,7 +2508,9 @@ export const {
 
     createShippingOrderRequest,
 
-    approveOrderRequest
+    approveOrderRequest,
+    addCommentRequest
+
 
 } = sketchSlice.actions;
 export const sketchReducer = sketchSlice.reducer;

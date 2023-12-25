@@ -292,6 +292,12 @@ const DetailSketch = () => {
                     />
                 </div>
             )}
+            <div className="similar-sketch">
+                <div className="title">
+                    <div>Tóm tắt toàn bộ bình luận</div>
+                </div>
+                    {detailSketch?.summarizedComments || 'Chưa có dữ liệu'}
+            </div>
             <div className="comment">
                 <CComment />
             </div>

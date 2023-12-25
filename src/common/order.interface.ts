@@ -1,3 +1,4 @@
+import { IComment } from "./comment.interface"
 import { IFood } from "./food.interface"
 import { IUser } from "./user.interface"
 
@@ -8,7 +9,8 @@ export interface IOrderDetail {
   quantity: number
   price: number
   __v: number
-  foods: IFood
+  foods: IFood,
+  comments: IComment[]
 }
 
 export interface IOrders {

@@ -15,6 +15,7 @@ export enum API_URL {
     UPLOAD_FILES_OF_SKETCH = "product-files",
     LOGIN = "users/login",
     REGISTER = "users/register",
+    REGISTER_SELLER = "users/register-seller",
     REFRESH_TOKEN = "users/refreshtoken",
     GET_USER_INFO = "users/profile",
     CHANGE_PASSWORD = "users/changepassword",
@@ -58,6 +59,7 @@ export enum API_URL {
     GET_BANKS = "https://api.vietqr.io/v2/banks",
     GET_ACCOUNT_BANK_NAME = "https://api.vietqr.io/v2/lookup",
     GET_PURCHASED_SKETCHS = "orders/orders-by-user",
+    ADD_COMMENT = "comments/create-comment",
 
     CREATE_SHIPPING_ORDER = "delivery/create-shipping-order",
     APPROVE_ORDER = "orders/approve-order"

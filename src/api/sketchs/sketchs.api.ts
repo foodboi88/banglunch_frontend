@@ -250,4 +250,17 @@ export default class SketchsApi {
             )
         );
     }
+
+    // get danh sach san pham da mua
+    static addComment(bodyrequest: any): Observable<any> {
+        // const queryParam = Utils.parseObjectToQueryParameter(bodyrequest);
+
+        const api = `${SketchsApi.apiURL.HOST}/${this.apiURL.ADD_COMMENT}`;
+        return HttpClient.post(api, bodyrequest).pipe(
+            map(
+                (res) => (res as any) || null,
+                catchError((error) => new Observable())
+            )
+        );
+    }
 }

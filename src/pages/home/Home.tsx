@@ -12,8 +12,6 @@ import "./styles.home.scss";
 
 
 import { ICurrentSearchValue, IFilteredSketch, IReqGetLatestSketchs } from "../../common/sketch.interface";
-import CArchitectCard from "../../components/CArchitectCard/CArchitectCard";
-import CStyleCard from "../../components/CStyleCard/CStyleCard";
 import CProductCard from "../../components/ProductCard/CProductCard";
 import HomepageFooter from '../../images/homepage/A-Gastronomic-Journey-Through-Hvars-Finest-Restaurants.webp';
 import CEO from '../../images/homepage/CEO.png';
@@ -368,6 +366,7 @@ const Home = () => {
                         />
                         <Register
                             isOpenModal={isOpenRegisterModal}
+                            setIsOpenRegisterModal={setIsOpenRegisterModal}
                             toggleLoginModal={toggleLoginModal}
                             toggleRegisterModal={toggleRegisterModal}
                             handleCancelModal={handleCancelModal}
@@ -434,122 +433,6 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* Danh sách phong cách */}
-            <div className="tool-of-web">
-                <div className="title">
-                    <div>LOẠI ĐỒ ĂN NỔI BẬT</div>
-                    <div className="sub-title">
-                        <Col>
-                            <Button
-                                icon={<ArrowLeftOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('prev', 'style')}
-                                disabled={currentIndexStyle === 0 && true}
-                            />
-                        </Col>
-                        <Col>
-                            <Button
-                                icon={<ArrowRightOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('next', 'style')}
-                                disabled={
-                                    currentIndexStyle >= cloneStyleList.length - numberOfCardShow && true
-                                    // currentIndexStyle >= styleList.length - numberOfCardShow && true
-                                }
-                            />
-                        </Col>
-                    </div>
-                </div>
-                <div className={"lst-tool " + ((cloneStyleList && cloneStyleList.length < numberOfCardShow) && 'less-lst')}>
-                    <Row gutter={[16, 16]}>
-                        {cloneStyleList
-                            .slice(
-                                currentIndexStyle,
-                                currentIndexStyle + numberOfCardShow
-                            )
-                            .map((card) => (
-                                <Col
-                                    span={spanCol}
-                                    key={card.name}
-                                >
-                                    <CStyleCard
-                                        imageUrl={card.imageUrl}
-                                        name={card.name}
-                                        id={card.id}
-                                    />
-                                </Col>
-                            ))}
-                    </Row>
-                </div>
-
-            </div>
-{/* 
-            <CDeclare
-                content="Nhanh chóng tiện lợi"
-                imageUrl={Declare1}
-            /> */}
-
-            {/* Top kiến trúc sư */}
-            <div className="tool-of-web">
-                <div className="title">
-                    <div>QUÁN ĂN ĐẮT KHÁCH</div>
-                    <div className="sub-title">
-                        <Col>
-                            <Button
-                                icon={<ArrowLeftOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('prev', 'architect')}
-                                disabled={currentIndexArchitect === 0 && true}
-                            />
-                        </Col>
-                        <Col>
-                            <Button
-                                icon={<ArrowRightOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('next', 'architect')}
-                                disabled={
-                                    currentIndexArchitect >= excellentArchitect.length - numberOfCardShow && true
-                                }
-                            />
-                        </Col>
-                    </div>
-                </div>
-                <div className="lst-tool architect-card">
-                    <Row gutter={[16, 16]}>
-                        {excellentArchitect
-                            .slice(
-                                currentIndexArchitect,
-                                currentIndexArchitect + numberOfCardShow
-                            )
-                            .map((card, index) => (
-                                <Col
-                                    // onClick={() => {
-                                    //     handleClickCard(card.id);
-                                    // }}
-                                    span={spanCol}
-                                    key={index}
-                                >
-                                    <CArchitectCard
-                                        imageUrl={card.imageUrl}
-                                        name={''}
-                                        type="excellentArchitect"
-                                        index={index + 1}
-                                    />
-                                </Col>
-                            ))}
-                    </Row>
-
-                </div>
-            </div>
-
-
-            {/* <CDeclare
-                content="Phù hợp với khẩu vị của bạn"
-                imageUrl={Declare1}
-
-            /> */}
-
-    
 
             <div className='homepage-footer'>
                 <div className="left-footer">

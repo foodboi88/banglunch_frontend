@@ -181,10 +181,6 @@ const SellerBill = () => {
                             <div>{Utils.caculateTotalPrice(detailOrder.order_details) + ' VND'}</div>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <div>Tổng tiền ship:</div>
-                            <div>{Utils.formatMoney(detailOrder.deliveryCost) + ' VND'}</div>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div>Tạo lúc: </div>
                             <div>{(new Date(detailOrder.createdAt)).toUTCString()}</div>
                         </div>
