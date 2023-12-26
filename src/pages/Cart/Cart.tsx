@@ -42,7 +42,7 @@ const Cart = () => {
     const navigate = useNavigate();
     const { lstSketchsInCart, sketchsQuantityInCart,deliveryDetail } =
         useSelectorRoot((state) => state.sketch);
-    const { userName, userMail, userPhone, accesstokenExpired } = useSelectorRoot((state) => state.login);
+    const { userName, userMail, userPhone, userAddress, accesstokenExpired } = useSelectorRoot((state) => state.login);
 
     const dispatch = useDispatchRoot();
 
@@ -65,6 +65,11 @@ const Cart = () => {
             key: "3",
             label: "Số điện thoại",
             value: `${userPhone}`,
+        },
+        {
+            key: "4",
+            label: "Địa chỉ",
+            value: `${userAddress}`,
         },
     ];
 

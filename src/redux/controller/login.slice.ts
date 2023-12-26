@@ -24,7 +24,6 @@ interface LoginState {
     // user: any | undefined;
     message: MessageLogin | undefined;
     messageForgot: MessageForgot | undefined;
-    departmentId: number;
     refresh_token: string;
     statusCode: string | undefined;
     tokenLogin: string | undefined;
@@ -33,6 +32,7 @@ interface LoginState {
     userName: string | undefined;
     userMail: string | undefined;
     userPhone: string | undefined;
+    userAddress: string | undefined;
     accesstokenExpired: boolean;
     userRole: string;
     userId: string;
@@ -46,7 +46,7 @@ const initState: LoginState = {
     userName: Utils.getValueLocalStorage("userName"),
     userMail: Utils.getValueLocalStorage("userMail"),
     userPhone: Utils.getValueLocalStorage("userPhone"),
-    departmentId: 1,
+    userAddress: Utils.getValueLocalStorage("userAddress"),
     message: undefined,
     messageForgot: undefined,
     refresh_token: "",
@@ -118,12 +118,15 @@ const loginSlice = createSlice({
             Utils.setLocalStorage("userName", action.payload.user.name);
             Utils.setLocalStorage("userMail", action.payload.user.email);
             Utils.setLocalStorage("userPhone", action.payload.user.phone);
+            Utils.setLocalStorage("userAddress", action.payload.user.address);
+
             Utils.setLocalStorage("user_id", action.payload.user.id);
 
             state.userId = action.payload.user.id;
             state.userName = action.payload.user.name;
             state.userMail = action.payload.user.email;
             state.userPhone = action.payload.user.phone;
+            state.userAddress = action.payload.user.address;
             state.loading = false;
             state.isSuccess = true;
             state.accesstokenExpired = false;
