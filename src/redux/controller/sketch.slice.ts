@@ -591,8 +591,8 @@ const sketchSlice = createSlice({
         addSketchToCartFail(state, action: PayloadAction<any>) {
             state.loading = false;
             notification.open({
-                message: "Thêm món ăn không thành công",
-                description: action.payload.response.statusCode === 'Products-already-in-the-cart' ? 'món ăn đã có trong giỏ' : 'Network error',
+                message: "Thêm món ăn vào giỏ không thành công",
+                description: action.payload.response.message,
                 onClick: () => {
                     console.log(action.payload.message);
                 },
@@ -653,13 +653,6 @@ const sketchSlice = createSlice({
         },
         createShippingOrderFail(state, action: PayloadAction<any>) {
             state.loading = false;
-            notification.open({
-                message: action.payload.response?.message,
-                description: action.payload.response?.message ? "Vui lòng chọn địa chỉ nhận món" : 'Network error',
-                onClick: () => {
-                    console.log(action.payload.response?.message);
-                },
-            });
         },
 
         //Thanh toán
@@ -672,24 +665,10 @@ const sketchSlice = createSlice({
         purchaseSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             state.purchaseResponse = action.payload.data;
-            notification.open({
-                message: action.payload.response?.message,
-                description: action.payload.response?.message || 'Network error',
-                onClick: () => {
-                    console.log(action.payload.response?.message);
-                },
-            });
         },
         purchaseFail(state, action: PayloadAction<any>) {
             state.loading = false;
             state.purchaseResponse = action.payload
-            notification.open({
-                message: action.payload.response?.message,
-                description: action.payload.response?.message || 'Network error',
-                onClick: () => {
-                    console.log(action.payload.response?.message);
-                },
-            });
         },
 
         // Get Author intro
@@ -884,16 +863,6 @@ const sketchSlice = createSlice({
         getBillListFail(state, action: PayloadAction<any>) {
             console.log(action);
             state.loading = false;
-            notification.open({
-                message: action.payload.response.message,
-                onClick: () => {
-                    console.log("Notification Clicked!");
-                },
-                style: {
-                    marginTop: 50,
-                    paddingTop: 40,
-                },
-            });
 
         },
 
@@ -1230,6 +1199,12 @@ const sketchSlice = createSlice({
         addCommentSuccess(state, action: PayloadAction<any>) {
             state.loading = false;
             console.log(action.payload);
+            notification.open({
+                message: "Thêm bình luận thành công",
+                onClick: () => {
+                    console.log("Notification Clicked!");
+                },
+            });
         },
 
         addCommentFail(state, action: PayloadAction<any>) {
@@ -1317,7 +1292,7 @@ const sketchSlice = createSlice({
             // Cu chia het cho 2 thi la up file thanh cong
             notification.open({
                 message: "Thành công",
-                description: "Cập nhật món ăn thành công",
+                description: "Cập nhật trạng thái đơn thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1329,7 +1304,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: "Duyệt đơn thất bại",
+                description: "Cập nhật trạng thái đơn thất bại",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },

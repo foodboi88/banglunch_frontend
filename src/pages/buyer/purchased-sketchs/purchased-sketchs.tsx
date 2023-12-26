@@ -366,8 +366,6 @@ const PurchasedSketchs = () => {
             <div className='table-area'>
                 <CTable
                     tableMainTitle='Lịch sử mua hàng'
-                    allowDateRangeSearch={true}
-                    allowTextSearch={true}
                     onChangeInput={onChangeInput}
                     onChangeRangePicker={onChangeRangePicker}
                     onSearch={onSearch}

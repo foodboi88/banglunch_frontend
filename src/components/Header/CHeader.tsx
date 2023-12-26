@@ -24,7 +24,7 @@ import { motion } from "framer-motion";
 import { ICurrentSearchValue } from "../../common/sketch.interface";
 import Utils from "../../common/utils";
 import { ROLE } from "../../enum/role.enum";
-import Logo from "../../images/header/logo.png";
+import Logo from "../../images/header/logo-food-catering-that-is-called-food-catering_540027-2.avif";
 import UserIcon from "../../images/user_icon.png";
 import Login from "../../pages/login/Login";
 import Register from "../../pages/login/Register";
@@ -210,7 +210,7 @@ setIsOpenLoginModal(!isOpenLoginModal);
                 <div className="header-left">
                     <div className="header-logo">
                         <Link to={"/"} className="logo-text">
-                            <img src={Logo} />
+                            <img style={{borderRadius: '20px'}} src={Logo} />
                             <div className="text-logo">BangLunch</div>
                         </Link>
                     </div>

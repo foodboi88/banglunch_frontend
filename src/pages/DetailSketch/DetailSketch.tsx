@@ -1,5 +1,5 @@
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, InputNumber, Rate, Row, notification } from "antd";
+import { ArrowLeftOutlined, ArrowRightOutlined, MessageOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, Col, InputNumber, Row, notification } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -14,7 +14,7 @@ import { IUpdateFoodInCart } from "../../common/order.interface";
 import { IDetailFood, IFoodCategory } from "../../common/sketch.interface";
 import Utils from "../../common/utils";
 import CComment from "../../components/Comment/CComment";
-import IconDetail1 from "../../images/detail/icon-detail-1.png";
+import { ROLE } from "../../enum/role.enum";
 import IconDetail6 from "../../images/detail/icon-detail-6.png";
 import {
     addSketchToCartRequest,
@@ -22,7 +22,6 @@ import {
     getRatesBySketchIdRequest
 } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
-import { ROLE } from "../../enum/role.enum";
 
 const DetailSketch = () => {
     const navigate = useNavigate();
@@ -294,9 +293,11 @@ const DetailSketch = () => {
             )}
             <div className="similar-sketch">
                 <div className="title">
-                    <div>Tóm tắt toàn bộ bình luận</div>
+                    <span>Tóm tắt toàn bộ bình luận</span> <MessageOutlined />
                 </div>
+                <div style={{color:'white'}}>
                     {detailSketch?.summarizedComments || 'Chưa có dữ liệu'}
+                </div>
             </div>
             <div className="comment">
                 <CComment />

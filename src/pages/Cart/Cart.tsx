@@ -73,7 +73,7 @@ const Cart = () => {
             title: `Tất cả (${sketchsQuantityInCart} món ăn)`,
             key: "title",
             render: (record: IOrderDetail) => (
-                <div className="sketch-cart-info">
+                <div onClick={()=>routerToDetailFood(record.foodId)} className="sketch-cart-info">
                     <div className="sketch-cart-info-img">
                         {/* <img src={sketch && sketch.images[0].filePath} alt="" /> */}
                         <img style={{ width: "145px" }} src={record.foods?.galleries[0]?.filePath || ''} alt="" />
@@ -176,6 +176,10 @@ const Cart = () => {
         dispatch(purchaseRequest(bodyrequest));
         navigate(`/buyer/purchased-food`);
     };
+
+    const routerToDetailFood = (foodId: string) => {
+        navigate(`/detail-food/${foodId}`);
+    }
 
     return (
         <div className="main-cart">

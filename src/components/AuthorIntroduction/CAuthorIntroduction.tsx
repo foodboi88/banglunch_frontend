@@ -43,18 +43,6 @@ const CAuthorIntroduction = (props: IAuthor) => {
             <div className="right-side">
                 <div className="grid-lst">
                     <div className="grid-item">
-                        Đánh giá: <strong>{props.totalRating}</strong>
-                    </div>
-                    <div className="grid-item">
-                        Tỉ lệ phản hồi: <strong>100%</strong>
-                    </div>
-                    <div className="grid-item">
-                        Tham gia: <strong>{formatDate(props?.createdAt || '')}</strong>
-                    </div>
-                    <div className="grid-item">
-                        món ăn: <strong>{props.totalProduct}</strong>
-                    </div>
-                    <div className="grid-item">
                         Địa chỉ: <strong>{props.address}</strong>
                     </div>
                     <div className="grid-item">

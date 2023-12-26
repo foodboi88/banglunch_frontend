@@ -87,6 +87,56 @@ const CComment = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}>
                         <Button
+                            type={activeButton === 10 ? 'primary' : 'default'}
+                            onClick={() => handleButtonClick(10)}
+                        >
+                            10 sao
+                        </Button>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}>
+                        <Button
+                            type={activeButton === 9 ? 'primary' : 'default'}
+                            onClick={() => handleButtonClick(9)}
+                        >
+                            9 sao
+                        </Button>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}>
+                        <Button
+                            type={activeButton === 8 ? 'primary' : 'default'}
+                            onClick={() => handleButtonClick(8)}
+                        >
+                            8 sao
+                        </Button>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}>
+                        <Button
+                            type={activeButton === 7 ? 'primary' : 'default'}
+                            onClick={() => handleButtonClick(7)}
+                        >
+                            7 sao
+                        </Button>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}>
+                        <Button
+                            type={activeButton === 6 ? 'primary' : 'default'}
+                            onClick={() => handleButtonClick(6)}
+                        >
+                            6 sao
+                        </Button>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}>
+                        <Button
                             type={activeButton === 5 ? 'primary' : 'default'}
                             onClick={() => handleButtonClick(5)}
                         >
@@ -162,7 +212,7 @@ const CComment = () => {
                                     <div>
                                         <Rate
                                             allowHalf
-                                            count={5}
+                                            count={10}
                                             disabled
                                             value={item.rate}
                                         />

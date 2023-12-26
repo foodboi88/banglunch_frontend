@@ -11,6 +11,7 @@ export interface IAuthor {
     totalRating?: number;
     totalProduct?: number;
     createdAt?: string;
+
 }
 
 export interface IGetWithdrawRequest {

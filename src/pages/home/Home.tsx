@@ -280,9 +280,6 @@ const Home = () => {
         }else{
             navigate(`/detail-food/${sketchId}`);
         }
-        // setTimeout(() => {
-        //     window.location.reload();
-        // }, 500);
 
     };
 
