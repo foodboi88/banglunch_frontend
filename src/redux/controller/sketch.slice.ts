@@ -80,7 +80,7 @@ interface SketchState {
     commentList?: any[];
     filteredSketchs: IFoodOfShop[];
     filteredAuthors?: IUser[];
-    currentSearchValue: any;
+    currentSearchValue: ICurrentSearchValue;
     checkWhetherSketchUploaded: number; // Là số chẵn thì chắc chắn file đó đã đc up cả ảnh + file + content thành công
     ratesLst: IRateList | undefined;
     productsFile: string | undefined;
@@ -154,10 +154,8 @@ const initState: SketchState = {
     freeSketchList: [],
     filteredAuthors: [],
     currentSearchValue: {
-        architecture: '',
-        style: '',
+        categoryId: '',
         name: "",
-        tool: '',
     },
     checkWhetherSketchUploaded: 0,
     ratesLst: {
@@ -342,25 +340,6 @@ const sketchSlice = createSlice({
             console.log("Da chui vao voi action: ", action);
         },
 
-
-        getAllStylesRequest(state, action: PayloadAction<any>) {
-            console.log("Da chui vao voi action: ", action);
-        },
-
-        getAllStylesSuccess(state, action: PayloadAction<any>) {
-            console.log(action.payload.data);
-            state.styleList = action.payload.data.map(
-                (item: ITool) =>
-                ({
-                    label: item.name,
-                    value: item.id,
-                } as CheckboxOptionType)
-            );
-            state.cloneStyleList = action.payload.data
-            console.log(state.toolList);
-            console.log("Da chui vao voi action: ", action);
-        },
-
         getAllArchitecturesRequest(state) {
         },
 
@@ -446,10 +425,8 @@ const sketchSlice = createSlice({
         // action.payload bây giờ sẽ là thông tin mà bạn muốn tìm kiếm sau khi clear giá trị tìm kiếm cũ
         resetCurrentSearchValueRequest(state, action: PayloadAction<any>) {
             state.currentSearchValue = {
-                architecture: '',
-                style: '',
+                categoryId: '',
                 name: "",
-                tool: '',
             }
         },
 
@@ -460,26 +437,18 @@ const sketchSlice = createSlice({
             state.currentSearchValue = {
                 // Xu ly de lay duoc ca gia tri cua o input cua header va cac o selectbox cua filter. Neu co
                 // truong nao khong co gia tri thi lay gia tri hien tai duoc luu trong redux
-                architecture: action.payload.architecture
-                    ? action.payload.architecture
-                    : state.currentSearchValue.architecture,
-                style: action.payload.style
-                    ? action.payload.style
-                    : state.currentSearchValue.style,
+                categoryId: action.payload.categoryId
+                    ? action.payload.categoryId
+                    : state.currentSearchValue.categoryId,
                 name: action.payload.name
                     ? action.payload.name
                     : state.currentSearchValue.name,
-                tool: action.payload.tool
-                    ? action.payload.tool
-                    : state.currentSearchValue.tool,
             };
         },
 
         advancedSearchingSuccess(state, action: PayloadAction<any>) {
-            console.log(action.payload.data[0].items.length);
-
             state.loading = false;
-            state.filteredSketchs = action.payload?.data[0]?.items;
+            state.filteredSketchs = action.payload?.data;
         },
 
         advancedSearchingFail(state, action: PayloadAction<any>) {
@@ -941,7 +910,7 @@ const sketchSlice = createSlice({
             state.loading = false;
             notification.open({
                 message: "Thất bại",
-                description: action?.payload?.message || "Xóa món ăn không thành công",
+                description: action?.payload?.response.message || "Xóa món ăn không thành công",
                 onClick: () => {
                     console.log("Notification Clicked!");
                 },
@@ -1411,31 +1380,6 @@ const getMostViewdSketchs$: RootEpic = (action$) =>
         })
     );
 
-// const getMostDownloadedSketchs$: RootEpic = (action$) =>
-//     action$.pipe(
-//         filter(getLatestSketchRequest.match),
-//         switchMap((re) => {
-//             // IdentityApi.login(re.payload) ?
-//             console.log(re);
-//             const body: any = {
-//                 email: re.payload.email,
-//                 password: re.payload.password,
-//                 remember: re.payload.remember,
-//                 additionalProp1: {},
-//             };
-
-//             return IdentityApi.login(body).pipe(
-//                 mergeMap((res: any) => {
-//                     console.log(res);
-//                     console.log(res.data.accessToken);
-//                     const token = res.data.accessToken;
-//                     return [];
-//                 }),
-//                 catchError((err) => [])
-//             );
-//         })
-//     );
-
 //Lay ra cac tieu chi filter
 const getAllFitlerCriterias$: RootEpic = (action$) =>
     action$.pipe(
@@ -1448,46 +1392,8 @@ const getAllFitlerCriterias$: RootEpic = (action$) =>
 
             return [
                 sketchSlice.actions.getAllArchitecturesRequest(),
-                sketchSlice.actions.getAllStylesRequest(bodyrequest),
-                sketchSlice.actions.getAllToolsRequest(bodyrequest),
                 sketchSlice.actions.getAllFilterCriteriasSuccess(),
             ];
-        })
-    );
-
-const getAllTools$: RootEpic = (action$) =>
-    action$.pipe(
-        filter(getAllToolsRequest.match),
-        switchMap((re) => {
-            // IdentityApi.login(re.payload) ?
-            console.log(re);
-
-            return FilterCriteriasApi.getTools(re.payload).pipe(
-                mergeMap((res: any) => {
-                    console.log(res);
-
-                    return [sketchSlice.actions.getAllToolsSuccess(res)];
-                }),
-                catchError((err) => [])
-            );
-        })
-    );
-
-const getAllStyles$: RootEpic = (action$) =>
-    action$.pipe(
-        filter(getAllStylesRequest.match),
-        switchMap((re) => {
-            // IdentityApi.login(re.payload) ?
-            console.log(re);
-
-            return FilterCriteriasApi.getStyles(re.payload).pipe(
-                mergeMap((res: any) => {
-                    console.log(res);
-
-                    return [sketchSlice.actions.getAllStylesSuccess(res)];
-                }),
-                catchError((err) => [])
-            );
         })
     );
 
@@ -1599,24 +1505,15 @@ const getAuthorIntroductionById$: RootEpic = (action$) =>
         })
     );
 
-// http://14.231.84.10:6068/products/filter?size=10&offset=0&name=a
 const advancedSearchSketch$: RootEpic = (action$) =>
     action$.pipe(
         filter(advancedSearchingRequest.match),
         switchMap((re) => {
             // IdentityApi.login(re.payload) ?
             console.log(re);
-            const bodyrequest = {
-                size: re.payload.size || 1000,
-                offset: 0,
+            const bodyrequest: ICurrentSearchValue = {
                 name: re.payload.name ? re.payload.name : "",
-                designToolId: re.payload.tool ? re.payload.tool : "",
-                typeOfArchitectureId: re.payload.architecture
-                    ? re.payload.architecture
-                    : "",
-                designStyleId: re.payload.style ? re.payload.style : "",
-                authorId: re.payload.authorId ? re.payload.authorId : ''
-
+                categoryId: re.payload.categoryId ? re.payload.categoryId : ""
             };
 
             return SketchsApi.advancedSearching(bodyrequest).pipe(
@@ -2304,9 +2201,7 @@ const resetCurrentSearchValue$: RootEpic = (action$) =>
         mergeMap((re) => {
             const bodyrequest: ICurrentSearchValue = {
                 name: re.payload.name,
-                architecture: '',
-                tool: '',
-                style: '',
+                categoryId: ''
             };
             return [
                 sketchSlice.actions.advancedSearchingRequest(bodyrequest),
@@ -2369,9 +2264,6 @@ export const SketchEpics = [
     getFreeSketch$,
     getLatestSketchs$,
     getMostViewdSketchs$,
-    // getMostDownloadedSketchs$,
-    getAllTools$,
-    getAllStyles$,
     getAllArchitectures$,
     getAllFitlerCriterias$,
     getDetailSketch$,
@@ -2426,9 +2318,7 @@ export const {
     getFreeSketchRequest,
     getHomeListSketchRequest,
     getMostViewdSketchsRequest,
-    getAllToolsRequest,
     getAllArchitecturesRequest,
-    getAllStylesRequest,
     getAllFilterCriteriasRequest,
     getDetailSketchRequest,
     getCommentBySketchIdRequest,

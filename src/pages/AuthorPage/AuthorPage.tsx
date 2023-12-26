@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IFoodOfShop } from "../../common/sketch.interface";
 import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
 import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntroduction";
-import CFilter from "../../components/Filter/CFilter";
 import CPagination from "../../components/Pagination/CPagination";
 import CProductCard from "../../components/ProductCard/CProductCard";
 import {
@@ -85,9 +84,6 @@ const AuthorPage = () => {
     }, [currentPage, shopDetail]);
     return (
         <div className="main-author-page">
-            <CFilter
-                authorId={authorId}
-            />
             <div className="page-content">
                 {shopDetail?.info && (
                     <CAuthorIntroduction

@@ -2,16 +2,14 @@ import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IFoodOfShop } from "../../common/sketch.interface";
-import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
 import CFilter from "../../components/Filter/CFilter";
 import CPagination from "../../components/Pagination/CPagination";
 import CProductCard from "../../components/ProductCard/CProductCard";
-import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import { useSelectorRoot } from "../../redux/store";
 import "./styles.advancedsearching.scss";
 
 const AdvancedSeaching = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatchRoot();
     const [spanCol, setSpanCol] = useState<number>(6);
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
@@ -61,7 +59,7 @@ const AdvancedSeaching = () => {
     }, [window.innerWidth]);
 
     const goToDetailPageHandle = (id: string) => {
-        navigate(`/detail-sketch/${id}`);
+        navigate(`/detail-food/${id}`);
     };
 
     const onChangePage = (page: number) => {
@@ -87,8 +85,6 @@ const AdvancedSeaching = () => {
                 <div className="author-introduction">
                 </div>
                 <div className="sketch-list">
-
-                    <CArrangeBar />
                     <Row className="detail-list" gutter={[16, 24]}>
                         {newfilteredSketchs &&
                             newfilteredSketchs.map((card) => (
@@ -104,9 +100,7 @@ const AdvancedSeaching = () => {
                                         title={card.title}
                                         views={card.views}
                                         price={card.price}
-                                        category={card.category || ''}
-
-                                    // type={card.}
+                                        category={card.category}
                                     />
                                 </Col>
                             ))}

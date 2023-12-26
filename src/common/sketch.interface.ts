@@ -44,12 +44,7 @@ export interface IFoodOfShop {
 
 export interface ICurrentSearchValue {
     name?: string;
-    tool?: string;
-    architecture?: string;
-    style?: string;
-    size?: number;
-    offset?: number;
-    authorId?: string;
+    categoryId?: string;
 }
 export interface ISize {
     width: string;

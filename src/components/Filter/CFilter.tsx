@@ -1,20 +1,16 @@
-import { Checkbox, Col, Form, Radio, Row, Select } from "antd";
-import { Option } from "antd/lib/mentions";
-import "./styles.filter.scss";
-import React, { useEffect, useState } from "react";
 import {
-    FormatPainterOutlined,
-    HomeOutlined,
-    ToolOutlined,
+    HomeOutlined
 } from "@ant-design/icons";
+import { Form, Radio } from "antd";
 import { motion } from "framer-motion";
-import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import { useEffect, useState } from "react";
+import { ICurrentSearchValue } from "../../common/sketch.interface";
 import {
     advancedSearchingRequest,
-    getAllFilterCriteriasRequest,
-    getAllToolsRequest,
+    getAllFilterCriteriasRequest
 } from "../../redux/controller";
-import { IReqGetAllTools } from "../../common/tool.interface";
+import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
+import "./styles.filter.scss";
 
 interface props {
     authorId?: string;
@@ -48,17 +44,11 @@ interface DATA_TRANFER {
 const CFilter = (props: props) => {
     const dispatch = useDispatchRoot();
     const {
-        toolList,
         architectureList,
-        styleList,
-        filteredSketchs,
-        filteredAuthors,
         currentSearchValue,
     } = useSelectorRoot((state) => state.sketch);
     const [form] = Form.useForm();
-    const [selectedTool, setSelectedTool] = useState<string>('');
     const [selectedArchitecture, setSelectedArchitecture] = useState<string>('');
-    const [selectedStyle, setSelectedStyle] = useState<string>('');
 
     useEffect(() => {
         dispatch(getAllFilterCriteriasRequest());
@@ -66,26 +56,19 @@ const CFilter = (props: props) => {
 
     const handleSearch = (param: DATA_TRANFER) => {
         console.log(param);
-        const bodyrequest = {
-            tool: param.target === "tool" ? param.value : selectedTool,
-            architecture:
-                param.target === "architecture"
+        const bodyrequest: ICurrentSearchValue = {
+            categoryId:
+                param.target === "category"
                     ?
                     param.value
                     : selectedArchitecture,
-            style: param.target === "style" ? param.value : selectedStyle,
             name: currentSearchValue.name, // Lay ra gia tri text luu trong redux
-            authorId: props.authorId ? props.authorId : ''
         };
 
-        if (param.target === "tool") setSelectedTool(param.value);
-        if (param.target === "architecture")
+        if (param.target === "category") {
             setSelectedArchitecture(param.value);
-        if (param.target === "style") setSelectedStyle(param.value);
+        }
         console.log(bodyrequest);
-
-        console.log(bodyrequest);
-
         dispatch(advancedSearchingRequest(bodyrequest));
     };
 
@@ -97,7 +80,7 @@ const CFilter = (props: props) => {
             transition={{ duration: 0.5 }}
         >
             <Form form={form}>
-                <Form.Item className="form-item" name="architecture">
+                <Form.Item className="form-item" name="category">
                     <div className="title">
                         <div className="icon">
                             <HomeOutlined />
@@ -107,12 +90,12 @@ const CFilter = (props: props) => {
                     <Radio.Group
                         onChange={(event) =>
                             handleSearch({
-                                target: "architecture",
+                                target: "category",
                                 value: event.target.value,
                             })
                         }
                         options={architectureList}
-                        value={currentSearchValue.architecture}
+                        value={currentSearchValue.categoryId}
                     />
                 </Form.Item>
             </Form>

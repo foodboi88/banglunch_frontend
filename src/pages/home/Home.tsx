@@ -1,31 +1,13 @@
 /* eslint-disable jsx-a11y/iframe-has-title */
-import {
-    ArrowLeftOutlined,
-    ArrowRightOutlined
-} from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./styles.home.scss";
-
-
-
-import { ICurrentSearchValue, IFilteredSketch, IReqGetLatestSketchs } from "../../common/sketch.interface";
 import CProductCard from "../../components/ProductCard/CProductCard";
 import HomepageFooter from '../../images/homepage/A-Gastronomic-Journey-Through-Hvars-Finest-Restaurants.webp';
 import CEO from '../../images/homepage/CEO.png';
-import Company1 from '../../images/homepage/company.png';
-import ExcellentArchitect1 from "../../images/homepage/excellentArchitect1.png";
-import ExcellentArchitect2 from "../../images/homepage/excellentArchitect2.png";
-import ExcellentArchitect3 from "../../images/homepage/excellentArchitect3.png";
-import ExcellentArchitect4 from "../../images/homepage/excellentArchitect4.png";
 import IntroImage from "../../images/homepage/intropic.jpg";
-import StyleList1 from "../../images/homepage/styleList1.png";
-import StyleList2 from "../../images/homepage/styleList2.png";
-import StyleList3 from "../../images/homepage/styleList3.png";
 import {
-    advancedSearchingRequest,
     getAllArchitecturesRequest,
     getHomeListSketchRequest
 } from "../../redux/controller";
@@ -33,18 +15,11 @@ import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 import Login from "../login/Login";
 import Register from "../login/Register";
 import "./styles.home.scss";
-interface CardData {
-    id: number;
-    title: string;
-    type: string;
-    price: number;
-    view: number;
-    imageUrl: string;
-}
+
 
 // Phần trang chủ của trang web
 const Home = () => {
-    const { latestSketchsList, mostViewedSketchList, freeSketchList, cloneArchitecturelist, filteredSketchs, cloneStyleList, currentSearchValue } = useSelectorRoot(
+    const { mostViewedSketchList } = useSelectorRoot(
         (state) => state.sketch
     ); // Lst cac ban ve
 
@@ -54,104 +29,20 @@ const Home = () => {
     const [spanCol, setSpanCol] = useState<number>(6);
     const [numberOfCardShow, setNumberOfCardShow] = useState<number>(10);
     const [numberOfCardNext, setNumberOfCardNext] = useState<number>(10);
-
     const [currentIndexMostViewedSketch, setCurrentIndexMostViewedSketch] = useState(0);
     const [currentIndexLatestSketch, setCurrentIndexLatestSketch] = useState(0);
     const [currentIndexArchitect, setCurrentIndexArchitect] = useState(0);
     const [currentIndexCompany, setCurrentIndexCompany] = useState(0);
     const [currentIndexFilteredSketch, setCurrentIndexFilteredSketch] = useState(0);
     const [currentIndexStyle, setCurrentIndexStyle] = useState(0);
-
-    const [cloneFilteredSketchs, setCloneFilteredSketchs] = useState<IFilteredSketch[]>([]);
-
-
-
+    const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false); // Biến kiểm tra đang mở modal login hay chưa
+    const [isOpenRegisterModal, setIsOpenRegisterModal] = useState<boolean>(false); // Biến kiểm tra đang mở modal registration hay chưa
+    const [isLogin, setIsLogin] = useState<boolean>(false);
     const [currentIndexFreeSketch, setCurrentIndexFreeSketch] = useState(0);
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
     ]);
-
-    // useEffect(()=> {
-    //     let lastSketch = 
-    //         {
-    //             _id: 'last',
-    //             title: '',
-    //             price: -1,
-    //             views: 56,
-    //             category: '',
-    //             image: SeeMore,
-    //         }
-    //     ;
-    //     setCloneFilteredSketchs([...filteredSketchs,lastSketch])
-    // },[filteredSketchs])
-
-    const excellentArchitect = [
-        {
-            imageUrl: ExcellentArchitect1,
-        },
-        {
-            imageUrl: ExcellentArchitect2,
-        },
-        {
-            imageUrl: ExcellentArchitect3,
-        },
-        {
-            imageUrl: ExcellentArchitect4,
-        },
-    ]
-
-    const styleList = [
-        {
-            imageUrl: StyleList1,
-            name: 'Phong cách hiện đại',
-            id: '64231026edf9dd11e488c250'
-        },
-        {
-            imageUrl: StyleList2,
-            name: 'Phong cách cổ điển',
-            id: '64231026edf9dd11e488c251'
-        },
-        {
-            imageUrl: StyleList3,
-            name: 'Phong cách hiện đại',
-            id: '64231026edf9dd11e488c252'
-        },
-        {
-            imageUrl: StyleList1,
-            name: 'Phong cách hiện đại',
-            id: '64231026edf9dd11e488c253'
-        },
-        {
-            imageUrl: StyleList2,
-            name: 'Phong cách cổ điển',
-            id: '64231026edf9dd11e488c254'
-        },
-        {
-            imageUrl: StyleList3,
-            name: 'Phong cách hiện đại',
-            id: '64231026edf9dd11e488c255'
-        }
-    ]
-
-    const companyList = [
-        {
-            imageUrl: Company1,
-
-        },
-        {
-            imageUrl: Company1,
-
-        },
-        {
-            imageUrl: Company1,
-
-        },
-        {
-            imageUrl: Company1,
-
-        },
-    ]
 
     useEffect(() => {
         document.body.scrollTo({
@@ -192,13 +83,8 @@ const Home = () => {
     });
 
     useEffect(() => {
-        const bodyrequest: IReqGetLatestSketchs = {
-            size: 50,
-            offset: 0,
-        };
         dispatch(getHomeListSketchRequest());
         dispatch(getAllArchitecturesRequest());
-        handleSearch('64231026edf9dd11e488c250');
     }, []);
 
     const handlePagination = (direction: string, type: string) => {
@@ -262,58 +148,10 @@ const Home = () => {
         }
     }
 
-    const handleClickCategory = () => {
-
-    }
-
     const handleClickCard = (sketchId: string) => {
-        console.log("sketchId", sketchId);
-        if(sketchId === 'last'){
-            const bodyrequest: ICurrentSearchValue = {
-                name: '',
-                architecture: currentSearchValue.architecture,
-                tool: currentSearchValue.tool,
-                style: currentSearchValue.style,
-            };
-            dispatch(advancedSearchingRequest(bodyrequest));
-            navigate("/searching");
-        }else{
-            navigate(`/detail-food/${sketchId}`);
-        }
+        navigate(`/detail-food/${sketchId}`);
 
     };
-
-    const onClickCategory = (architectureId: string) => {
-        const bodyrequest: ICurrentSearchValue = {
-            name: '',
-            architecture: architectureId,
-            tool: '',
-            style: '',
-        };
-        dispatch(advancedSearchingRequest(bodyrequest))
-        navigate("/searching");
-    }
-
-    const handleSearch = (param: string) => {
-        console.log(param);
-        const bodyrequest = {
-            size: 7,
-            architecture: param,
-            name: '', // Lay ra gia tri text luu trong redux
-        };
-        console.log(bodyrequest);
-
-        dispatch(advancedSearchingRequest(bodyrequest));
-    };
-
-    useEffect(() => {
-        console.log("currentSearchValue", currentSearchValue);
-
-    }, [currentSearchValue]);
-
-    const [isOpenLoginModal, setIsOpenLoginModal] = useState<boolean>(false); // Biến kiểm tra đang mở modal login hay chưa
-    const [isOpenRegisterModal, setIsOpenRegisterModal] = useState<boolean>(false); // Biến kiểm tra đang mở modal registration hay chưa
-    const [isLogin, setIsLogin] = useState<boolean>(false);
 
     const checkIsLogin = (val: boolean) => {
         setIsLogin(val);
@@ -380,34 +218,10 @@ const Home = () => {
             <div className="tool-of-web">
                 <div className="title">
                     <div>MÓN ĂN MỚI</div>
-                    <div className="sub-title">
-                        <Col>
-                            <Button
-                                icon={<ArrowLeftOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('prev', 'mostView')}
-                                disabled={currentIndexMostViewedSketch === 0 && true}
-                            />
-                        </Col>
-                        <Col>
-                            <Button
-                                icon={<ArrowRightOutlined />}
-                                className="btn-icon"
-                                onClick={() => handlePagination('next', 'mostView')}
-                                disabled={
-                                    currentIndexMostViewedSketch >= mostViewedSketchList.length - numberOfCardShow && true
-                                }
-                            />
-                        </Col>
-                    </div>
                 </div>
                 <div className={"lst-tool " + ((mostViewedSketchList && mostViewedSketchList.length < numberOfCardShow) && 'less-card')}>
                     <Row gutter={[16, 16]}>
                         {mostViewedSketchList
-                            .slice(
-                                currentIndexMostViewedSketch,
-                                currentIndexMostViewedSketch + numberOfCardShow
-                            )
                             .map((card) => (
                                 <Col
                                     onClick={() => {

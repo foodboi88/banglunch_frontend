@@ -9,7 +9,7 @@ export enum API_URL {
     GET_ALL_STYLE = "design-styles",
     GET_DETAIL_FOOD = "foods/get-detail-food",
     GET_COMMENTS_BY_SKETCH_ID = "comments",
-    ADVANCED_SEARCHING = "products/filter",
+    ADVANCED_SEARCHING = "foods/advanced-filter",
     UPLOAD_IMAGE_OF_SKETCH = "gallery/create-food-image",
     UPLOAD_CONTENT_OF_SKETCH = "foods/create-food",
     UPLOAD_FILES_OF_SKETCH = "product-files",

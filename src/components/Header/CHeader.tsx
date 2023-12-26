@@ -29,8 +29,7 @@ import UserIcon from "../../images/user_icon.png";
 import Login from "../../pages/login/Login";
 import Register from "../../pages/login/Register";
 import {
-    advancedSearchingRequest,
-    resetCurrentSearchValueRequest
+    advancedSearchingRequest
 } from "../../redux/controller";
 import { useDispatchRoot, useSelectorRoot } from "../../redux/store";
 
@@ -144,39 +143,28 @@ export const CHeader = (props: MyProps) => {
         },
     ];
 
-    const handleClickLogin = () => {
-        // navigate('/login');
-    };
-
     // Hàm chuyển đổi trạng thái đóng mở modal login
     const toggleLoginModal = () => {
         setIsOpenLoginModal(!isOpenLoginModal);
-setIsOpenRegisterModal(!isOpenRegisterModal);
+        setIsOpenRegisterModal(!isOpenRegisterModal);
     };
     // Hàm chuyển đổi trạng thái đóng mở modal registration
     const toggleRegisterModal = () => {
-setIsOpenLoginModal(!isOpenLoginModal);
+        setIsOpenLoginModal(!isOpenLoginModal);
         setIsOpenRegisterModal(!isOpenRegisterModal);
     };
 
     const handleCancelModal = () => {
         setIsOpenLoginModal(false);
         setIsOpenRegisterModal(false);
-    }
+    }   
     const handleSearching = (event: any) => {
         console.log(event);
         const bodyrequest: ICurrentSearchValue = {
             name: event.target.value,
-            architecture: currentSearchValue.architecture,
-            tool: currentSearchValue.tool,
-            style: currentSearchValue.style,
+            categoryId: currentSearchValue.categoryId,
         };
-        if (window.location.pathname === '/') { // Nếu đang ở trang chủ thì reset biến lưu thông tin tìm kiếm
-
-            dispatch(resetCurrentSearchValueRequest(bodyrequest))
-        } else {
-            dispatch(advancedSearchingRequest(bodyrequest));
-        }
+        dispatch(advancedSearchingRequest(bodyrequest));
         navigate("/searching");
         onClose();
     };
@@ -218,21 +206,7 @@ setIsOpenLoginModal(!isOpenLoginModal);
                 </div>
 
                 <div className="header-action-type">
-                    {/* <div className="header-action-item active">
-                        Trang chủ
-                    </div>
-                    <div className="header-action-item">
-                        Về chúng tôi
-                    </div>
-                    <div className="header-action-item">
-                        Sứ mệnh
-                    </div>
-                    <div className="header-action-item">
-                        Sự kết nối
-                    </div>
-                    <div className="header-action-item">
-                        Liên hệ
-                    </div> */}
+                   
                 </div>
 
                 <div className="header-right">
