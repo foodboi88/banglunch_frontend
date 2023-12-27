@@ -4,7 +4,7 @@ export enum TEXT_INPUT {
 }
 
 export enum TEXT_FIELD {
-    MAX_LENGTH = 200
+    MAX_LENGTH = 3000
 }
 
 export enum UPLOAD_FILE {

@@ -1,12 +1,11 @@
-import { ArrowLeftOutlined, ArrowRightOutlined, MessageOutlined } from "@ant-design/icons";
-import { Breadcrumb, Button, Col, InputNumber, Row, notification } from "antd";
+import { MessageOutlined } from "@ant-design/icons";
+import { Breadcrumb, Button, InputNumber, notification } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { useNavigate, useParams } from "react-router";
 import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntroduction";
-import CProductCard from "../../components/ProductCard/CProductCard";
 import "./styles.detailsketch.scss";
 
 import { IGallery } from "../../common/gallery.interface";
@@ -283,7 +282,7 @@ const DetailSketch = () => {
                 <div onClick={handleRoutingToAuthorPage}>
                     <CAuthorIntroduction
                         createdAt={detailSketch?.seller?.createdAt}
-                        address={detailSketch?.seller.address}
+                        address={detailSketch?.seller.info.fromDetailAddress}
                         name={detailSketch?.seller.name}
                         phone={detailSketch?.seller.phone}
                         totalProduct={detailSketch?.seller.totalProduct}
@@ -302,7 +301,7 @@ const DetailSketch = () => {
             <div className="comment">
                 <CComment />
             </div>
-            <div className="similar-sketch">
+            {/* <div className="similar-sketch">
                 <div className="title">
                     <div>CÓ THỂ BẠN SẼ THÍCH</div>
                     <div className="sub-title">{"Xem thêm"}</div>
@@ -351,7 +350,7 @@ const DetailSketch = () => {
                         />
                     </Col>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

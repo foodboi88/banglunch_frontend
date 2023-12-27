@@ -136,9 +136,18 @@ export interface IDetailFood {
     galleries: IGallery[]
     food_categories: IFoodCategory[],
     order_details: IOrderDetail
-    summarizedComments: string
+    summarizedComments: string,
 }
 
+export interface IInfor {
+    _id: string
+    shopStatus: boolean
+    userId: string
+    fromDetailAddress: string
+    identityId: string
+    personalTaxCode: string
+    __v: number
+}
 export interface IFoodCategory {
     _id: string
     foodId: string

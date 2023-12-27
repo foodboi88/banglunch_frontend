@@ -1,11 +1,9 @@
 import { WalletOutlined } from "@ant-design/icons";
-import { Col, Menu, MenuProps, Row } from "antd";
+import { Col, MenuProps, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IFoodOfShop } from "../../common/sketch.interface";
-import CArrangeBar from "../../components/ArrangeBar/CArrangeBar";
 import CAuthorIntroduction from "../../components/AuthorIntroduction/CAuthorIntroduction";
-import CPagination from "../../components/Pagination/CPagination";
 import CProductCard from "../../components/ProductCard/CProductCard";
 import {
     getSketchListByAuthorIdRequest
@@ -95,15 +93,8 @@ const AuthorPage = () => {
                         totalRating={shopDetail?.info?.totalRating}
                     />
                 )}
-                <div className="horizontal-navbar">
-                    <Menu
-                        onClick={onClick}
-                        selectedKeys={[current]}
-                        mode="horizontal"
-                        items={items}
-                    />
-                </div>
-                <CArrangeBar />
+
+                {/* <CArrangeBar /> */}
                 <div className="sketch-list">
                     <Row className="detail-list" gutter={[16, 24]}>
                         {newfilteredFoods &&
@@ -128,12 +119,12 @@ const AuthorPage = () => {
                             ))}
                     </Row>
                 </div>
-                <CPagination
+                {/* <CPagination
                     pageSize={pageSize}
                     total={newfilteredFoods?.length}
                     currentPage={currentPage}
                     onChange={onChangePage}
-                />
+                /> */}
             </div>
         </div>
     );

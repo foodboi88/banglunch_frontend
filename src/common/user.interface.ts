@@ -1,7 +1,11 @@
+import { IInfor } from "./sketch.interface";
+
 export interface IUser {
     id: string;
     name: string;
     role: string;
+    info: IInfor
+
 }
 
 export interface IAuthor {

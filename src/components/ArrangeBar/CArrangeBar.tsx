@@ -1,12 +1,12 @@
-import { Button, Select } from 'antd';
-import React, { useState } from 'react';
-import './styles.arrangebar.scss';
-import { motion } from 'framer-motion';
 import {
     CaretDownOutlined,
 } from '@ant-design/icons';
-import { useDispatchRoot } from '../../redux/store';
+import { Select } from 'antd';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { sortFilteredSketchRequest } from '../../redux/controller';
+import { useDispatchRoot } from '../../redux/store';
+import './styles.arrangebar.scss';
 
 const { Option } = Select;
 
@@ -21,7 +21,7 @@ const CArrangeBar = () => {
     return (
         <div className='main-arrange'>
             <div className='title'>Sắp xếp theo</div>
-            <Button.Group>
+            {/* <Button.Group>
                 <motion.div
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}>
@@ -42,7 +42,7 @@ const CArrangeBar = () => {
                         Mua nhiều nhất
                     </Button>
                 </motion.div>
-            </Button.Group>
+            </Button.Group> */}
             <div className='select-box'>
                 <motion.div
                     whileHover={{ scale: 1.1 }}

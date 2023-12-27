@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IFoodOfShop } from "../../common/sketch.interface";
 import CFilter from "../../components/Filter/CFilter";
-import CPagination from "../../components/Pagination/CPagination";
 import CProductCard from "../../components/ProductCard/CProductCard";
 import { useSelectorRoot } from "../../redux/store";
 import "./styles.advancedsearching.scss";
@@ -106,11 +105,11 @@ const AdvancedSeaching = () => {
                             ))}
                     </Row>
                 </div>
-                <CPagination
+                {/* <CPagination
                     total={filteredSketchs?.length}
                     currentPage={currentPage}
                     onChange={onChangePage}
-                />
+                /> */}
             </div>
         </div>
     );

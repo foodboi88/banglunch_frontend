@@ -409,10 +409,10 @@ const sketchSlice = createSlice({
                     state.filteredSketchs?.sort((a, b) => a.views - b.views)
                     break;
                 case 'minToMaxPrice':
-                    state.filteredSketchs?.sort((a, b) => a.price - b.price)
+                    state.shopDetail?.foods?.sort((a, b) => a.price - b.price)
                     break;
                 case 'maxToMaxPrice':
-                    state.filteredSketchs?.sort((a, b) => b.price - a.price)
+                    state.shopDetail?.foods?.sort((a, b) => b.price - a.price)
                     break;
                 default:
                 // code block
@@ -638,6 +638,13 @@ const sketchSlice = createSlice({
         purchaseFail(state, action: PayloadAction<any>) {
             state.loading = false;
             state.purchaseResponse = action.payload
+            notification.open({
+                message: "Tạo đơn mua đồ ăn thất bại",
+                description: action.payload.response.message,
+                onClick: () => {
+                    console.log(action.payload.response.message);
+                },
+            });
         },
 
         // Get Author intro
