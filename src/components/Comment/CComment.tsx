@@ -8,43 +8,13 @@ import { motion } from 'framer-motion'
 import { useSelectorRoot } from '../../redux/store'
 import './styles.comment.scss'
 
-const commentList = [
-    {
-        user: {
-            name: "Bùi Thị Hương",
-            avatar: Avatar,
-        },
-        comment: {
-            content: "Lorem ipsum dolor sit amet consectetur. Ut scelerisque imperdiet fermentum amet nisl turpis ultricies lectus gravida. Id quam in egestas at eu et convallis. Dui velit pretium feugiat vel in tellus tempus platea. Vel turpis sapien pulvinar orci. Venenatis faucibus non aenean tellus amet tellus leo.",
-            time: "3 phút trước",
-            rate: 3
-        }
-    },
-    {
-        user: {
-            name: "Nguyễn Hồ Tân",
-            avatar: Avatar2,
-        },
-        comment: {
-            content: "Lorem ipsum dolor sit amet consectetur. Ut scelerisque imperdiet fermentum amet nisl turpis ultricies lectus gravida. Id quam in egestas at eu et convallis. Dui velit pretium feugiat vel in tellus tempus platea. Vel turpis sapien pulvinar orci. Venenatis faucibus non aenean tellus amet tellus leo. Maecenas volutpat nisl pellentesque dis ultrices aliquet neque.",
-            time: "1 ngày trước",
-            rate: 2
-        }
-    },
-    {
-        user: {
-            name: "Đỗ Đình Nam",
-            avatar: Avatar3,
-        },
-        comment: {
-            content: "Lorem ipsum dolor sit amet consectetur. Ut scelerisque imperdiet fermentum amet nisl turpis ultricies lectus gravida. Id quam in egestas at eu et convallis. Dui velit pretium feugiat vel in tellus tempus platea. Vel turpis sapien pulvinar orci. Venenatis faucibus non aenean tellus amet tellus leo. ",
-            time: "02/12/2022",
-            rate: 1
-        }
-    },
-]
+interface MyProps {
+    setSummarizedComments: React.Dispatch<React.SetStateAction<number>>
+}
 
-const CComment = () => {
+const buttonArray = [0,1,2,3,4,5,6,7,8,9,10]
+
+const CComment = (props: MyProps) => {
     const [activeButton, setActiveButton] = useState<number>(0);
     const { ratesLst } = useSelectorRoot((state) => state.sketch); // Lấy ra dữ liệu detail sketch và danh sách comment từ redux
     const [currentCommentList, setCurrentCommentList] = useState(ratesLst?.items);
@@ -67,128 +37,35 @@ const CComment = () => {
     const handleButtonClick = (buttonNumber: number) => {
         setActiveButton(buttonNumber);
         filterCommentByStar(buttonNumber)
+        props.setSummarizedComments(buttonNumber)
     };
     return (
         <div className='main-comment'>
             <div className='title'>Bình luận ({ratesLst?.numberOfItems ? ratesLst?.numberOfItems : 0})</div>
             <div className='btn-group-and-total-rate'>
                 <Button.Group>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 0 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(0)}
-                        >
-                            Tất cả
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 10 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(10)}
-                        >
-                            10 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 9 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(9)}
-                        >
-                            9 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 8 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(8)}
-                        >
-                            8 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 7 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(7)}
-                        >
-                            7 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 6 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(6)}
-                        >
-                            6 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 5 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(5)}
-                        >
-                            5 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 4 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(4)}
-                        >
-                            4 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 3 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(3)}
-                        >
-                            3 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 2 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(2)}
-                        >
-                            2 sao
-                        </Button>
-                    </motion.div>
-                    <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}>
-                        <Button
-                            type={activeButton === 1 ? 'primary' : 'default'}
-                            onClick={() => handleButtonClick(1)}
-                        >
-                            1 sao
-                        </Button>
-                    </motion.div>
+                    {
+                        buttonArray.map(item =>
+                            {
+                                return <motion.div
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.95 }}>
+                                    <Button
+                                        type={activeButton === item ? 'primary' : 'default'}
+                                        onClick={() => handleButtonClick(item)}
+                                    >
+                                        {item === 0 ? "Tất cả" : item + ' sao'}
+                                    </Button>
+                                </motion.div>
+                            } 
+                        )
+                    }
                 </Button.Group>
                 <div
                     className='total-rate'
                 >
 
-                    <div className='number'>{ratesLst?.averageRate}</div>
+                    <div className='number'>{ratesLst?.averageRate?.toString().slice(0,4)}</div>
                     <Rate
                         allowHalf
                         // defaultValue={ratesLst?.rateProduct}
@@ -228,12 +105,6 @@ const CComment = () => {
                         </div>
                 }
             </div>
-            {/* <div className='more-comment'>
-                <div className='text'>Xem thêm</div>
-                <div className='icon'>
-                    <DownOutlined />
-                </div>
-            </div> */}
         </div>
     )
 }

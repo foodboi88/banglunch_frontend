@@ -137,6 +137,16 @@ export interface IDetailFood {
     food_categories: IFoodCategory[],
     order_details: IOrderDetail
     summarizedComments: string,
+    summarizedCommentOneStar?: string,
+    summarizedCommentTwoStar?: string,
+    summarizedCommentThreeStar?: string,
+    summarizedCommentFourStar?: string,
+    summarizedCommentFiveStar?: string,
+    summarizedCommentSixStar?: string,
+    summarizedCommentSevenStar?: string,
+    summarizedCommentEightStar?: string,
+    summarizedCommentNineStar?: string,
+    summarizedCommentTenStar?: string,
 }
 
 export interface IInfor {

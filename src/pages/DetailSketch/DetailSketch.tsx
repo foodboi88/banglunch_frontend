@@ -36,8 +36,6 @@ const DetailSketch = () => {
     const { foodId } = useParams(); // Lấy ra id của sketch từ url
 
     const [spanCol, setSpanCol] = useState<number>(6);
-    const [numberOfCardShow, setNumberOfCardShow] = useState<number>(4);
-    const [numberOfCardNext, setNumberOfCardNext] = useState<number>(4);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [images, setImages] = useState<IGallery[]>([]);
     const [info, setInfo] = useState<IDetailFood>();
@@ -45,6 +43,7 @@ const DetailSketch = () => {
     const [typeOfArchitectures, setTypeOfArchitectures] = useState<
         IFoodCategory[]
     >([]);
+    const [summarizedComments, setSummarizedComments] = useState<number>(1);
     const [windowSize, setWindowSize] = useState([
         window.innerWidth,
         window.innerHeight,
@@ -67,23 +66,15 @@ const DetailSketch = () => {
 
         window.addEventListener("resize", handleWindowResize);
         if (window.innerWidth > 1000) {
-            setSpanCol(6);
-            setNumberOfCardShow(4);
-        }
+            setSpanCol(6);        }
         if (window.innerWidth <= 1000) {
             setSpanCol(8);
-            setNumberOfCardShow(3);
-            setNumberOfCardNext(5);
         }
         if (window.innerWidth <= 800) {
             setSpanCol(12);
-            setNumberOfCardShow(2);
-            setNumberOfCardNext(6);
         }
         if (window.innerWidth <= 600) {
             setSpanCol(24);
-            setNumberOfCardShow(100);
-            setNumberOfCardNext(7);
         }
         return () => {
             window.removeEventListener("resize", handleWindowResize);
@@ -291,66 +282,31 @@ const DetailSketch = () => {
                 </div>
             )}
             <div className="similar-sketch">
-                <div className="title">
-                    <span>Tóm tắt toàn bộ bình luận</span> <MessageOutlined />
-                </div>
+                {
+                    summarizedComments !== 0 && 
+                    <div className="title">
+                        <span>Tóm tắt toàn bộ bình luận {summarizedComments} sao</span> <MessageOutlined />
+                    </div>
+                }
                 <div style={{color:'white'}}>
-                    {detailSketch?.summarizedComments || 'Chưa có dữ liệu'}
+                    {/* Nếu mà chọn 1 sao mà không có dữ liệu bình luận thì hiển thị là chưa có dữ liệu, còn nếu mà chưa chọn thì không hiển thị gì cả */}
+                    {summarizedComments === 1 ? detailSketch?.summarizedCommentOneStar ? detailSketch?.summarizedCommentOneStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 2 ? detailSketch?.summarizedCommentTwoStar ? detailSketch?.summarizedCommentTwoStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 3 ? detailSketch?.summarizedCommentThreeStar  ? detailSketch?.summarizedCommentThreeStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 4 ? detailSketch?.summarizedCommentFourStar ? detailSketch?.summarizedCommentFourStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 5 ? detailSketch?.summarizedCommentFiveStar ? detailSketch?.summarizedCommentFiveStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 6 ? detailSketch?.summarizedCommentSixStar ? detailSketch?.summarizedCommentSixStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 7 ? detailSketch?.summarizedCommentSevenStar ? detailSketch?.summarizedCommentSevenStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 8 ? detailSketch?.summarizedCommentEightStar ? detailSketch?.summarizedCommentEightStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 9 ? detailSketch?.summarizedCommentNineStar ? detailSketch?.summarizedCommentNineStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 10 ? detailSketch?.summarizedCommentTenStar ? detailSketch?.summarizedCommentTenStar : 'Chưa có dữ liệu' : ''}
                 </div>
             </div>
             <div className="comment">
-                <CComment />
+                <CComment 
+                    setSummarizedComments = {setSummarizedComments}
+                />
             </div>
-            {/* <div className="similar-sketch">
-                <div className="title">
-                    <div>CÓ THỂ BẠN SẼ THÍCH</div>
-                    <div className="sub-title">{"Xem thêm"}</div>
-                </div>
-                <div className="lst-tool">
-                    <Col>
-                        <Button
-                            icon={<ArrowLeftOutlined />}
-                            className="btn-icon"
-                            onClick={handlePrevCardLatestSketch}
-                            disabled={currentIndexLatestSketch === 0 && true}
-                        />
-                    </Col>
-                    <Row gutter={[16, 16]}>
-                        {mostViewedSketchList
-                            .slice(
-                                currentIndexLatestSketch,
-                                currentIndexLatestSketch + numberOfCardShow
-                            )
-                            .map((card) => (
-                                <Col
-                                    onClick={() => {
-                                        handleClickCard(card._id);
-                                    }}
-                                    span={spanCol}
-                                    key={card._id}
-                                >
-                                    <CProductCard
-                                        imageUrl={ card.galleries.length > 0 ? card.galleries[0].filePath : ''}
-                                        title={card.title}
-                                        views={card.views}
-                                        price={card.price}
-                                        category={card.category || ''}
-                                    />
-                                </Col>
-                            ))}
-                    </Row>
-                    <Col>
-                        <Button
-                            icon={<ArrowRightOutlined />}
-                            className="btn-icon"
-                            onClick={handleNextCardLatestSketch}
-                            disabled={
-                                currentIndexLatestSketch >= mostViewedSketchList.length - numberOfCardShow && true
-                            }
-                        />
-                    </Col>
-                </div>
-            </div> */}
         </div>
     );
 };

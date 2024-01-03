@@ -16,8 +16,7 @@ export interface IFood {
   weight: string
   width: string
   galleries: IGallery[],
-  food_categories: IFoodCategory[]
-
+  food_categories: IFoodCategory[],
 }
 
 export interface IFoodCategory {
