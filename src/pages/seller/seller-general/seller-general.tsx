@@ -69,7 +69,6 @@ const SellerGeneral = () => {
 			</div>
 			<div className='general-static'>
 				<Statistical />
-				<StatisticalProduct />
 			</div>
 		</motion.div>
 	)

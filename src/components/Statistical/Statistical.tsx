@@ -192,14 +192,14 @@ const Statistical = () => {
                             >
                                 Tháng
                             </motion.div>
-                            <motion.div
+                            {/* <motion.div
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 className={`type-item ${typeViewStatistic === 'quarter' ? 'active' : ''}`}
                                 onClick={() => dispatch(setViewStatistic('quarter'))}
                             >
                                 Quý
-                            </motion.div>
+                            </motion.div> */}
                             <motion.div
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
