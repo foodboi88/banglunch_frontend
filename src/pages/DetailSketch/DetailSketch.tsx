@@ -94,6 +94,7 @@ const DetailSketch = () => {
             setImages(detailSketch.galleries);
             setInfo(detailSketch);
             setTypeOfArchitectures(detailSketch.food_categories);
+
         }
     }, [detailSketch]);
 
@@ -288,18 +289,18 @@ const DetailSketch = () => {
                         <span>Tóm tắt toàn bộ bình luận {summarizedComments} sao</span> <MessageOutlined />
                     </div>
                 }
-                <div style={{color:'white'}}>
+                <div style={{color:'white', whiteSpace: "pre-line"}}>
                     {/* Nếu mà chọn 1 sao mà không có dữ liệu bình luận thì hiển thị là chưa có dữ liệu, còn nếu mà chưa chọn thì không hiển thị gì cả */}
-                    {summarizedComments === 1 ? detailSketch?.summarizedCommentOneStar ? detailSketch?.summarizedCommentOneStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 2 ? detailSketch?.summarizedCommentTwoStar ? detailSketch?.summarizedCommentTwoStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 3 ? detailSketch?.summarizedCommentThreeStar  ? detailSketch?.summarizedCommentThreeStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 4 ? detailSketch?.summarizedCommentFourStar ? detailSketch?.summarizedCommentFourStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 5 ? detailSketch?.summarizedCommentFiveStar ? detailSketch?.summarizedCommentFiveStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 6 ? detailSketch?.summarizedCommentSixStar ? detailSketch?.summarizedCommentSixStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 7 ? detailSketch?.summarizedCommentSevenStar ? detailSketch?.summarizedCommentSevenStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 8 ? detailSketch?.summarizedCommentEightStar ? detailSketch?.summarizedCommentEightStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 9 ? detailSketch?.summarizedCommentNineStar ? detailSketch?.summarizedCommentNineStar : 'Chưa có dữ liệu' : ''}
-                    {summarizedComments === 10 ? detailSketch?.summarizedCommentTenStar ? detailSketch?.summarizedCommentTenStar : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 1 ? detailSketch?.summarizedCommentOneStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentOneStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 2 ? detailSketch?.summarizedCommentTwoStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentTwoStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 3 ? detailSketch?.summarizedCommentThreeStar  ? Utils.formatBreakdown(detailSketch?.summarizedCommentThreeStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 4 ? detailSketch?.summarizedCommentFourStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentFourStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 5 ? detailSketch?.summarizedCommentFiveStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentFiveStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 6 ? detailSketch?.summarizedCommentSixStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentSixStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 7 ? detailSketch?.summarizedCommentSevenStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentSevenStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 8 ? detailSketch?.summarizedCommentEightStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentEightStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 9 ? detailSketch?.summarizedCommentNineStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentNineStar) : 'Chưa có dữ liệu' : ''}
+                    {summarizedComments === 10 ? detailSketch?.summarizedCommentTenStar ? Utils.formatBreakdown(detailSketch?.summarizedCommentTenStar) : 'Chưa có dữ liệu' : ''}
                 </div>
             </div>
             <div className="comment">

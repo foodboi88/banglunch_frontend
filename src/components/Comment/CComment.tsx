@@ -1,7 +1,5 @@
 import { Button, Rate } from 'antd'
 import { useEffect, useState } from 'react'
-import Avatar2 from '../../images/detail/avata-comment-2.png'
-import Avatar3 from '../../images/detail/avata-comment-3.png'
 import Avatar from '../../images/detail/avatar.png'
 
 import { motion } from 'framer-motion'
@@ -41,7 +39,7 @@ const CComment = (props: MyProps) => {
     };
     return (
         <div className='main-comment'>
-            <div className='title'>Bình luận ({ratesLst?.numberOfItems ? ratesLst?.numberOfItems : 0})</div>
+            <div className='title'>Bình luận ({currentCommentList?.length ? currentCommentList.length : 0})</div>
             <div className='btn-group-and-total-rate'>
                 <Button.Group>
                     {

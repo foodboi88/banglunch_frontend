@@ -360,6 +360,10 @@ class Utils {
         const amount = totalMoney + deliveryCost;
         return this.formatMoney(amount)
     }
+
+    static formatBreakdown(text: string) {
+        return text.replace("/n", "<br/>");
+    }
 }
 
 export default Utils;
